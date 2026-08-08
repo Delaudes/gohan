@@ -1,8 +1,4 @@
 import { Routes } from '@angular/router';
-import { MealsPage } from '../meals/meals.page';
-import { IngredientsPage } from '../ingredients/ingredients.page';
-import { RecipesPage } from '../recipes/recipes.page';
-import { ShoppingPage } from '../shopping/shopping.page';
 
 export enum AppPath {
   Meals = 'meals',
@@ -13,9 +9,21 @@ export enum AppPath {
 
 export const routes: Routes = [
   { path: '', redirectTo: AppPath.Meals, pathMatch: 'full' },
-  { path: AppPath.Meals, component: MealsPage },
-  { path: AppPath.Ingredients, component: IngredientsPage },
-  { path: AppPath.Recipes, component: RecipesPage },
-  { path: AppPath.Shopping, component: ShoppingPage },
+  {
+    path: AppPath.Meals,
+    loadComponent: () => import('../meals/presentation/pages/meals/meals.page').then((m) => m.MealsPage),
+  },
+  {
+    path: AppPath.Ingredients,
+    loadComponent: () => import('../ingredients/presentation/pages/ingredients/ingredients.page').then((m) => m.IngredientsPage),
+  },
+  {
+    path: AppPath.Recipes,
+    loadComponent: () => import('../recipes/presentation/pages/recipes/recipes.page').then((m) => m.RecipesPage),
+  },
+  {
+    path: AppPath.Shopping,
+    loadComponent: () => import('../shopping/presentation/pages/shopping/shopping.page').then((m) => m.ShoppingPage),
+  },
   { path: '**', redirectTo: AppPath.Meals },
 ];

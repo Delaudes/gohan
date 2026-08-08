@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AppPath } from '../app/app.routes';
+import { AppPath } from '../../../../app/app.routes';
 
 @Component({
-  selector: 'app-nav-ingredients',
+  selector: 'app-nav-meals',
   imports: [RouterLink, RouterLinkActive],
-  templateUrl: './nav-ingredients.component.html',
+  templateUrl: './nav-meals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavIngredientsComponent {
+export class NavMealsComponent {
   protected readonly AppPath = AppPath;
 }
