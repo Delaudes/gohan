@@ -26,9 +26,18 @@ Schematics par défaut (`angular.json`) : pas de fichier de style par composant 
 ## Architecture — hexagonale (ports & adapters)
 
 Chaque feature (`meals`, `recipes`, `ingredients`, `shopping`) est organisée en 3 couches :
-- `core/` : le domaine — `<feature>.port.ts` (interface que la présentation consomme), `<feature>.view.ts`, `core/models/<feature>.domain.model.ts` et `<feature>.view.model.ts`.
-- `adapters/` : les implémentations du port — `fake-<feature>.adapter.ts` (tests), `in-memory-<feature>.adapter.ts`, `http-<feature>.adapter.ts`, `adapters/models/<feature>.api.model.ts` (forme des données côté API, mappée vers le domain model).
-- `presentation/` : l'UI — `presentation/pages/<feature>/<feature>.page.ts` (composant de route) et `presentation/components/nav-<feature>/nav-<feature>.component.ts` (item de nav associé).
+- `core/` : le domaine.
+  - `<feature>.port.ts` : interface consommée par les use cases (ex. `IngredientsPort { fetchIngredientsList(): Promise<IngredientsListDomainModel> }`).
+  - `<feature>.view.ts` : classe `<Feature>View`, wrapper autour d'un `SignalPort<ViewModel>` — initialise l'état par défaut dans le constructeur, expose `update(partial)` qui merge dans l'état courant (`{ ...current, ...partial }`).
+  - `core/uecases/<action>.usecase.ts` : classe `<Action>UseCase(view, port)` avec une méthode `execute()` — pattern : `view.update({ isLoading: true })`, `try { const result = await port.xxx(); presenter(result) } catch { view.update({ isError: true }) } finally { view.update({ isLoading: false }) }`.
+  - `core/models/<feature>.domain.model.ts` : classes du domaine (ex. `IngredientDomainModel`, `IngredientsListDomainModel` avec ses propres méthodes comme `hasIngredients()`).
+  - `core/models/<feature>.view.model.ts` : types plats pour le template (`isLoadingX`, `isErrorX`, la liste, un booléen dérivé genre `hasX`).
+- `adapters/` : les implémentations du port — `fake-<feature>.adapter.ts` (tests), `in-memory-<feature>.adapter.ts` (données en dur + délai + échec aléatoire simulé, utilisé par défaut tant que l'API n'existe pas), `http-<feature>.adapter.ts`, `adapters/models/<feature>.api.model.ts` (forme des données côté API, mappée vers le domain model).
+- `presentation/` : l'UI.
+  - `presentation/<feature>.provider.ts` : exporte `<FEATURE>_TOKEN` (InjectionToken<Port>, `providedIn: 'root'`, factory qui instancie l'adapter actif — ex. `InMemoryIngredientsAdapter`) et `<FEATURE>_PROVIDERS` (tableau de providers de composant : `View` via `useFactory` qui construit un `AngularSignalAdapter<ViewModel>`, `<Action>UseCase` via `useFactory` qui injecte `View` + le token du port).
+  - `presentation/pages/<feature>/<feature>.page.ts` : composant de route, déclare `providers: [<FEATURE>_PROVIDERS]`, injecte `<Feature>View` (dont on récupère `.xViewModel`, le `SignalPort` brut) et le(s) `<Action>UseCase`, appelle `.execute()` dans `ngOnInit`.
+  - `presentation/components/nav-<feature>/nav-<feature>.component.ts` : item de nav associé.
+  - Dans le template, lire le view model avec `@let vm = xViewModel.get();` (lecture synchrone trackée par Angular, réactive malgré le passage par une méthode) puis `@if`/`@else if` sur les booléens `isLoadingX` / `isErrorX` / `hasX`. Le bouton "réessayer" rappelle directement `<action>UseCase.execute()`.
 
 Les préoccupations transverses et techniques (pas liées à une feature métier) vivent dans `src/infra/` — même principe port/adapter, un dossier par concern technique :
 - `infra/signal/` : `SignalPort<T>` + `AngularSignalAdapter<T>` (vrai signal Angular) + `FakeSignalAdapter<T>` (tests).
@@ -64,3 +73,4 @@ Composant de page (route) : suffixe `.page` — ex. `meals.page.ts` → classe `
 Composant d'item de navigation associé à une feature : `nav-<feature>.component.ts` → ex. `nav-meals.component.ts` → classe `NavMealsComponent`, dans `presentation/components/nav-meals/`.
 Composants de layout globaux de l'app (header, navigation) : suffixe `.component`, préfixés `app.`, à plat dans `src/app/` — ex. `app.header.component.ts` → classe `AppHeaderComponent`.
 Ports/adapters d'infra : `<domaine>.port.ts` → `<Domain>Port` ; `<impl>-<domaine>.adapter.ts` → `<Impl><Domain>Adapter` ; `<domaine>.provider.ts` → `<DOMAINE>_TOKEN`.
+Dans une feature : `<feature>.view.ts` → classe `<Feature>View` ; `core/uecases/<action>.usecase.ts` → classe `<Action>UseCase` (ex. `fetch-ingredients.usecase.ts` → `FetchIngredientsUseCase`) ; `presentation/<feature>.provider.ts` → `<FEATURE>_TOKEN` + `<FEATURE>_PROVIDERS`.
