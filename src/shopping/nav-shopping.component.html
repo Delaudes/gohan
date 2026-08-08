@@ -1,8 +1,13 @@
 <a
   [routerLink]="AppPath.Shopping"
-  routerLinkActive="text-yuzu"
+  routerLinkActive
+  #rla="routerLinkActive"
   class="flex flex-col items-center gap-0.5 text-nori px-3 py-1"
 >
-  <span class="material-symbols-outlined">shopping_cart</span>
+  <span
+    class="material-symbols-outlined rounded-full px-3 py-1"
+    [class.bg-nori]="rla.isActive"
+    [class.text-yuzu]="rla.isActive"
+  >shopping_cart</span>
   <span class="text-xs">Courses</span>
 </a>
