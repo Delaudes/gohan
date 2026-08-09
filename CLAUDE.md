@@ -2,6 +2,7 @@
 
 Angular (standalone components, pas de NgModule).
 Tailwind CSS v4, config via `@theme` dans `styles.css` (pas de `tailwind.config`).
+Attention `<dialog>` natif : le preflight Tailwind remet `margin: 0` sur tous les éléments, ce qui casse le centrage automatique du navigateur — ajouter `m-auto` explicitement.
 Schematics par défaut (`angular.json`) : `style: none`, `changeDetection: OnPush` partout.
 
 Spécificités visuelles/produit : voir `DESIGN.md` (volontairement absent d'ici, pour que ce fichier reste copiable tel quel dans un autre projet).
@@ -16,8 +17,10 @@ src/<feature>/
     <feature>.port.ts                     interface <Feature>Port
     <feature>.view.ts                     <Feature>View — wrapper SignalPort<ViewModel>, update(partial) merge l'état
     usecases/<action>.usecase.ts          <Action>UseCase(view, port).execute() : loading → appel port → present ou error → loading off
+                                           collaborateur propre à l'appel (ex. Dialog à fermer sur succès) → paramètre d'execute(), pas du constructeur
     models/<feature>.domain.model.ts      classes domaine + méthodes métier (ex. hasItems())
     models/<feature>.view.model.ts        état plat pour le template (isLoadingX, isErrorX, hasX, la donnée)
+                                           action ciblant un item d'une liste → isLoadingX/isErrorX vivent sur l'item lui-même, pas sur le view model racine (sinon fuite d'état entre lignes)
   adapters/
     fake-<feature>.adapter.ts             pour les tests
     in-memory-<feature>.adapter.ts        données en dur + délai/échec simulés — adapter par défaut avant la vraie API
@@ -27,6 +30,7 @@ src/<feature>/
     <feature>.provider.ts                 <FEATURE>_TOKEN (InjectionToken<Port>, providedIn:'root') + <FEATURE>_PROVIDERS (View + UseCase via useFactory)
     pages/<feature>/<feature>.page.ts     <Feature>Page — providers:[<FEATURE>_PROVIDERS], injecte View+UseCase, execute() dans ngOnInit
     components/nav-<feature>/nav-<feature>.component.ts   Nav<Feature>Component, item de nav associé
+    components/<action>-<feature>/<action>-<feature>.component.ts   composant autonome pour une action ciblant un item (bouton + sa propre UI, ex. confirmation) : reçoit l'item en input(), injecte le <Action>UseCase associé
 ```
 
 Template : `@let vm = xViewModel.get();` (lecture trackée par Angular même via une méthode) puis `@if`/`@else if` sur les booléens d'état ; les actions rappellent directement `<action>UseCase.execute()`.
@@ -34,6 +38,8 @@ Template : `@let vm = xViewModel.get();` (lecture trackée par Angular même via
 Composants de layout globaux (header, footer, navigation) : suffixe `.component`, préfixés `app.`, à plat dans `src/app/` — ex. `app.header.component.ts` → `AppHeaderComponent`.
 
 Préoccupations transverses/techniques (pas liées à une feature métier) → `src/infra/`, même principe port/adapter, un dossier par concern (`infra/signal/`, `infra/http/`, `infra/storage/`) : `<domain>.port.ts`, `<impl>-<domain>.adapter.ts` (+ une variante `Fake<Domain>Adapter` pour les tests), `<domain>.provider.ts` exposant un `InjectionToken` (`providedIn:'root'`, factory qui instancie l'implémentation active). Les adapters récupèrent leurs dépendances via `inject()` en initialiseur de champ, pas par constructeur.
+
+Préoccupations transverses côté UI, réutilisables entre features (ex. confirmation) → `src/presentation/<concern>/<concern>.port.ts` (+ `Fake<Concern>` pour les tests). Pas forcément de provider/token : l'implémentation peut être fournie directement par l'appelant (ex. un élément `<dialog>` référencé en template satisfait structurellement le port `Dialog { close(): void }`, sans classe wrapper).
 
 ## Routing
 

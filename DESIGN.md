@@ -11,6 +11,14 @@ Success #3F7D45 : Confirmations de succès
 
 Tokens Tailwind (`src/styles.css`, bloc `@theme`) : `bg-rice-white`, `text-nori`, `text-yuzu`, `border-soy`, `text-danger`, `text-success`, etc.
 
+## Composants
+
+Boutons pleins (`bg-nori text-yuzu`) : hover `hover:bg-nori/90`.
+Boutons secondaires (`text-soy`, bordure optionnelle `border-soy/30 border`) et boutons icône seule (cercle `h-9 w-9`, sans bordure) : hover `hover:bg-soy/10` uniquement — pas de changement de couleur de texte au survol.
+Toujours `transition-colors` sur les éléments avec un hover.
+
+Confirmation destructrice (ex. suppression) : élément `<dialog>` natif ouvert via `showModal()` (pas de composant modal custom) — penser à `m-auto` (voir `CLAUDE.md`, le preflight Tailwind casse le centrage natif). Icône `warning` en `text-danger`, texte de la question en `text-nori`. Boutons Annuler (secondaire)/Confirmer (plein) dans un conteneur de hauteur fixe (`h-11`) pour que le spinner de chargement — même hauteur, remplace les deux boutons — ne fasse pas bouger la modale.
+
 ## Typographie
 
 Police des titres : Zen Maru Gothic — appliquée automatiquement à tous les `h1`-`h6` (règle globale dans `src/styles.css`, pas besoin d'ajouter de classe)
