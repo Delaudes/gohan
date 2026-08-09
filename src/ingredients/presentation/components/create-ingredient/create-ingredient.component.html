@@ -14,7 +14,6 @@
     <input
       #nameInput
       type="text"
-      (keydown.enter)="createIngredient.execute(nameInput.value.trim(), dialog, nameInput)"
       placeholder="Nom de l'ingrédient"
       class="border-soy/30 text-nori placeholder:text-soy/60 focus:border-nori w-full rounded-full border px-4 py-2 text-center outline-none"
     />
@@ -34,7 +33,7 @@
         >Annuler</button>
         <button
           type="button"
-          (click)="createIngredient.execute(nameInput.value.trim(), dialog, nameInput)"
+          (click)="createIngredient.execute(dialog, nameInput)"
           class="bg-nori text-yuzu hover:bg-nori/90 flex-1 rounded-full transition-colors"
         >Ajouter</button>
       </div>

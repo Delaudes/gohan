@@ -39,7 +39,11 @@ Composants de layout globaux (header, footer, navigation) : suffixe `.component`
 
 Préoccupations transverses/techniques (pas liées à une feature métier) → `src/infra/`, même principe port/adapter, un dossier par concern (`infra/signal/`, `infra/http/`, `infra/storage/`) : `<domain>.port.ts`, `<impl>-<domain>.adapter.ts` (+ une variante `Fake<Domain>Adapter` pour les tests), `<domain>.provider.ts` exposant un `InjectionToken` (`providedIn:'root'`, factory qui instancie l'implémentation active). Les adapters récupèrent leurs dépendances via `inject()` en initialiseur de champ, pas par constructeur.
 
-Préoccupations transverses côté UI, réutilisables entre features (ex. confirmation) → `src/presentation/<concern>/<concern>.port.ts` (+ `Fake<Concern>` pour les tests). Pas forcément de provider/token : l'implémentation peut être fournie directement par l'appelant (ex. un élément `<dialog>` référencé en template satisfait structurellement le port `Dialog { close(): void }`, sans classe wrapper).
+Préoccupations transverses côté UI, réutilisables entre features (ex. confirmation, champ de formulaire) → `src/presentation/<concern>/<concern>.port.ts` (+ `Fake<Concern>` pour les tests). Pas forcément de provider/token : l'implémentation peut être fournie directement par l'appelant (ex. un élément `<dialog>` référencé en template satisfait structurellement le port `Dialog { close(): void }`, un `<input>` satisfait `Field { value: string }`, sans classe wrapper).
+
+Pas de `FormsModule`/formulaires réactifs : un input se lit via sa référence de template (`#ref`, `.value`), passée directement au usecase — pas de state Angular intermédiaire, pas de `<form>`/`(submit)`, pas de gestion d'Enter (bouton uniquement).
+
+Attention aux références de template déclarées dans un bloc `@if`/`@else` : elles ne sont visibles que dans ce bloc, pas dans le reste du template (contrairement à une ref déclarée au niveau racine, ex. `#dialog`).
 
 ## Routing
 

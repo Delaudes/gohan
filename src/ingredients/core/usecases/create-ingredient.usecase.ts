@@ -10,10 +10,10 @@ export class CreateIngredientUseCase {
         private readonly ingredientsPort: IngredientsPort,
     ) { }
 
-    async execute(name: string, dialog: Dialog, field: Field): Promise<void> {
+    async execute(dialog: Dialog, field: Field): Promise<void> {
         this.startLoading();
         try {
-            const ingredient = await this.ingredientsPort.createIngredient(name.trim());
+            const ingredient = await this.ingredientsPort.createIngredient(field.value.trim());
             this.presentIngredientCreated(ingredient);
             field.value = '';
             dialog.close();

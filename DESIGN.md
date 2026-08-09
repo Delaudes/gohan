@@ -19,6 +19,10 @@ Toujours `transition-colors` sur les éléments avec un hover.
 
 Confirmation destructrice (ex. suppression) : élément `<dialog>` natif ouvert via `showModal()` (pas de composant modal custom) — penser à `m-auto` (voir `CLAUDE.md`, le preflight Tailwind casse le centrage natif). Icône `warning` en `text-danger`, texte de la question en `text-nori`. Boutons Annuler (secondaire)/Confirmer (plein) dans un conteneur de hauteur fixe (`h-11`) pour que le spinner de chargement — même hauteur, remplace les deux boutons — ne fasse pas bouger la modale.
 
+Création (ex. ajout d'ingrédient) : même principe de `<dialog>`, ouvert depuis un bouton d'action flottant (FAB) — cercle `h-14 w-14`, `bg-nori text-yuzu`, `shadow-lg`, positionné `fixed right-4 bottom-20 z-10` (au-dessus de la nav du bas). Champ texte dans la modale : pill `border-soy/30 border rounded-full px-4 py-2 text-center`, `focus:border-nori`, `placeholder:text-soy/60`.
+
+Skeleton de chargement : les éléments d'action (bouton icône, FAB) ont eux aussi leur pastille `bg-nori/10 animate-pulse`, à la même taille et position que l'élément réel qu'ils remplacent — pas seulement les zones de texte.
+
 ## Typographie
 
 Police des titres : Zen Maru Gothic — appliquée automatiquement à tous les `h1`-`h6` (règle globale dans `src/styles.css`, pas besoin d'ajouter de classe)
