@@ -19,7 +19,7 @@ Style graphique "sticker" réservé aux éléments **interactifs** (boutons) —
 Recette des boutons pleins avec texte (Réessayer, Ajouter, Supprimer) et du FAB : `bg-tomato text-cream border-2 border-charcoal font-semibold rounded-full`, ombre décalée qui se réduit et le bouton qui "s'enfonce" au survol :
 `shadow-[3px_3px_0_0_var(--color-charcoal)] hover:shadow-[1px_1px_0_0_var(--color-charcoal)] hover:translate-x-0.5 hover:translate-y-0.5 transition-all` (le FAB, plus grand, prend `4px`/`2px` au lieu de `3px`/`1px`).
 
-Boutons icône seule sur un item de liste (ex. supprimer une ligne) : traitement "tonal", pas de bordure ni d'ombre dure — la bordure épaisse écrase un petit cercle. Fond teinté pâle de la couleur, icône dans la couleur pleine : `bg-tomato/10 text-tomato hover:bg-tomato/20 rounded-full transition-colors`.
+Boutons icône seule sur un item de liste (ex. supprimer une ligne, bascule liste de courses) : traitement "tonal", pas de bordure ni d'ombre dure — la bordure épaisse écrase un petit cercle. Fond teinté pâle de la couleur, icône dans la couleur pleine : `bg-tomato/10 text-tomato hover:bg-tomato/20 rounded-full transition-colors`. Pendant le chargement, le bouton est remplacé par un spinner de la même taille (`h-9 w-9`) directement dans la ligne — même principe que le spinner en pleine largeur des dialogs, mais sans dialog.
 
 Boutons secondaires (Annuler) : `border-2 border-charcoal text-charcoal rounded-full font-semibold`, pas de fond ni d'ombre, hover = inversion complète `hover:bg-charcoal hover:text-cream`.
 
@@ -35,7 +35,7 @@ Création (ex. ajout d'ingrédient) : même `<dialog>`, ouvert depuis un bouton 
 
 Nav : icône dans un badge `bg-tomato text-cream rounded-full px-3 py-1` quand la route est active (label en plus en `font-semibold`), `text-charcoal/50` sinon (icône + label) — pas de fond.
 
-Skeleton de chargement : `bg-charcoal/10 animate-pulse`, calé sur la structure réelle de la ligne (icône + texte à gauche, bouton d'action à droite, mêmes séparateurs `divide-y`), y compris pour les éléments d'action (bouton icône, FAB) à la même taille et position que l'élément réel qu'ils remplacent — pas seulement les zones de texte.
+Skeleton de chargement : `bg-charcoal/10 animate-pulse`, calé sur la structure réelle de la ligne (texte à gauche, boutons d'action à droite, mêmes séparateurs `divide-y`), y compris pour les éléments d'action (boutons icône, FAB) à la même taille et position que l'élément réel qu'ils remplacent — pas seulement les zones de texte.
 
 ## Typographie
 

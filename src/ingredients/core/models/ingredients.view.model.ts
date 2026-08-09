@@ -12,4 +12,7 @@ export type IngredientViewModel = {
     name: string;
     isLoadingDeleting: boolean;
     isErrorDeleting: boolean;
+    isLoadingUpdating: boolean;
+    isErrorUpdating: boolean;
+    inShoppingList: boolean;
 }

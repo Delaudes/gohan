@@ -14,11 +14,11 @@ export class InMemoryIngredientsAdapter implements IngredientsPort {
         }
 
         const ingredients = [
-            new IngredientDomainModel('1', 'Tomato'),
-            new IngredientDomainModel('2', 'Cheese'),
-            new IngredientDomainModel('3', 'Basil'),
-            new IngredientDomainModel('4', 'Olive Oil'),
-            new IngredientDomainModel('5', 'Garlic'),
+            new IngredientDomainModel('1', 'Tomato', true),
+            new IngredientDomainModel('2', 'Cheese', false),
+            new IngredientDomainModel('3', 'Basil', true),
+            new IngredientDomainModel('4', 'Olive Oil', false),
+            new IngredientDomainModel('5', 'Garlic', false),
         ];
         return new IngredientsListDomainModel(ingredients);
     }
@@ -30,7 +30,17 @@ export class InMemoryIngredientsAdapter implements IngredientsPort {
             throw new Error('Failed to create ingredient');
         }
 
-        return new IngredientDomainModel(crypto.randomUUID(), name);
+        return new IngredientDomainModel(crypto.randomUUID(), name, false);
+    }
+
+    async updateIngredient(id: string, inShoppingList: boolean): Promise<IngredientDomainModel> {
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        if (id === '2') {
+            throw new Error('Failed to update ingredient');
+        }
+
+        return new IngredientDomainModel(id, '', inShoppingList);
     }
 
     async deleteIngredient(id: string): Promise<void> {

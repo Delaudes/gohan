@@ -25,7 +25,7 @@ export class CreateIngredientUseCase {
     }
 
     private startLoading(): void {
-        this.ingredientsView.update({ isLoadingCreatingIngredient: true, });
+        this.ingredientsView.update({ isLoadingCreatingIngredient: true, isErrorCreatingIngredient: false });
     }
 
     private stopLoading(): void {
@@ -39,8 +39,8 @@ export class CreateIngredientUseCase {
     private presentIngredientCreated(ingredient: IngredientDomainModel): void {
         const ingredients = [
             ...this.ingredientsView.ingredientsViewModel.get().ingredients,
-            { id: ingredient.id, name: ingredient.name, isLoadingDeleting: false, isErrorDeleting: false },
+            { id: ingredient.id, name: ingredient.name, isLoadingDeleting: false, isErrorDeleting: false, isLoadingUpdating: false, isErrorUpdating: false, inShoppingList: ingredient.inShoppingList },
         ];
-        this.ingredientsView.update({ ingredients, hasIngredients: true, isErrorCreatingIngredient: false });
+        this.ingredientsView.update({ ingredients, hasIngredients: true });
     }
 }

@@ -9,25 +9,39 @@ export class FetchIngredientsUseCase {
     ) { }
 
     async execute(): Promise<void> {
-        this.ingredientsView.update({ isLoadingFetchingIngredients: true });
+        this.startLoading();
         try {
             const ingredientsList = await this.ingredientsPort.fetchIngredientsList();
             this.presentIngredientsList(ingredientsList);
         } catch {
-            this.ingredientsView.update({ isErrorFetchingIngredients: true });
+            this.presentError();
         } finally {
-            this.ingredientsView.update({ isLoadingFetchingIngredients: false });
+            this.stopLoading();
         }
+    }
+
+    private startLoading(): void {
+        this.ingredientsView.update({ isLoadingFetchingIngredients: true, isErrorFetchingIngredients: false });
+    }
+
+    private stopLoading(): void {
+        this.ingredientsView.update({ isLoadingFetchingIngredients: false });
+    }
+
+    private presentError(): void {
+        this.ingredientsView.update({ isErrorFetchingIngredients: true });
     }
 
     private presentIngredientsList(ingredientsList: IngredientsListDomainModel) {
         this.ingredientsView.update({
-            isErrorFetchingIngredients: false,
             ingredients: ingredientsList.ingredients.map(ingredient => ({
                 id: ingredient.id,
                 name: ingredient.name,
                 isLoadingDeleting: false,
                 isErrorDeleting: false,
+                isLoadingUpdating: false,
+                isErrorUpdating: false,
+                inShoppingList: ingredient.inShoppingList,
             })),
             hasIngredients: ingredientsList.hasIngredients(),
         });

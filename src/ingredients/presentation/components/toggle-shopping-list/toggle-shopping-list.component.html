@@ -1,0 +1,14 @@
+@if (ingredient().isLoadingUpdating) {
+  <div class="flex h-9 w-9 shrink-0 items-center justify-center">
+    <span class="material-symbols-outlined text-tomato animate-spin">progress_activity</span>
+  </div>
+} @else {
+  <button
+    type="button"
+    (click)="updateIngredientShoppingList.execute(ingredient().id, !ingredient().inShoppingList)"
+    [attr.aria-label]="ingredient().inShoppingList ? 'Retirer de la liste de courses' : 'Ajouter à la liste de courses'"
+    class="bg-tomato/10 text-tomato hover:bg-tomato/20 flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors"
+  >
+    <span class="material-symbols-outlined text-xl">{{ ingredient().inShoppingList ? 'remove_shopping_cart' : 'add_shopping_cart' }}</span>
+  </button>
+}

@@ -7,6 +7,7 @@ import { IngredientsViewModel } from "../core/models/ingredients.view.model";
 import { CreateIngredientUseCase } from "../core/usecases/create-ingredient.usecase";
 import { DeleteIngredientUseCase } from "../core/usecases/delete-ingredient.usecase";
 import { FetchIngredientsUseCase } from "../core/usecases/fetch-ingredients.usecase";
+import { UpdateIngredientShoppingListUseCase } from "../core/usecases/update-ingredient-shopping-list.usecase";
 
 export const INGREDIENTS_TOKEN = new InjectionToken<IngredientsPort>('INGREDIENTS_TOKEN', {
     providedIn: 'root',
@@ -29,5 +30,9 @@ export const INGREDIENTS_PROVIDERS = [
     {
         provide: CreateIngredientUseCase,
         useFactory: () => new CreateIngredientUseCase(inject(IngredientsView), inject(INGREDIENTS_TOKEN)),
+    },
+    {
+        provide: UpdateIngredientShoppingListUseCase,
+        useFactory: () => new UpdateIngredientShoppingListUseCase(inject(IngredientsView), inject(INGREDIENTS_TOKEN)),
     },
 ]
