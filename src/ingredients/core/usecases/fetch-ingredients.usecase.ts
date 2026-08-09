@@ -26,6 +26,8 @@ export class FetchIngredientsUseCase {
             ingredients: ingredientsList.ingredients.map(ingredient => ({
                 id: ingredient.id,
                 name: ingredient.name,
+                isLoadingDeleting: false,
+                isErrorDeleting: false,
             })),
             hasIngredients: ingredientsList.hasIngredients(),
         });

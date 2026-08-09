@@ -22,4 +22,12 @@ export class InMemoryIngredientsAdapter implements IngredientsPort {
         ];
         return new IngredientsListDomainModel(ingredients);
     }
+
+    async deleteIngredient(id: string): Promise<void> {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        if (id === '1') {
+            throw new Error('Failed to delete ingredient');
+        }
+    }
 }

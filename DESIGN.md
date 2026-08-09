@@ -3,11 +3,13 @@ Nom de l'app : Gohan
 ## Couleurs
 
 Rice white #FAF6EC : Fond principal de l'application
-Nori #1F2B22 : Couleur du texte, des titres, et fond des icônes sombres
-Yuzu #F2B705 : Accent principal — actions, coches, éléments actifs. Attention : contraste trop faible sur fond Rice white (~1.7:1), à utiliser sur fond Nori (pastille `bg-nori text-yuzu`, ~8:1). Dans la nav, la pastille ne couvre que l'icône, pas le label texte (sinon rendu trop chargé)
-Soy #8B5E3C : Accent secondaire, textes discrets, et séparateurs/bordures discrètes (ex. `border-soy/20`)
+Nori #1F2B22 : Couleur du texte, des titres, et état actif (ex. icône + label de nav sur la route active, sans fond)
+Yuzu #F2B705 : Accent principal — actions, coches. Attention : contraste trop faible sur fond Rice white (~1.7:1), à utiliser sur fond Nori (bouton plein `bg-nori text-yuzu`, ~8:1)
+Soy #8B5E3C : Accent secondaire, textes discrets, état par défaut (ex. icône + label de nav hors route active), séparateurs/bordures discrètes (ex. `border-soy/20`)
+Danger #B3261E : Erreurs, avertissements, actions destructrices (ex. icône d'avertissement et message d'erreur d'une confirmation de suppression)
+Success #3F7D45 : Confirmations de succès
 
-Tokens Tailwind (`src/styles.css`, bloc `@theme`) : `bg-rice-white`, `text-nori`, `text-yuzu`, `border-soy`, etc.
+Tokens Tailwind (`src/styles.css`, bloc `@theme`) : `bg-rice-white`, `text-nori`, `text-yuzu`, `border-soy`, `text-danger`, `text-success`, etc.
 
 ## Typographie
 

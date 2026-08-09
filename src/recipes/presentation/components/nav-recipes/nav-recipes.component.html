@@ -2,12 +2,10 @@
   [routerLink]="AppPath.Recipes"
   routerLinkActive
   #rla="routerLinkActive"
-  class="flex flex-col items-center gap-0.5 text-nori px-3 py-1"
+  class="flex flex-col items-center gap-0.5 px-3 py-1"
+  [class.text-nori]="rla.isActive"
+  [class.text-soy]="!rla.isActive"
 >
-  <span
-    class="material-symbols-outlined rounded-full px-3 py-1"
-    [class.bg-nori]="rla.isActive"
-    [class.text-yuzu]="rla.isActive"
-  >menu_book</span>
+  <span class="material-symbols-outlined">menu_book</span>
   <span class="text-xs">Recettes</span>
 </a>

@@ -8,4 +8,6 @@ export type IngredientsViewModel = {
 export type IngredientViewModel = {
     id: string;
     name: string;
+    isLoadingDeleting: boolean;
+    isErrorDeleting: boolean;
 }

@@ -11,6 +11,8 @@
   --color-nori: #1F2B22;
   --color-yuzu: #F2B705;
   --color-soy: #8B5E3C;
+  --color-danger: #B3261E;
+  --color-success: #3F7D45;
 }
 
 body {

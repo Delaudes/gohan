@@ -4,7 +4,8 @@ import { InMemoryIngredientsAdapter } from "../adapters/in-memory-ingredients.ad
 import { IngredientsPort } from "../core/ingredients.port";
 import { IngredientsView } from "../core/ingredients.view";
 import { IngredientsViewModel } from "../core/models/ingredients.view.model";
-import { FetchIngredientsUseCase } from "../core/uecases/fetch-ingredients.usecase";
+import { DeleteIngredientUseCase } from "../core/usecases/delete-ingredient.usecase";
+import { FetchIngredientsUseCase } from "../core/usecases/fetch-ingredients.usecase";
 
 export const INGREDIENTS_TOKEN = new InjectionToken<IngredientsPort>('INGREDIENTS_TOKEN', {
     providedIn: 'root',
@@ -19,5 +20,9 @@ export const INGREDIENTS_PROVIDERS = [
     {
         provide: FetchIngredientsUseCase,
         useFactory: () => new FetchIngredientsUseCase(inject(IngredientsView), inject(INGREDIENTS_TOKEN)),
-    }
+    },
+    {
+        provide: DeleteIngredientUseCase,
+        useFactory: () => new DeleteIngredientUseCase(inject(IngredientsView), inject(INGREDIENTS_TOKEN)),
+    },
 ]
