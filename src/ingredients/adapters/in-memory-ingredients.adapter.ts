@@ -23,6 +23,16 @@ export class InMemoryIngredientsAdapter implements IngredientsPort {
         return new IngredientsListDomainModel(ingredients);
     }
 
+    async createIngredient(name: string): Promise<IngredientDomainModel> {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        if (name.trim().toLowerCase() === 'error') {
+            throw new Error('Failed to create ingredient');
+        }
+
+        return new IngredientDomainModel(crypto.randomUUID(), name);
+    }
+
     async deleteIngredient(id: string): Promise<void> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 

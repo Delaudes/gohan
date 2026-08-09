@@ -6,6 +6,8 @@ export class IngredientsView {
         ingredientsViewModel.set({
             isLoadingFetchingIngredients: false,
             isErrorFetchingIngredients: false,
+            isLoadingCreatingIngredient: false,
+            isErrorCreatingIngredient: false,
             ingredients: [],
             hasIngredients: false,
         });
