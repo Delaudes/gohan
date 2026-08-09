@@ -2,45 +2,45 @@
   @let vm = viewModel.get();
 
   @if (vm.isLoadingFetchingIngredients) {
-    <ul class="flex flex-col gap-2">
+    <ul class="divide-charcoal/10 flex flex-col divide-y">
       @for (w of ['w-2/5', 'w-1/3', 'w-1/2', 'w-1/4', 'w-2/5']; track $index) {
-        <li class="bg-nori/5 flex items-center justify-between rounded-2xl px-4 py-3">
-          <span class="bg-nori/10 h-6 {{ w }} animate-pulse rounded-full"></span>
-          <span class="bg-nori/10 h-9 w-9 shrink-0 animate-pulse rounded-full"></span>
+        <li class="flex items-center justify-between gap-3 px-2 py-3">
+          <span class="bg-charcoal/10 h-6 {{ w }} animate-pulse rounded-full"></span>
+          <span class="bg-charcoal/10 h-9 w-9 shrink-0 animate-pulse rounded-full"></span>
         </li>
       }
     </ul>
   } @else if (vm.isErrorFetchingIngredients) {
-    <div class="text-danger flex flex-col items-center gap-3 py-16">
-      <span class="material-symbols-outlined text-4xl">error</span>
-      <p class="text-center">Une erreur est survenue lors du chargement des ingrédients.</p>
+    <div class="flex flex-col items-center gap-4 py-16 text-center">
+      <span class="material-symbols-outlined text-danger text-3xl">warning</span>
+      <p class="text-charcoal">Une erreur est survenue, réessayez.</p>
       <button
         type="button"
         (click)="fetchIngredients.execute()"
-        class="bg-nori text-yuzu hover:bg-nori/90 flex items-center gap-1.5 rounded-full px-4 py-2 transition-colors"
+        class="bg-tomato text-cream border-charcoal shadow-[3px_3px_0_0_var(--color-charcoal)] hover:shadow-[1px_1px_0_0_var(--color-charcoal)] flex items-center gap-1.5 rounded-full border-2 px-4 py-2 font-semibold transition-all hover:translate-x-0.5 hover:translate-y-0.5"
       >
         <span class="material-symbols-outlined text-base">refresh</span>
         Réessayer
       </button>
     </div>
   } @else if (vm.hasIngredients) {
-    <ul class="flex flex-col gap-2">
+    <ul class="divide-charcoal/10 flex flex-col divide-y">
       @for (ingredient of vm.ingredients; track ingredient.id) {
-        <li class="bg-nori/5 flex items-center justify-between rounded-2xl px-4 py-3">
-          <span>{{ ingredient.name }}</span>
+        <li class="flex items-center justify-between gap-3 px-2 py-3">
+          <span class="text-charcoal font-medium">{{ ingredient.name }}</span>
           <app-delete-ingredient [ingredient]="ingredient" />
         </li>
       }
     </ul>
   } @else {
-    <div class="text-soy flex flex-col items-center gap-3 py-16">
-      <span class="material-symbols-outlined text-4xl">search_off</span>
-      <p>Aucun ingrédient pour l'instant.</p>
+    <div class="flex flex-col items-center gap-4 py-16 text-center">
+      <span class="material-symbols-outlined text-tomato text-3xl">contract_delete</span>
+      <p class="text-charcoal">Aucun ingrédient pour l'instant.</p>
     </div>
   }
 
   @if (vm.isLoadingFetchingIngredients) {
-    <div class="bg-nori/10 fixed right-4 bottom-20 z-10 h-14 w-14 animate-pulse rounded-full"></div>
+    <div class="bg-charcoal/10 fixed right-4 bottom-20 z-10 h-14 w-14 animate-pulse rounded-full"></div>
   } @else if (!vm.isErrorFetchingIngredients) {
     <app-create-ingredient />
   }

@@ -7,17 +7,16 @@
   --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-rice-white: #FAF6EC;
-  --color-nori: #1F2B22;
-  --color-yuzu: #F2B705;
-  --color-soy: #8B5E3C;
+  --color-cream: #FFF6E9;
+  --color-charcoal: #1B1512;
+  --color-tomato: #E8432C;
   --color-danger: #B3261E;
   --color-success: #3F7D45;
 }
 
 body {
-  background-color: var(--color-rice-white);
-  color: var(--color-nori);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
   font-family: var(--font-body);
 }
 

@@ -3,9 +3,17 @@
   routerLinkActive
   #rla="routerLinkActive"
   class="flex flex-col items-center gap-0.5 px-3 py-1"
-  [class.text-nori]="rla.isActive"
-  [class.text-soy]="!rla.isActive"
 >
-  <span class="material-symbols-outlined">nutrition</span>
-  <span class="text-xs">Ingrédients</span>
+  <span
+    class="material-symbols-outlined rounded-full px-3 py-1 transition-colors"
+    [class.bg-tomato]="rla.isActive"
+    [class.text-cream]="rla.isActive"
+    [class.text-charcoal/50]="!rla.isActive"
+  >nutrition</span>
+  <span
+    class="text-xs"
+    [class.text-charcoal]="rla.isActive"
+    [class.font-semibold]="rla.isActive"
+    [class.text-charcoal/50]="!rla.isActive"
+  >Ingrédients</span>
 </a>

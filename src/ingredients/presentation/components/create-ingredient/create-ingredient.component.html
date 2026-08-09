@@ -2,39 +2,39 @@
   type="button"
   (click)="dialog.showModal()"
   aria-label="Ajouter un ingrédient"
-  class="bg-nori text-yuzu hover:bg-nori/90 fixed right-4 bottom-20 z-10 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-colors"
+  class="bg-tomato text-cream border-charcoal shadow-[4px_4px_0_0_var(--color-charcoal)] hover:shadow-[2px_2px_0_0_var(--color-charcoal)] fixed right-4 bottom-20 z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 transition-all hover:translate-x-0.5 hover:translate-y-0.5"
 >
   <span class="material-symbols-outlined text-2xl">add</span>
 </button>
 
-<dialog #dialog class="bg-rice-white m-auto w-[min(90vw,22rem)] rounded-2xl p-6 backdrop:bg-nori/50">
+<dialog #dialog class="bg-cream border-charcoal shadow-[6px_6px_0_0_var(--color-charcoal)] m-auto w-[min(90vw,22rem)] rounded-3xl border-2 p-6 backdrop:bg-charcoal/60">
   @let vm = viewModel.get();
-  <div class="flex flex-col items-center gap-3 text-center">
-    <p class="text-nori">Nouvel ingrédient</p>
+  <div class="flex flex-col items-center gap-4 text-center">
+    <h2 class="font-header text-charcoal text-xl">Nouvel ingrédient</h2>
     <input
       #nameInput
       type="text"
       placeholder="Nom de l'ingrédient"
-      class="border-soy/30 text-nori placeholder:text-soy/60 focus:border-nori w-full rounded-full border px-4 py-2 text-center outline-none"
+      class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent px-1 py-2 text-left text-lg outline-none"
     />
     @if (vm.isErrorCreatingIngredient) {
       <p class="text-danger text-sm">Une erreur est survenue, réessayez.</p>
     }
     @if (vm.isLoadingCreatingIngredient) {
       <div class="flex h-11 w-full items-center justify-center">
-        <span class="material-symbols-outlined text-nori animate-spin">progress_activity</span>
+        <span class="material-symbols-outlined text-charcoal animate-spin">progress_activity</span>
       </div>
     } @else {
       <div class="flex h-11 w-full justify-center gap-2">
         <button
           type="button"
           (click)="dialog.close()"
-          class="border-soy/30 text-soy hover:bg-soy/10 flex-1 rounded-full border transition-colors"
+          class="border-charcoal text-charcoal hover:bg-charcoal hover:text-cream flex-1 rounded-full border-2 font-semibold transition-colors"
         >Annuler</button>
         <button
           type="button"
           (click)="createIngredient.execute(dialog, nameInput)"
-          class="bg-nori text-yuzu hover:bg-nori/90 flex-1 rounded-full transition-colors"
+          class="bg-tomato text-cream border-charcoal shadow-[3px_3px_0_0_var(--color-charcoal)] hover:shadow-[1px_1px_0_0_var(--color-charcoal)] flex-1 rounded-full border-2 font-semibold transition-all hover:translate-x-0.5 hover:translate-y-0.5"
         >Ajouter</button>
       </div>
     }
