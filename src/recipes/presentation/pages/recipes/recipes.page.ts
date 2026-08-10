@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AppPath } from '../../../../app/app.routes';
 import { RecipesView } from '../../../core/recipes.view';
 import { FetchRecipesUseCase } from '../../../core/usecases/fetch-recipes.usecase';
 import { CreateRecipeComponent } from '../../components/create-recipe/create-recipe.component';
@@ -8,12 +10,13 @@ import { RECIPES_PROVIDERS } from '../../recipes.provider';
 
 @Component({
   selector: 'app-recipes',
-  imports: [DeleteRecipeComponent, CreateRecipeComponent, ToggleMealsListComponent],
+  imports: [DeleteRecipeComponent, CreateRecipeComponent, ToggleMealsListComponent, RouterLink],
   templateUrl: './recipes.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RECIPES_PROVIDERS],
 })
 export class RecipesPage implements OnInit {
+  protected readonly AppPath = AppPath;
   protected readonly viewModel = inject(RecipesView).recipesViewModel;
   protected readonly fetchRecipes = inject(FetchRecipesUseCase)
 

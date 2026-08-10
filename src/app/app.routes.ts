@@ -22,6 +22,10 @@ export const routes: Routes = [
     loadComponent: () => import('../recipes/presentation/pages/recipes/recipes.page').then((m) => m.RecipesPage),
   },
   {
+    path: `${AppPath.Recipes}/:id`,
+    loadComponent: () => import('../recipes/presentation/pages/recipe/recipe.page').then((m) => m.RecipePage),
+  },
+  {
     path: AppPath.Shopping,
     loadComponent: () => import('../shopping/presentation/pages/shopping/shopping.page').then((m) => m.ShoppingPage),
   },
