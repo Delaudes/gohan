@@ -1,5 +1,6 @@
 import { AppParam } from "../../../infra/route/app-param";
 import { RoutePort } from "../../../infra/route/route.port";
+import { Dialog } from "../../../presentation/dialog/dialog.port";
 import { RecipeIngredientsPort } from "../recipe-ingredients.port";
 import { RecipeView } from "../recipe.view";
 
@@ -10,12 +11,13 @@ export class RemoveRecipeIngredientUseCase {
         private readonly routePort: RoutePort,
     ) { }
 
-    async execute(ingredientId: string): Promise<void> {
+    async execute(ingredientId: string, dialog: Dialog): Promise<void> {
         const recipeId = this.routePort.getParam(AppParam.Id);
         this.startLoading(ingredientId);
         try {
             await this.recipeIngredientsPort.removeRecipeIngredient(recipeId, ingredientId);
             this.presentIngredientRemoved(ingredientId);
+            dialog.close();
         } catch {
             this.presentError(ingredientId);
         } finally {

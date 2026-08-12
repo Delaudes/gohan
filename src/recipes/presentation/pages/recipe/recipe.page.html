@@ -60,14 +60,9 @@
     @if (vm.hasIngredients) {
       <ul class="divide-charcoal/10 flex flex-col divide-y">
         @for (ingredient of vm.ingredients; track ingredient.id) {
-          <li class="px-2 py-3">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-charcoal font-medium">{{ ingredient.name }}</span>
-              <app-remove-recipe-ingredient [ingredient]="ingredient" />
-            </div>
-            @if (ingredient.isErrorRemoving) {
-              <p class="text-danger mt-1 text-sm">Une erreur est survenue, réessayez.</p>
-            }
+          <li class="flex items-center justify-between gap-2 px-2 py-3">
+            <span class="text-charcoal font-medium">{{ ingredient.name }}</span>
+            <app-remove-recipe-ingredient [ingredient]="ingredient" />
           </li>
         }
       </ul>

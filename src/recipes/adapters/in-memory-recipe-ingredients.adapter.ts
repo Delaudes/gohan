@@ -1,5 +1,5 @@
-import { RecipeIngredientsPort } from "../core/recipe-ingredients.port";
 import { IngredientsOptionsDomainModel, RecipeIngredientDomainModel } from "../core/models/recipes.domain.model";
+import { RecipeIngredientsPort } from "../core/recipe-ingredients.port";
 
 let INGREDIENT_OPTIONS: RecipeIngredientDomainModel[] = [
     new RecipeIngredientDomainModel('101', 'Tomate'),
@@ -47,6 +47,12 @@ export class InMemoryRecipeIngredientsAdapter implements RecipeIngredientsPort {
     }
 
     async removeRecipeIngredient(recipeId: string, ingredientId: string): Promise<void> {
-        await new Promise(resolve => setTimeout(resolve, 600));
+
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        if (ingredientId === '5') {
+            throw new Error('Failed to remove ingredient from recipe');
+        }
     }
 }
