@@ -47,8 +47,6 @@ export class InMemoryRecipeIngredientsAdapter implements RecipeIngredientsPort {
     }
 
     async removeRecipeIngredient(recipeId: string, ingredientId: string): Promise<void> {
-
-
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (ingredientId === '5') {

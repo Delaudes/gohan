@@ -2,6 +2,14 @@
 
 @import 'tailwindcss';
 
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 @theme {
   --font-header: 'Zen Maru Gothic', sans-serif;
   --font-body: 'Inter', sans-serif;

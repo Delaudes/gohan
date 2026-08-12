@@ -1,13 +1,17 @@
 @let vm = viewModel.get();
 
-<div class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4">
+<div
+  class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4"
+>
   <h2 class="font-header text-charcoal text-center text-lg">Ajouter un ingrédient</h2>
 
-  @if (searchInput.value.trim()) {
-    <div class="flex flex-col gap-3">
+  <div class="flex flex-col">
+    @if (searchInput.value.trim()) {
       @if (vm.isLoadingAddingIngredient) {
         <div class="flex h-11 w-full items-center justify-center">
-          <span class="material-symbols-outlined text-charcoal animate-spin">progress_activity</span>
+          <span class="material-symbols-outlined text-charcoal animate-spin"
+            >progress_activity</span
+          >
         </div>
       } @else {
         <ul class="divide-charcoal/10 flex flex-col divide-y">
@@ -17,10 +21,12 @@
                 <button
                   type="button"
                   (click)="addKnownRecipeIngredient.execute(option.id, searchInput)"
-                  class="hover:bg-charcoal/5 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-3 text-left transition-colors"
+                  class="hover:bg-charcoal/5 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
                 >
                   <span class="text-charcoal font-medium">{{ option.name }}</span>
-                  <span class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
+                  <span
+                    class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+                  >
                     <span class="material-symbols-outlined text-base">add</span>
                   </span>
                 </button>
@@ -31,10 +37,12 @@
             <button
               type="button"
               (click)="addUnknownRecipeIngredient.execute(searchInput)"
-              class="hover:bg-tomato/10 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-3 text-left transition-colors"
+              class="hover:bg-tomato/10 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
             >
               <span class="text-tomato font-semibold">Créer "{{ searchInput.value.trim() }}"</span>
-              <span class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
+              <span
+                class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+              >
                 <span class="material-symbols-outlined text-base">add</span>
               </span>
             </button>
@@ -45,19 +53,22 @@
       @if (vm.isErrorAddingIngredient) {
         <p class="text-danger text-sm">Une erreur est survenue, réessayez.</p>
       }
-    </div>
-  }
+    }
 
-  <div class="relative">
-    <label for="ingredient-search" class="sr-only">Rechercher un ingrédient</label>
-    <span class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl">search</span>
-    <input
-      #searchInput
-      id="ingredient-search"
-      type="text"
-      (input)="searchIngredientsOptions.execute(searchInput.value)"
-      placeholder="Rechercher un ingrédient"
-      class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
-    />
+    <div class="relative">
+      <label for="ingredient-search" class="sr-only">Rechercher un ingrédient</label>
+      <span
+        class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl"
+        >search</span
+      >
+      <input
+        #searchInput
+        id="ingredient-search"
+        type="text"
+        (input)="searchIngredientsOptions.execute(searchInput.value)"
+        placeholder="Rechercher un ingrédient"
+        class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
+      />
+    </div>
   </div>
 </div>
