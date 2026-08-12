@@ -1,5 +1,27 @@
+import { RecipeDetailDomainModel, RecipeDomainModel, RecipeIngredientDomainModel, RecipesListDomainModel } from "../core/models/recipes.domain.model";
 import { RecipesPort } from "../core/recipes.port";
-import { RecipeDomainModel, RecipesListDomainModel } from "../core/models/recipes.domain.model";
+
+const RECIPE_NAMES: Record<string, string> = {
+    '1': 'Pasta Carbonara',
+    '2': 'Chicken Curry',
+    '3': 'Caesar Salad',
+    '4': 'Miso Soup',
+    '5': 'Beef Stir Fry',
+};
+
+const RECIPE_INGREDIENTS: Record<string, RecipeIngredientDomainModel[]> = {
+    '1': [
+        new RecipeIngredientDomainModel('1', 'Pâtes'),
+        new RecipeIngredientDomainModel('2', 'Lardons'),
+        new RecipeIngredientDomainModel('3', 'Œufs'),
+        new RecipeIngredientDomainModel('4', 'Parmesan'),
+    ],
+    '3': [
+        new RecipeIngredientDomainModel('5', 'Salade romaine'),
+        new RecipeIngredientDomainModel('6', 'Poulet'),
+        new RecipeIngredientDomainModel('7', 'Croûtons'),
+    ],
+};
 
 export class InMemoryRecipesAdapter implements RecipesPort {
     async fetchRecipesList(): Promise<RecipesListDomainModel> {
@@ -21,6 +43,16 @@ export class InMemoryRecipesAdapter implements RecipesPort {
             new RecipeDomainModel('5', 'Beef Stir Fry', false),
         ];
         return new RecipesListDomainModel(recipes);
+    }
+
+    async fetchRecipe(id: string): Promise<RecipeDetailDomainModel> {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        if (id === '2') {
+            throw new Error('Failed to fetch recipe');
+        }
+
+        return new RecipeDetailDomainModel(id, RECIPE_NAMES[id] ?? 'Recette', id === '3', RECIPE_INGREDIENTS[id] ?? []);
     }
 
     async createRecipe(name: string): Promise<RecipeDomainModel> {
