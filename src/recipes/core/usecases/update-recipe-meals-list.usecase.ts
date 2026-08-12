@@ -43,7 +43,7 @@ export class UpdateRecipeMealsListUseCase {
 
     private presentRecipeUpdated(recipe: RecipeDomainModel): void {
         const recipes = this.recipesView.recipesViewModel.get().recipes.map(current =>
-            current.id === recipe.id ? { ...current, inMealsList: recipe.inMealsList } : current
+            recipe.is(current.id) ? { ...current, inMealsList: recipe.inMealsList } : current
         );
         this.recipesView.update({ recipes });
     }

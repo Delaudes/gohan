@@ -43,7 +43,7 @@ export class UpdateIngredientShoppingListUseCase {
 
     private presentIngredientUpdated(ingredient: IngredientDomainModel): void {
         const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(current =>
-            current.id === ingredient.id ? { ...current, inShoppingList: ingredient.inShoppingList } : current
+            ingredient.is(current.id) ? { ...current, inShoppingList: ingredient.inShoppingList } : current
         );
         this.ingredientsView.update({ ingredients });
     }

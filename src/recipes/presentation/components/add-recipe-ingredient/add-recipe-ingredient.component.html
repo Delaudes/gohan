@@ -3,13 +3,13 @@
 <div class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4">
   <h2 class="font-header text-charcoal text-center text-lg">Ajouter un ingrédient</h2>
 
-  <div class="flex min-h-64 flex-col justify-center gap-3">
-    @if (vm.isLoadingAddingIngredient) {
-      <div class="flex h-11 w-full items-center justify-center">
-        <span class="material-symbols-outlined text-charcoal animate-spin">progress_activity</span>
-      </div>
-    } @else {
-      @if (vm.hasIngredientsOptions) {
+  @if (searchInput.value.trim()) {
+    <div class="flex flex-col gap-3">
+      @if (vm.isLoadingAddingIngredient) {
+        <div class="flex h-11 w-full items-center justify-center">
+          <span class="material-symbols-outlined text-charcoal animate-spin">progress_activity</span>
+        </div>
+      } @else {
         <ul class="divide-charcoal/10 flex flex-col divide-y">
           @for (option of vm.ingredientsOptions; track option.id) {
             @if (option.isVisible) {
@@ -27,32 +27,26 @@
               </li>
             }
           }
+          <li>
+            <button
+              type="button"
+              (click)="addUnknownRecipeIngredient.execute(searchInput)"
+              class="hover:bg-tomato/10 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-3 text-left transition-colors"
+            >
+              <span class="text-tomato font-semibold">Créer "{{ searchInput.value.trim() }}"</span>
+              <span class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
+                <span class="material-symbols-outlined text-base">add</span>
+              </span>
+            </button>
+          </li>
         </ul>
-      } @else {
-        <div class="flex flex-col items-center gap-4 text-center">
-          <span class="material-symbols-outlined text-tomato text-3xl">contract_delete</span>
-          <p class="text-charcoal">Aucun ingrédient ne correspond à la recherche.</p>
-        </div>
       }
 
-      @if (searchInput.value.trim()) {
-        <button
-          type="button"
-          (click)="addUnknownRecipeIngredient.execute(searchInput)"
-          class="hover:bg-tomato/10 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-3 text-left transition-colors"
-        >
-          <span class="text-tomato font-semibold">Créer "{{ searchInput.value.trim() }}"</span>
-          <span class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
-            <span class="material-symbols-outlined text-base">add</span>
-          </span>
-        </button>
+      @if (vm.isErrorAddingIngredient) {
+        <p class="text-danger text-sm">Une erreur est survenue, réessayez.</p>
       }
-    }
-
-    @if (vm.isErrorAddingIngredient) {
-      <p class="text-danger text-sm">Une erreur est survenue, réessayez.</p>
-    }
-  </div>
+    </div>
+  }
 
   <div class="relative">
     <label for="ingredient-search" class="sr-only">Rechercher un ingrédient</label>

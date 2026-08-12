@@ -7,7 +7,6 @@ export type RecipeDetailViewModel = {
     ingredients: RecipeIngredientViewModel[];
     hasIngredients: boolean;
     ingredientsOptions: IngredientOptionViewModel[];
-    hasIngredientsOptions: boolean;
     isLoadingAddingIngredient: boolean;
     isErrorAddingIngredient: boolean;
 }

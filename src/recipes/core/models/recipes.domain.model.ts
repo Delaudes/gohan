@@ -12,6 +12,10 @@ export class RecipeDomainModel {
         public readonly name: string,
         public readonly inMealsList: boolean,
     ) { }
+
+    is(id: string | undefined): boolean {
+        return this.id === id;
+    }
 }
 
 export class RecipeIngredientDomainModel {
@@ -19,23 +23,21 @@ export class RecipeIngredientDomainModel {
         public readonly id: string,
         public readonly name: string,
     ) { }
+
+    is(id: string | undefined): boolean {
+        return this.id === id;
+    }
 }
 
 export class IngredientsOptionsDomainModel {
     constructor(public readonly ingredientsOptions: RecipeIngredientDomainModel[]) { }
 
-    hasIngredientsOptions(): boolean {
-        return this.ingredientsOptions.length > 0;
-    }
-
-    matching(query: string): IngredientsOptionsDomainModel {
+    getFirstMatch(query: string): RecipeIngredientDomainModel | undefined {
         const normalizedQuery = query.trim().toLowerCase();
         if (!normalizedQuery) {
-            return this;
+            return undefined;
         }
-        return new IngredientsOptionsDomainModel(
-            this.ingredientsOptions.filter(option => option.name.toLowerCase().includes(normalizedQuery))
-        );
+        return this.ingredientsOptions.find(option => option.name.toLowerCase().includes(normalizedQuery));
     }
 }
 

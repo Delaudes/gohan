@@ -12,7 +12,6 @@ export class RecipeView {
             ingredients: [],
             hasIngredients: false,
             ingredientsOptions: [],
-            hasIngredientsOptions: false,
             isLoadingAddingIngredient: false,
             isErrorAddingIngredient: false,
         });

@@ -1,8 +1,8 @@
 import { Dialog } from "../../../presentation/dialog/dialog.port";
 import { Field } from "../../../presentation/field/field.port";
+import { RecipeDomainModel } from "../models/recipes.domain.model";
 import { RecipesPort } from "../recipes.port";
 import { RecipesView } from "../recipes.view";
-import { RecipeDomainModel } from "../models/recipes.domain.model";
 
 export class CreateRecipeUseCase {
     constructor(

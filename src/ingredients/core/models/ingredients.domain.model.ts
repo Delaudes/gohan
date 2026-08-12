@@ -12,4 +12,8 @@ export class IngredientDomainModel {
         public readonly name: string,
         public readonly inShoppingList: boolean,
     ) { }
+
+    is(id: string | undefined): boolean {
+        return this.id === id;
+    }
 }

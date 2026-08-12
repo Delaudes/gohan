@@ -1,9 +1,9 @@
-import { Field } from "../../../presentation/field/field.port";
 import { AppParam } from "../../../infra/route/app-param";
 import { RoutePort } from "../../../infra/route/route.port";
+import { Field } from "../../../presentation/field/field.port";
+import { RecipeIngredientDomainModel } from "../models/recipes.domain.model";
 import { RecipeIngredientsPort } from "../recipe-ingredients.port";
 import { RecipeView } from "../recipe.view";
-import { RecipeIngredientDomainModel } from "../models/recipes.domain.model";
 
 export class AddKnownRecipeIngredientUseCase {
     constructor(
@@ -45,15 +45,14 @@ export class AddKnownRecipeIngredientUseCase {
             ...current.ingredients,
             { id: ingredient.id, name: ingredient.name, isLoadingRemoving: false, isErrorRemoving: false },
         ];
-        const ingredientsOptions = current.ingredientsOptions.map((option, index) => ({
+        const ingredientsOptions = current.ingredientsOptions.map(option => ({
             ...option,
-            isVisible: index < 3,
+            isVisible: false,
         }));
         this.recipeView.update({
             ingredients,
             hasIngredients: true,
             ingredientsOptions,
-            hasIngredientsOptions: current.ingredientsOptions.length > 0,
         });
     }
 }

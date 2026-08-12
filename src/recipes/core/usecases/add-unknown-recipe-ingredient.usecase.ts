@@ -46,13 +46,14 @@ export class AddUnknownRecipeIngredientUseCase {
             ...current.ingredients,
             { id: ingredient.id, name: ingredient.name, isLoadingRemoving: false, isErrorRemoving: false },
         ];
-        const allOptions = [...current.ingredientsOptions, { id: ingredient.id, name: ingredient.name, isVisible: false }];
-        const ingredientsOptions = allOptions.map((option, index) => ({ ...option, isVisible: index < 3 }));
+        const ingredientsOptions = [
+            ...current.ingredientsOptions.map(option => ({ ...option, isVisible: false })),
+            { id: ingredient.id, name: ingredient.name, isVisible: false },
+        ];
         this.recipeView.update({
             ingredients,
             hasIngredients: true,
             ingredientsOptions,
-            hasIngredientsOptions: ingredientsOptions.length > 0,
         });
     }
 }
