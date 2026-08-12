@@ -5,6 +5,17 @@ Tailwind CSS v4, config via `@theme` dans `styles.css` (pas de `tailwind.config`
 Attention `<dialog>` natif : le preflight Tailwind remet `margin: 0` sur tous les éléments, ce qui casse le centrage automatique du navigateur — ajouter `m-auto` explicitement.
 
 Attention Material Symbols via Google Fonts (`fonts.googleapis.com/css2?family=Material+Symbols...`) : demander un point fixe (ex. `FILL@0`) livre une police **statique**, sans table `fvar` — `font-variation-settings` n'a aucun effet dessus, même si la famille est nominalement "variable". Pour un état plein/contour (icône togglée), il faut déclarer un second `@font-face` pointant vers l'instance `FILL@1` (même famille, autre URL fournie par Google), sous un nom différent, puis basculer `font-family` via une classe — pas essayer de faire varier `FILL` en CSS sur une police chargée en un seul point.
+
+Attention `hover:` sur mobile : par défaut Tailwind applique `:hover` sans condition, donc un tap sur tactile déclenche l'état hover et le laisse collé jusqu'au tap suivant (pas de vrai `mouseleave`). Le scoper aux pointeurs qui supportent vraiment le survol via `@custom-variant` dans `styles.css` :
+```css
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+```
 Schematics par défaut (`angular.json`) : `style: none`, `changeDetection: OnPush` partout.
 
 Spécificités visuelles/produit : voir `DESIGN.md` (volontairement absent d'ici, pour que ce fichier reste copiable tel quel dans un autre projet).
