@@ -1,0 +1,1 @@
+import{La as o,Ma as p,Ya as a,va as t}from"./chunk-XLLO3PIH.js";var i=class n{static \u0275fac=function(e){return new(e||n)};static \u0275cmp=t({type:n,selectors:[["app-shopping"]],decls:2,vars:0,template:function(e,g){e&1&&(o(0,"h1"),a(1,"Courses"),p())},encapsulation:2,changeDetection:0})};export{i as ShoppingPage};
