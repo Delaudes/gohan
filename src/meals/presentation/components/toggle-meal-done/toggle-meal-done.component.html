@@ -1,0 +1,16 @@
+@if (meal().isLoadingUpdatingDone) {
+  <div class="flex h-11 w-11 shrink-0 items-center justify-center">
+    <span class="material-symbols-outlined text-tomato animate-spin">progress_activity</span>
+  </div>
+} @else {
+  <button
+    type="button"
+    (click)="updateMealDone.execute(meal().id, !meal().done)"
+    [attr.aria-label]="meal().done ? 'Marquer comme non fait' : 'Marquer comme fait'"
+    class="flex h-11 w-11 shrink-0 items-center justify-center"
+    [class.text-tomato]="meal().done"
+    [class.text-charcoal/40]="!meal().done"
+  >
+    <span class="material-symbols-outlined text-xl">{{ meal().done ? 'check_box' : 'check_box_outline_blank' }}</span>
+  </button>
+}

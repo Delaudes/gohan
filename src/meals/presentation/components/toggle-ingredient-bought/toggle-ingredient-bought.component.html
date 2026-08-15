@@ -1,0 +1,16 @@
+@if (ingredient().isLoadingUpdatingBought) {
+  <div class="flex h-11 w-11 shrink-0 items-center justify-center">
+    <span class="material-symbols-outlined text-tomato animate-spin">progress_activity</span>
+  </div>
+} @else {
+  <button
+    type="button"
+    (click)="updateIngredientBought.execute(mealId(), ingredient().id, !ingredient().bought)"
+    [attr.aria-label]="ingredient().bought ? 'Marquer comme non acheté' : 'Marquer comme acheté'"
+    class="flex h-11 w-11 shrink-0 items-center justify-center"
+    [class.text-tomato]="ingredient().bought"
+    [class.text-charcoal/40]="!ingredient().bought"
+  >
+    <span class="material-symbols-outlined text-xl">{{ ingredient().bought ? 'check_box' : 'check_box_outline_blank' }}</span>
+  </button>
+}

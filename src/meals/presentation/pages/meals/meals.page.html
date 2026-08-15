@@ -1,1 +1,128 @@
-<h1>Repas</h1>
+<div class="flex flex-col gap-4 p-4">
+  @let vm = viewModel.get();
+
+  @if (vm.isLoadingFetchingMeals) {
+    <ul class="flex flex-col gap-3">
+      @for (w of ['w-2/5', 'w-1/3', 'w-1/2']; track $index) {
+        <li class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex items-center gap-3 rounded-2xl border-2 p-3">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center">
+            <span class="bg-charcoal/10 h-5 w-5 animate-pulse rounded-full"></span>
+          </div>
+          <span class="min-w-0 flex-1">
+            <span class="bg-charcoal/10 h-6 {{ w }} block animate-pulse rounded-full"></span>
+            <span class="bg-charcoal/10 mt-1 block h-4 w-32 animate-pulse rounded-full"></span>
+          </span>
+          <span class="bg-charcoal/10 h-5 w-5 shrink-0 animate-pulse rounded-full"></span>
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center">
+            <span class="bg-charcoal/10 h-5 w-5 animate-pulse rounded-full"></span>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else if (vm.isErrorFetchingMeals) {
+    <div class="flex flex-col items-center gap-4 py-16 text-center">
+      <span class="material-symbols-outlined text-danger text-3xl">warning</span>
+      <p class="text-charcoal">Une erreur est survenue, réessayez.</p>
+      <button
+        type="button"
+        (click)="fetchMeals.execute()"
+        class="bg-tomato text-cream border-charcoal shadow-[3px_3px_0_0_var(--color-charcoal)] hover:shadow-[1px_1px_0_0_var(--color-charcoal)] flex items-center gap-1.5 rounded-full border-2 px-4 py-2 font-semibold transition-all hover:translate-x-0.5 hover:translate-y-0.5"
+      >
+        <span class="material-symbols-outlined text-base">refresh</span>
+        Réessayer
+      </button>
+    </div>
+  } @else if (vm.hasMeals) {
+    <ul class="flex flex-col gap-3">
+      @for (meal of vm.meals; track meal.id) {
+        <li class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col rounded-2xl border-2 p-3">
+          <div class="flex items-center gap-3">
+            <app-toggle-meal-done [meal]="meal" />
+            <button
+              type="button"
+              (click)="fetchMeal.execute(meal.id)"
+              class="text-charcoal flex min-w-0 flex-1 items-center gap-1 text-left font-semibold"
+            >
+              <span class="min-w-0 flex-1">
+                <span class="block truncate">{{ meal.name }}</span>
+                <span
+                  class="font-mono mt-1 block min-h-4 text-[11px]/4 font-medium"
+                  [class.text-tomato]="meal.done"
+                  [class.text-charcoal/40]="!meal.done"
+                >
+                  @if (meal.done) {
+                    Repas réalisé
+                  } @else {
+                    Repas non réalisé
+                  }
+                </span>
+              </span>
+              <span
+                class="material-symbols-outlined text-charcoal/40 text-lg transition-transform"
+                [class.rotate-180]="meal.isExpanded"
+              >expand_more</span>
+            </button>
+            <app-remove-meal [meal]="meal" />
+          </div>
+
+          @if (meal.isExpanded) {
+            <div class="border-charcoal/10 mt-3 border-t pt-3">
+              @if (meal.isLoadingIngredients) {
+                <ul class="divide-charcoal/10 flex flex-col divide-y">
+                  @for (w of ['w-2/5', 'w-1/3', 'w-1/2']; track $index) {
+                    <li class="flex items-center gap-3 py-1">
+                      <div class="flex h-11 w-11 shrink-0 items-center justify-center">
+                        <span class="bg-charcoal/10 h-5 w-5 animate-pulse rounded-full"></span>
+                      </div>
+                      <span class="flex-1">
+                        <span class="bg-charcoal/10 h-6 {{ w }} block animate-pulse rounded-full"></span>
+                        <span class="bg-charcoal/10 mt-1 block h-4 w-24 animate-pulse rounded-full"></span>
+                      </span>
+                    </li>
+                  }
+                </ul>
+              } @else if (meal.isErrorIngredients) {
+                <div class="flex flex-col items-center gap-2 py-4 text-center">
+                  <span class="material-symbols-outlined text-danger text-2xl">warning</span>
+                  <p class="text-charcoal text-sm">Une erreur est survenue, réessayez.</p>
+                </div>
+              } @else if (meal.hasIngredients) {
+                <ul class="divide-charcoal/10 flex flex-col divide-y">
+                  @for (ingredient of meal.ingredients; track ingredient.id) {
+                    <li class="flex items-center gap-3 py-1">
+                      <app-toggle-ingredient-bought [mealId]="meal.id" [ingredient]="ingredient" />
+                      <span class="flex-1">
+                        <span class="text-charcoal">{{ ingredient.name }}</span>
+                        <span
+                          class="font-mono mt-1 block min-h-4 text-[11px]/4 font-medium"
+                          [class.text-tomato]="ingredient.bought"
+                          [class.text-charcoal/40]="!ingredient.bought"
+                        >
+                          @if (ingredient.bought) {
+                            Acheté
+                          } @else {
+                            Non acheté
+                          }
+                        </span>
+                      </span>
+                    </li>
+                  }
+                </ul>
+              } @else {
+                <div class="flex flex-col items-center gap-2 py-4 text-center">
+                  <span class="material-symbols-outlined text-tomato text-2xl">contract_delete</span>
+                  <p class="text-charcoal text-sm">Aucun ingrédient pour l'instant.</p>
+                </div>
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="flex flex-col items-center gap-4 py-16 text-center">
+      <span class="material-symbols-outlined text-tomato text-3xl">contract_delete</span>
+      <p class="text-charcoal">Aucun repas planifié pour l'instant.</p>
+    </div>
+  }
+</div>
