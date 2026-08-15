@@ -1,1 +1,0 @@
-import{La as n,Ma as s,Ya as o,va as a}from"./chunk-XLLO3PIH.js";var i=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=a({type:t,selectors:[["app-meals"]],decls:2,vars:0,template:function(e,l){e&1&&(n(0,"h1"),o(1,"Repas"),s())},encapsulation:2,changeDetection:0})};export{i as MealsPage};
