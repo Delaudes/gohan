@@ -1,5 +1,7 @@
 Nom de l'app : Gohan
 
+Ce fichier documente le design visuel de l'app (couleurs, composants, typographie, layout) pour que les composants restent cohérents entre eux — pas une documentation générale du projet (architecture, features, routing : voir le code et `CLAUDE.md`).
+
 ## Couleurs
 
 Cream #FFF6E9 : Fond principal de l'application
@@ -49,6 +51,7 @@ Badge de statut sous un nom d'item (ex. "Repas planifié"/"non planifié", "Acha
 Tag de référence (informatif, pas un état — ex. le repas d'origine d'un ingrédient de courses) : texte simple `text-charcoal/40 font-mono text-[11px]/4`, pas de fond ni de pilule ni d'icône — contrairement au badge de statut ci-dessus (qui représente un état, `text-tomato`/`text-charcoal/40` selon la valeur), ce tag n'est qu'une information de contexte. Quand il coexiste avec un badge de statut sur le même item, les deux vont sur la **même ligne**, séparés par un point médian (`·`), dans un conteneur `flex flex-wrap items-center gap-1` plutôt qu'empilés en `block` — évite qu'une ligne accumule 3 niveaux de texte (nom, statut, référence).
 
 États vide/erreur (fetch) : icône seule `text-3xl`, pas de badge ni de cercle autour. Erreur : icône `warning` en `text-danger` (la même que dans la modale de confirmation) + message unique "Une erreur est survenue, réessayez." (identique partout dans l'app, pas de variante par contexte). Vide : icône dédiée en `text-tomato`.
+Dans un contexte imbriqué/compact (accordéon, panneau de résultats de recherche) : même principe à échelle réduite — icône `text-2xl` (au lieu de `text-3xl`) dans un conteneur `py-4` (au lieu de `py-16`), message en `text-sm`.
 
 Confirmation destructrice (ex. suppression) : élément `<dialog>` natif ouvert via `showModal()` (pas de composant modal custom) — penser à `m-auto` (voir `CLAUDE.md`, le preflight Tailwind casse le centrage natif), bordure épaisse + grosse ombre décalée (`rounded-3xl border-2 border-charcoal shadow-[6px_6px_0_0_var(--color-charcoal)]`). Icône `warning` en `text-danger`, question en `text-charcoal` — pas de sous-texte type "action irréversible", le contexte suffit. Boutons Annuler/Confirmer dans un conteneur de hauteur fixe (`h-11`) pour que le spinner de chargement — même hauteur, remplace les deux boutons — ne fasse pas bouger la modale.
 
@@ -78,8 +81,3 @@ Fonts chargées via Google Fonts dans `src/index.html`.
 `AppComponent` (`src/app/app.component.ts`) : header en haut + contenu routé, pas de footer.
 Header : logo (`public/logo.png`, servi tel quel par Angular CLI) à côté du titre, groupe centré (`flex items-center justify-center gap-2`). Le logo (`h-14 w-14`) dépasse volontairement du padding vertical du header via une marge négative (`-my-4`, qui compense exactement le `py-4` du header) plutôt que d'en être contraint.
 Navigation en bas d'écran (`app-navigation`) toujours visible (`position: fixed`), avec un composant par page (icônes Material Symbols).
-
-## Features & routes
-
-Features : `meals`, `recipes`, `ingredients`, `shopping` (chacune suit le pattern décrit dans `CLAUDE.md`).
-Page par défaut : `meals`. Toute route inconnue redirige aussi vers `meals`.
