@@ -1,17 +1,33 @@
-export class MealsListDomainModel {
-    constructor(public readonly meals: MealDomainModel[]) { }
+
+
+export class RecipesListDomainModel {
+    constructor(public readonly recipes: RecipeDomainModel[]) { }
+
+    getMeals(): RecipeDomainModel[] {
+        return this.recipes.filter(recipe => recipe.inMealsList);
+    }
 
     hasMeals(): boolean {
-        return this.meals.length > 0;
+        return this.getMeals().length > 0;
+    }
+
+    getMealsOptions(): RecipeDomainModel[] {
+        return this.recipes.filter(recipe => !recipe.inMealsList);
+    }
+
+    hasMealsOptions(): boolean {
+        return this.getMealsOptions().length > 0;
     }
 }
 
-export class MealDomainModel {
+export class RecipeDomainModel {
     constructor(
         public readonly id: string,
         public readonly name: string,
+        public readonly inMealsList: boolean,
         public readonly done: boolean,
-    ) { }
+    ) {
+    }
 
     is(id: string | undefined): boolean {
         return this.id === id;
@@ -30,14 +46,15 @@ export class MealIngredientDomainModel {
     }
 }
 
-export class MealDetailDomainModel extends MealDomainModel {
+export class MealDetailDomainModel extends RecipeDomainModel {
     constructor(
         id: string,
         name: string,
+        inMealsList: boolean,
         done: boolean,
         public readonly ingredients: MealIngredientDomainModel[],
     ) {
-        super(id, name, done);
+        super(id, name, inMealsList, done);
     }
 
     hasIngredients(): boolean {

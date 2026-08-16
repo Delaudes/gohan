@@ -1,59 +1,17 @@
-# Gohan
+Ajouter un ingrédient directement depuis la vue courses (sans repasser par la page ingrédients).
+Vider toute la liste de courses en un clic.
+Retirer uniquement les ingrédients déjà cochés "acheté" (plus ciblé que tout vider).
+Supprimer tous les repas planifiés d'un coup depuis la vue repas (reset de semaine).
+Tout marquer "acheté" / tout marquer "réalisé" en un clic (symétrique du bulk delete, sur l'état plutôt que la suppression).
+Recherche/filtre rapide dans la liste d'ingrédients ou de recettes (dès qu'elles s'allongent, le tri seul ne suffit plus à s'y retrouver).
+Compteur de progression en haut de vue ("3/8 achetés", "2/5 réalisés") pour voir l'avancement sans scroller.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Quantités/unités sur les ingrédients — aujourd'hui un ingrédient n'a qu'un nom (recette comme liste de courses). Sans quantité, la liste de courses reste une liste de noms, pas vraiment exploitable pour faire les courses sérieusement.
+Rayon/catégorie sur un ingrédient (fruits & légumes, épicerie, frais...) pour grouper la liste de courses par rayon de magasin plutôt qu'en vrac.
+Étapes de préparation sur une recette — actuellement une recette n'est qu'un nom + une liste d'ingrédients, sans le "comment on cuisine ça".
+Planification datée (jour/semaine) au lieu d'une liste plate de repas planifiés/non planifiés — un vrai calendrier de la semaine, pas juste un statut booléen.
+Portions ajustables — nombre de personnes sur une recette, avec recalcul des quantités quand on planifie pour 2 vs 6.
+Partage entre appareils — l'identification se fait par X-Device-Id local (pas de compte), donc pas moyen que deux personnes d'un même foyer partagent la même liste de courses en temps réel.
+Tags sur les recettes (végé, rapide, dessert...) pour filtrer par contrainte du moment plutôt que parcourir toute la liste.
+Historique de planification — "cuisiné il y a 3 semaines" pour éviter de replanifier la même chose trop souvent, ou au contraire retrouver vite un plat oublié.
+Duplication de recette — partir d'une recette existante pour en créer une variante, plutôt que retaper tous les ingrédients à la main.

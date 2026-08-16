@@ -1,6 +1,6 @@
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
-import { MealsListDomainModel } from "../models/meals.domain.model";
+import { RecipesListDomainModel } from "../models/meals.domain.model";
 
 export class FetchMealsUseCase {
     constructor(
@@ -32,9 +32,9 @@ export class FetchMealsUseCase {
         this.mealsView.update({ isErrorFetchingMeals: true });
     }
 
-    private presentMealsList(mealsList: MealsListDomainModel): void {
+    private presentMealsList(recipesList: RecipesListDomainModel): void {
         this.mealsView.update({
-            meals: mealsList.meals.map(meal => ({
+            meals: recipesList.getMeals().map(meal => ({
                 id: meal.id,
                 name: meal.name,
                 done: meal.done,
@@ -48,7 +48,13 @@ export class FetchMealsUseCase {
                 ingredients: [],
                 hasIngredients: false,
             })),
-            hasMeals: mealsList.hasMeals(),
+            hasMeals: recipesList.hasMeals(),
+            mealsOptions: recipesList.getMealsOptions().map(option => ({
+                id: option.id,
+                name: option.name,
+                isVisible: false,
+            })),
+            hasMealsOptions: recipesList.hasMealsOptions(),
         });
     }
 }

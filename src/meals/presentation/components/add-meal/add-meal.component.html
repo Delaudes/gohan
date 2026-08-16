@@ -6,17 +6,17 @@
   <h2 class="text-charcoal text-center text-lg">Ajouter un repas</h2>
 
   <div class="relative">
-    <label for="recipe-search" class="sr-only">Rechercher une recette</label>
+    <label for="meal-search" class="sr-only">Rechercher un repas</label>
     <span
       class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl"
       >search</span
     >
     <input
       #searchInput
-      id="recipe-search"
+      id="meal-search"
       type="text"
       (input)="searchMealsOptions.execute(searchInput.value)"
-      placeholder="Rechercher une recette"
+      placeholder="Rechercher un repas"
       class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
     />
 
@@ -52,7 +52,10 @@
             }
           </ul>
         } @else {
-          <p class="text-charcoal/40 px-2 py-2 text-center text-sm">Aucune recette trouvée.</p>
+          <div class="flex flex-col items-center gap-2 py-4 text-center">
+            <span class="material-symbols-outlined text-tomato text-2xl">contract_delete</span>
+            <p class="text-charcoal text-sm">Aucun repas trouvé.</p>
+          </div>
         }
 
         @if (vm.isErrorAddingMeal) {

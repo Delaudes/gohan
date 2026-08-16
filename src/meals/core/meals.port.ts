@@ -1,10 +1,10 @@
-import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, MealsListDomainModel } from "./models/meals.domain.model";
+import { MealDetailDomainModel, MealIngredientDomainModel, RecipeDomainModel, RecipesListDomainModel } from "./models/meals.domain.model";
 
 export interface MealsPort {
-    fetchMealsList(): Promise<MealsListDomainModel>;
+    fetchMealsList(): Promise<RecipesListDomainModel>;
     fetchMeal(id: string): Promise<MealDetailDomainModel>;
-    updateMeal(id: string, done: boolean): Promise<MealDomainModel>;
-    addMeal(recipeId: string): Promise<MealDomainModel>;
+    updateMeal(id: string, done: boolean): Promise<RecipeDomainModel>;
+    addMeal(recipeId: string): Promise<RecipeDomainModel>;
     removeMeal(id: string): Promise<void>;
     updateMealIngredient(mealId: string, ingredientId: string, bought: boolean): Promise<MealIngredientDomainModel>;
 }

@@ -43,10 +43,17 @@ export class RemoveMealUseCase {
     }
 
     private presentMealRemoved(id: string): void {
-        const meals = this.mealsView.mealsViewModel.get().meals.filter(meal => meal.id !== id);
+        const current = this.mealsView.mealsViewModel.get();
+        const removedMeal = current.meals.find(meal => meal.id === id);
+        const meals = current.meals.filter(meal => meal.id !== id);
+        const mealsOptions = removedMeal
+            ? [...current.mealsOptions, { id: removedMeal.id, name: removedMeal.name, isVisible: false }]
+            : current.mealsOptions;
         this.mealsView.update({
             meals,
             hasMeals: meals.length > 0,
+            mealsOptions,
+            hasMealsOptions: mealsOptions.length > 0,
         });
     }
 }
