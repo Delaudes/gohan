@@ -25,6 +25,8 @@ Boutons icône seule sur un item de liste : **nus**, pas de fond ni de cercle �
 
 Pendant le chargement, le bouton est remplacé par un spinner de la même taille (`h-11 w-11`), sans fond non plus — même principe que le spinner en pleine largeur des dialogs, mais sans dialog.
 
+Tout bouton icône seule porte un `aria-label` (l'icône seule ne suffit pas à décrire l'action) : statique (`aria-label="Verbe + entité"`, ex. "Supprimer la recette") pour une action fixe, `[attr.aria-label]` avec ternaire sur l'état pour une bascule (ex. "Marquer comme fait"/"Marquer comme non fait").
+
 Exception : l'icône `add` en bout de ligne dans un panneau de résultats de recherche (ex. ajouter un ingrédient à une recette) garde le traitement tonal `bg-tomato/10 text-tomato rounded-full` — elle n'est pas un tap target autonome (toute la ligne est cliquable), le cercle sert de repère visuel dans une liste de choix, pas d'affordance de bouton indépendant.
 
 État plein/contour (`is-filled`) : réservé à la nav du bas (icônes toujours pleines, actives ou non) — voir `CLAUDE.md` pour le détail technique de la police dupliquée à `FILL=1`. Les bascules d'état d'un item de liste n'utilisent plus ce mécanisme depuis le passage aux icônes nues ci-dessus ; elles changent de glyphe plutôt que de remplissage.
@@ -34,6 +36,7 @@ Boutons secondaires (Annuler) : `border-2 border-charcoal text-charcoal rounded-
 Séparateurs structurels (header/nav) : filet fin `border-charcoal/10`, jamais la bordure épaisse.
 
 Structure de ligne commune à toute la liste d'items (plate ou carte) : bascule à gauche (`h-11 w-11`) — nom en `flex-1`, badge de statut imbriqué juste en dessous (`mt-1 block`, même colonne flex que le nom) — action à droite. Une seule ligne, pas de ligne séparée pour le badge/l'action.
+Quand une action n'existe **structurellement** jamais pour toute une catégorie d'item (ex. impossible de retirer un ingrédient de courses lié à un repas planifié) — pas juste un état qui bascule sur un item donné —, ne pas réserver sa place : laisser le contenu profiter de la largeur libérée plutôt que de figer un espace vide à droite. Différent d'une bascule d'état sur le même item (badge, bouton) : celle-là reste toujours réservée pour ne pas décaler la ligne au changement d'état.
 
 Liste d'items plats, sans navigation (ex. ingrédients) : pas de carte par ligne — séparateurs fins entre les lignes (`divide-y divide-charcoal/10` sur le `<ul>`), pensé pour les listes longues (évite l'empilement de blocs colorés).
 
@@ -42,6 +45,8 @@ Liste d'items qui mènent à une fiche détail (ex. recettes) : même structure 
 Accordéon inline sur une carte (ex. ingrédients d'un repas planifié) : même ligne d'en-tête qu'une carte de navigation, mais le nom est un bouton (pas un lien) et le chevron est `expand_more` qui pivote (`transition-transform`, `[class.rotate-180]` selon l'état déplié) plutôt que `chevron_right` — signale "reste sur place" contrairement à "mène ailleurs". Contenu déplié en dessous dans la même carte, séparé par `border-t border-charcoal/10 mt-3 pt-3`. Chargé au premier clic seulement (pas de re-fetch à chaque ouverture/fermeture), avec son propre skeleton en dessous du header le temps du chargement. Cliquer sur l'en-tête bascule ouvert/fermé sans condition — une action de rechargement (ex. retry) est un bouton dédié séparé, jamais une variante cachée du même clic.
 
 Badge de statut sous un nom d'item (ex. "Repas planifié"/"non planifié", "Achat planifié"/"non planifié", "Acheté"/"Non acheté") : `font-mono text-[11px]/4 font-medium` (le `/4` fixe la line-height à 16px = `h-4`/`min-h-4`, sinon la line-height héritée dérive de quelques dixièmes de pixel par rapport au skeleton). Toujours un texte pour les deux états, jamais un espace vide en creux — la construction courte `[Nom] (non) planifié` est le gabarit par défaut pour un nouveau badge. L'état négatif passe en `text-charcoal/40` plutôt que `text-tomato` (réservé à l'état positif). Toujours réserver l'espace (`min-h-4`) — pour ne pas décaler les lignes/le skeleton quand le badge change de texte.
+
+Tag de référence (informatif, pas un état — ex. le repas d'origine d'un ingrédient de courses) : texte simple `text-charcoal/40 font-mono text-[11px]/4`, pas de fond ni de pilule ni d'icône — contrairement au badge de statut ci-dessus (qui représente un état, `text-tomato`/`text-charcoal/40` selon la valeur), ce tag n'est qu'une information de contexte. Quand il coexiste avec un badge de statut sur le même item, les deux vont sur la **même ligne**, séparés par un point médian (`·`), dans un conteneur `flex flex-wrap items-center gap-1` plutôt qu'empilés en `block` — évite qu'une ligne accumule 3 niveaux de texte (nom, statut, référence).
 
 États vide/erreur (fetch) : icône seule `text-3xl`, pas de badge ni de cercle autour. Erreur : icône `warning` en `text-danger` (la même que dans la modale de confirmation) + message unique "Une erreur est survenue, réessayez." (identique partout dans l'app, pas de variante par contexte). Vide : icône dédiée en `text-tomato`.
 

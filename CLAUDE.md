@@ -31,7 +31,7 @@ src/<feature>/
     <feature>.view.ts                     <Feature>View — wrapper SignalPort<ViewModel>, update(partial) merge l'état
     usecases/<action>.usecase.ts          <Action>UseCase(view, port).execute() : loading → appel port → present ou error → loading off
                                            collaborateur propre à l'appel (ex. Dialog à fermer sur succès) → paramètre d'execute(), pas du constructeur
-    models/<feature>.domain.model.ts      classes domaine + méthodes métier (ex. hasItems())
+    models/<feature>.domain.model.ts      classes domaine + méthodes métier, tell don't ask (ex. hasItems(), is(id) plutôt qu'une comparaison === éparpillée dans les usecases)
     models/<feature>.view.model.ts        état plat pour le template (isLoadingX, isErrorX, hasX, la donnée)
                                            action ciblant un item d'une liste → isLoadingX/isErrorX vivent sur l'item lui-même, pas sur le view model racine (sinon fuite d'état entre lignes)
   adapters/
@@ -50,11 +50,14 @@ Une feature peut avoir plusieurs ports quand un sous-domaine mérite d'être iso
 
 Un usecase peut dépendre d'un port infra en plus du port métier (ex. `RoutePort` pour lire un id de route) quand c'est lui qui doit résoudre cette donnée, plutôt que de la recevoir en paramètre depuis le composant/page.
 
+Nommage des méthodes `update*` d'un port : générique (`update<Entity>(id, champ)`) tant qu'une seule chose est mutable sur ce port pour cette entité — le paramètre suffit à documenter l'intention (`updateRecipe(id, inMealsList)`). Dès qu'un port expose plusieurs mises à jour distinctes pour la même entité (ex. `MealsPort.updateMeal` pour l'état du repas vs `updateMealIngredient` pour un ingrédient qui lui appartient — deux ressources différentes), ou la même opération conceptuelle vers deux endpoints différents (ex. `ShoppingPort.updateIngredient`/`updateMealIngredient` pour cocher "acheté" selon que l'ingrédient est orphelin ou lié à un repas), nommer chaque méthode d'après l'**entité** qu'elle touche plutôt que le champ qu'elle modifie — jamais suffixer par le nom du champ (pas de `updateMealDone`/`updateIngredientBought` côté port). Le usecase appelant garde lui son nom explicite (`UpdateMealDoneUseCase`) même quand la méthode de port qu'il appelle est générique — c'est le usecase qui porte l'intention, pas le port.
+
 Template : `@let vm = xViewModel.get();` (lecture trackée par Angular même via une méthode) puis `@if`/`@else if` sur les booléens d'état ; les actions rappellent directement `<action>UseCase.execute()`.
 
 Composants de layout globaux (header, footer, navigation) : suffixe `.component`, préfixés `app.`, à plat dans `src/app/` — ex. `app.header.component.ts` → `AppHeaderComponent`.
 
 Préoccupations transverses/techniques (pas liées à une feature métier) → `src/infra/`, même principe port/adapter, un dossier par concern (`infra/signal/`, `infra/http/`, `infra/storage/`, `infra/route/`) : `<domain>.port.ts`, `<impl>-<domain>.adapter.ts` (+ une variante `Fake<Domain>Adapter` pour les tests), `<domain>.provider.ts` exposant un `InjectionToken` (`providedIn:'root'`, factory qui instancie l'implémentation active). Les adapters récupèrent leurs dépendances via `inject()` en initialiseur de champ, pas par constructeur.
+`infra/http/device-id.interceptor.ts` : identifiant de device généré (`crypto.randomUUID()`) et persisté via `StoragePort`, injecté en header `X-Device-Id` sur chaque requête HTTP — enregistré globalement dans `app.config.ts` (`provideHttpClient(withInterceptors([...]))`). C'est le mécanisme d'identification utilisé par les `http-*.adapter.ts` en l'absence d'authentification classique.
 Attention `infra/route/` : si l'adapter est `providedIn:'root'` (singleton), injecter `ActivatedRoute` directement donne la route racine, pas la route effectivement matchée — passer par `.firstChild` avant de lire les paramètres (`activatedRoute.firstChild?.snapshot.paramMap`). Un seul niveau suffit tant que les routes restent plates ; si des routes imbriquées plus profondes apparaissent un jour, il faudra redescendre récursivement jusqu'à la feuille.
 
 Préoccupations transverses côté UI, réutilisables entre features (ex. confirmation, champ de formulaire) → `src/presentation/<concern>/<concern>.port.ts` (+ `Fake<Concern>` pour les tests). Pas forcément de provider/token : l'implémentation peut être fournie directement par l'appelant (ex. un élément `<dialog>` référencé en template satisfait structurellement le port `Dialog { close(): void }`, un `<input>` satisfait `Field { value: string; focus(): void }`, sans classe wrapper).
@@ -65,6 +68,6 @@ Attention aux références de template déclarées dans un bloc `@if`/`@else` : 
 
 ## Routing
 
-Chemins centralisés dans un enum, jamais de string en dur dans les routes ni les `routerLink`.
+Chemins centralisés dans un enum, jamais de string en dur dans les routes ni les `routerLink`. Même principe pour les noms de paramètres de route (`AppParam` dans `infra/route/app-param.ts`), lus via `RoutePort.getParam()` plutôt qu'en string en dur.
 Pages en lazy loading (`loadComponent: () => import(...)`).
 Toujours une route par défaut (`redirectTo` depuis `''`) + une route wildcard (`**`) qui redirige vers cette même page.

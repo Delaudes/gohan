@@ -1,5 +1,9 @@
 export class ShoppingListDomainModel {
-    constructor(public readonly ingredients: ShoppingIngredientDomainModel[]) { }
+    public readonly ingredients: ShoppingIngredientDomainModel[];
+
+    constructor(ingredients: ShoppingIngredientDomainModel[]) {
+        this.ingredients = [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    }
 
     hasIngredients(): boolean {
         return this.ingredients.length > 0;
