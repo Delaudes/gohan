@@ -20,7 +20,7 @@ Attention `hover:` sur mobile : par défaut Tailwind applique `:hover` sans cond
 ```
 Schematics par défaut (`angular.json`) : `style: none`, `changeDetection: OnPush` partout.
 
-Spécificités visuelles/produit : voir `DESIGN.md` (volontairement absent d'ici, pour que ce fichier reste copiable tel quel dans un autre projet).
+Spécificités visuelles : voir `DESIGN.md` (volontairement absent d'ici, pour que ce fichier reste copiable tel quel dans un autre projet).
 
 ## Architecture — hexagonale (ports & adapters)
 
