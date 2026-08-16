@@ -8,6 +8,10 @@ export class MealsView {
             isErrorFetchingMeals: false,
             meals: [],
             hasMeals: false,
+            mealsOptions: [],
+            hasMealsOptions: false,
+            isLoadingAddingMeal: false,
+            isErrorAddingMeal: false,
         });
     }
 

@@ -3,7 +3,7 @@ import { MealsView } from "../meals.view";
 import { MealIngredientDomainModel } from "../models/meals.domain.model";
 import { MealIngredientViewModel } from "../models/meals.view.model";
 
-export class UpdateIngredientBoughtUseCase {
+export class UpdateMealIngredientBoughtUseCase {
     constructor(
         private readonly mealsView: MealsView,
         private readonly mealsPort: MealsPort,

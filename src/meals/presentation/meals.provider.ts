@@ -7,8 +7,10 @@ import { MealsViewModel } from "../core/models/meals.view.model";
 import { FetchMealsUseCase } from "../core/usecases/fetch-meals.usecase";
 import { FetchMealUseCase } from "../core/usecases/fetch-meal.usecase";
 import { UpdateMealDoneUseCase } from "../core/usecases/update-meal-done.usecase";
-import { UpdateIngredientBoughtUseCase } from "../core/usecases/update-ingredient-bought.usecase";
+import { UpdateMealIngredientBoughtUseCase } from "../core/usecases/update-meal-ingredient-bought.usecase";
 import { RemoveMealUseCase } from "../core/usecases/remove-meal.usecase";
+import { SearchMealsOptionsUseCase } from "../core/usecases/search-meals-options.usecase";
+import { AddMealUseCase } from "../core/usecases/add-meal.usecase";
 
 export const MEALS_TOKEN = new InjectionToken<MealsPort>('MEALS_TOKEN', {
     providedIn: 'root',
@@ -33,11 +35,19 @@ export const MEALS_PROVIDERS = [
         useFactory: () => new UpdateMealDoneUseCase(inject(MealsView), inject(MEALS_TOKEN)),
     },
     {
-        provide: UpdateIngredientBoughtUseCase,
-        useFactory: () => new UpdateIngredientBoughtUseCase(inject(MealsView), inject(MEALS_TOKEN)),
+        provide: UpdateMealIngredientBoughtUseCase,
+        useFactory: () => new UpdateMealIngredientBoughtUseCase(inject(MealsView), inject(MEALS_TOKEN)),
     },
     {
         provide: RemoveMealUseCase,
         useFactory: () => new RemoveMealUseCase(inject(MealsView), inject(MEALS_TOKEN)),
+    },
+    {
+        provide: SearchMealsOptionsUseCase,
+        useFactory: () => new SearchMealsOptionsUseCase(inject(MealsView)),
+    },
+    {
+        provide: AddMealUseCase,
+        useFactory: () => new AddMealUseCase(inject(MealsView), inject(MEALS_TOKEN)),
     },
 ]

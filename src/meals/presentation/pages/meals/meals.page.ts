@@ -2,14 +2,15 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { MealsView } from '../../../core/meals.view';
 import { FetchMealsUseCase } from '../../../core/usecases/fetch-meals.usecase';
 import { FetchMealUseCase } from '../../../core/usecases/fetch-meal.usecase';
+import { AddMealComponent } from '../../components/add-meal/add-meal.component';
 import { RemoveMealComponent } from '../../components/remove-meal/remove-meal.component';
-import { ToggleIngredientBoughtComponent } from '../../components/toggle-ingredient-bought/toggle-ingredient-bought.component';
+import { ToggleMealIngredientBoughtComponent } from '../../components/toggle-meal-ingredient-bought/toggle-meal-ingredient-bought.component';
 import { ToggleMealDoneComponent } from '../../components/toggle-meal-done/toggle-meal-done.component';
 import { MEALS_PROVIDERS } from '../../meals.provider';
 
 @Component({
   selector: 'app-meals',
-  imports: [ToggleMealDoneComponent, RemoveMealComponent, ToggleIngredientBoughtComponent],
+  imports: [ToggleMealDoneComponent, RemoveMealComponent, ToggleMealIngredientBoughtComponent, AddMealComponent],
   templateUrl: './meals.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MEALS_PROVIDERS],

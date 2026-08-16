@@ -3,6 +3,16 @@ export type MealsViewModel = {
     isErrorFetchingMeals: boolean;
     meals: MealViewModel[];
     hasMeals: boolean;
+    mealsOptions: MealOptionViewModel[];
+    hasMealsOptions: boolean;
+    isLoadingAddingMeal: boolean;
+    isErrorAddingMeal: boolean;
+}
+
+export type MealOptionViewModel = {
+    id: string;
+    name: string;
+    isVisible: boolean;
 }
 
 export type MealViewModel = {

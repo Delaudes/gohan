@@ -2,7 +2,7 @@ import { RecipeIngredientDomainModel } from "../models/recipes.domain.model";
 import { RecipeIngredientsPort } from "../recipe-ingredients.port";
 import { RecipeView } from "../recipe.view";
 
-export class SearchIngredientsOptionsUseCase {
+export class SearchRecipeIngredientsOptionsUseCase {
     constructor(
         private readonly recipeView: RecipeView,
         private readonly recipeIngredientsPort: RecipeIngredientsPort,

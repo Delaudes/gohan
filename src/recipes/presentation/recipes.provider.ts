@@ -13,7 +13,7 @@ import { DeleteRecipeUseCase } from "../core/usecases/delete-recipe.usecase";
 import { FetchRecipesUseCase } from "../core/usecases/fetch-recipes.usecase";
 import { FetchRecipeUseCase } from "../core/usecases/fetch-recipe.usecase";
 import { UpdateRecipeMealsListUseCase } from "../core/usecases/update-recipe-meals-list.usecase";
-import { SearchIngredientsOptionsUseCase } from "../core/usecases/search-ingredients-options.usecase";
+import { SearchRecipeIngredientsOptionsUseCase } from "../core/usecases/search-recipe-ingredients-options.usecase";
 import { AddKnownRecipeIngredientUseCase } from "../core/usecases/add-known-recipe-ingredient.usecase";
 import { AddUnknownRecipeIngredientUseCase } from "../core/usecases/add-unknown-recipe-ingredient.usecase";
 import { RemoveRecipeIngredientUseCase } from "../core/usecases/remove-recipe-ingredient.usecase";
@@ -59,8 +59,8 @@ export const RECIPES_PROVIDERS = [
         useFactory: () => new FetchRecipeUseCase(inject(RecipeView), inject(RECIPES_TOKEN), inject(ROUTE_TOKEN)),
     },
     {
-        provide: SearchIngredientsOptionsUseCase,
-        useFactory: () => new SearchIngredientsOptionsUseCase(inject(RecipeView), inject(RECIPE_INGREDIENTS_TOKEN)),
+        provide: SearchRecipeIngredientsOptionsUseCase,
+        useFactory: () => new SearchRecipeIngredientsOptionsUseCase(inject(RecipeView), inject(RECIPE_INGREDIENTS_TOKEN)),
     },
     {
         provide: AddKnownRecipeIngredientUseCase,

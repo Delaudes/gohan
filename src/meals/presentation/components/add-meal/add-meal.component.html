@@ -3,20 +3,20 @@
 <div
   class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4"
 >
-  <h2 class="text-charcoal text-center text-lg">Ajouter un ingrédient</h2>
+  <h2 class="text-charcoal text-center text-lg">Ajouter un repas</h2>
 
   <div class="relative">
-    <label for="ingredient-search" class="sr-only">Rechercher un ingrédient</label>
+    <label for="recipe-search" class="sr-only">Rechercher une recette</label>
     <span
       class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl"
       >search</span
     >
     <input
       #searchInput
-      id="ingredient-search"
+      id="recipe-search"
       type="text"
-      (input)="searchRecipeIngredientsOptions.execute(searchInput.value)"
-      placeholder="Rechercher un ingrédient"
+      (input)="searchMealsOptions.execute(searchInput.value)"
+      placeholder="Rechercher une recette"
       class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
     />
 
@@ -24,20 +24,20 @@
       <div
         class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] absolute right-0 bottom-full left-0 z-10 flex flex-col gap-2 rounded-2xl border-2 p-2"
       >
-        @if (vm.isLoadingAddingIngredient) {
+        @if (vm.isLoadingAddingMeal) {
           <div class="flex h-11 w-full items-center justify-center">
             <span class="material-symbols-outlined text-charcoal animate-spin"
               >progress_activity</span
             >
           </div>
-        } @else {
+        } @else if (vm.hasMealsOptions) {
           <ul class="divide-charcoal/10 flex flex-col divide-y">
-            @for (option of vm.ingredientsOptions; track option.id) {
+            @for (option of vm.mealsOptions; track option.id) {
               @if (option.isVisible) {
                 <li>
                   <button
                     type="button"
-                    (click)="addKnownRecipeIngredient.execute(option.id, searchInput)"
+                    (click)="addMeal.execute(option.id, searchInput)"
                     class="hover:bg-charcoal/5 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
                   >
                     <span class="text-charcoal font-medium">{{ option.name }}</span>
@@ -50,24 +50,12 @@
                 </li>
               }
             }
-            <li>
-              <button
-                type="button"
-                (click)="addUnknownRecipeIngredient.execute(searchInput)"
-                class="hover:bg-tomato/10 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
-              >
-                <span class="text-tomato font-semibold">Créer "{{ searchInput.value.trim() }}"</span>
-                <span
-                  class="bg-tomato/10 text-tomato flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
-                >
-                  <span class="material-symbols-outlined text-base">add</span>
-                </span>
-              </button>
-            </li>
           </ul>
+        } @else {
+          <p class="text-charcoal/40 px-2 py-2 text-center text-sm">Aucune recette trouvée.</p>
         }
 
-        @if (vm.isErrorAddingIngredient) {
+        @if (vm.isErrorAddingMeal) {
           <p class="text-danger text-sm">Une erreur est survenue, réessayez.</p>
         }
       </div>

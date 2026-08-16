@@ -90,7 +90,7 @@
                 <ul class="divide-charcoal/10 flex flex-col divide-y">
                   @for (ingredient of meal.ingredients; track ingredient.id) {
                     <li class="flex items-center gap-3 py-1">
-                      <app-toggle-ingredient-bought [mealId]="meal.id" [ingredient]="ingredient" />
+                      <app-toggle-meal-ingredient-bought [mealId]="meal.id" [ingredient]="ingredient" />
                       <span class="flex-1">
                         <span class="text-charcoal">{{ ingredient.name }}</span>
                         <span
@@ -124,5 +124,16 @@
       <span class="material-symbols-outlined text-tomato text-3xl">contract_delete</span>
       <p class="text-charcoal">Aucun repas planifié pour l'instant.</p>
     </div>
+  }
+
+  @if (vm.isLoadingFetchingMeals) {
+    <div
+      class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4"
+    >
+      <span class="bg-charcoal/10 mx-auto h-7 w-40 animate-pulse rounded-full"></span>
+      <span class="bg-charcoal/10 h-11.5 w-full animate-pulse rounded-full"></span>
+    </div>
+  } @else if (!vm.isErrorFetchingMeals) {
+    <app-add-meal />
   }
 </div>
