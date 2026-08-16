@@ -46,7 +46,7 @@ export class InMemoryRecipesAdapter implements RecipesPort {
     }
 
     async fetchRecipe(id: string): Promise<RecipeDetailDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         if (id === '2') {
             throw new Error('Failed to fetch recipe');

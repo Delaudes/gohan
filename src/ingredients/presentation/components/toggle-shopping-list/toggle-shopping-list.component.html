@@ -7,8 +7,10 @@
     type="button"
     (click)="updateIngredientShoppingList.execute(ingredient().id, !ingredient().inShoppingList)"
     [attr.aria-label]="ingredient().inShoppingList ? 'Retirer de la liste de courses' : 'Ajouter à la liste de courses'"
-    class="bg-tomato/10 text-tomato hover:bg-tomato/20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors"
+    class="flex h-11 w-11 shrink-0 items-center justify-center"
+    [class.text-tomato]="ingredient().inShoppingList"
+    [class.text-charcoal/40]="!ingredient().inShoppingList"
   >
-    <span class="material-symbols-outlined text-xl" [class.is-filled]="ingredient().inShoppingList">shopping_cart</span>
+    <span class="material-symbols-outlined text-xl">{{ ingredient().inShoppingList ? 'check_box' : 'check_box_outline_blank' }}</span>
   </button>
 }

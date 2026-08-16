@@ -7,8 +7,10 @@
     type="button"
     (click)="updateRecipeMealsList.execute(recipe().id, !recipe().inMealsList)"
     [attr.aria-label]="recipe().inMealsList ? 'Retirer des repas' : 'Ajouter aux repas'"
-    class="bg-tomato/10 text-tomato hover:bg-tomato/20 flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors"
+    class="flex h-11 w-11 shrink-0 items-center justify-center"
+    [class.text-tomato]="recipe().inMealsList"
+    [class.text-charcoal/40]="!recipe().inMealsList"
   >
-    <span class="material-symbols-outlined text-xl" [class.is-filled]="recipe().inMealsList">skillet</span>
+    <span class="material-symbols-outlined text-xl">{{ recipe().inMealsList ? 'check_box' : 'check_box_outline_blank' }}</span>
   </button>
 }
