@@ -12,7 +12,7 @@ export class UpdateIngredientBoughtUseCase {
     async execute(mealId: string, ingredientId: string, bought: boolean): Promise<void> {
         this.startLoading(mealId, ingredientId);
         try {
-            const ingredient = await this.mealsPort.updateIngredientBought(mealId, ingredientId, bought);
+            const ingredient = await this.mealsPort.updateMealIngredient(mealId, ingredientId, bought);
             this.presentIngredientUpdated(mealId, ingredient);
         } catch {
             this.presentError(mealId, ingredientId);

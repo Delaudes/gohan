@@ -3,7 +3,7 @@ import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, Meal
 export interface MealsPort {
     fetchMealsList(): Promise<MealsListDomainModel>;
     fetchMeal(id: string): Promise<MealDetailDomainModel>;
-    updateMealDone(id: string, done: boolean): Promise<MealDomainModel>;
+    updateMeal(id: string, done: boolean): Promise<MealDomainModel>;
     removeMeal(id: string): Promise<void>;
-    updateIngredientBought(mealId: string, ingredientId: string, bought: boolean): Promise<MealIngredientDomainModel>;
+    updateMealIngredient(mealId: string, ingredientId: string, bought: boolean): Promise<MealIngredientDomainModel>;
 }

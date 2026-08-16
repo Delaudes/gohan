@@ -52,7 +52,7 @@ export class InMemoryMealsAdapter implements MealsPort {
         return new MealDetailDomainModel(id, MEAL_NAMES[id] ?? 'Repas', true, MEAL_INGREDIENTS[id] ?? []);
     }
 
-    async updateMealDone(id: string, done: boolean): Promise<MealDomainModel> {
+    async updateMeal(id: string, done: boolean): Promise<MealDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (id === '2') {
@@ -70,7 +70,7 @@ export class InMemoryMealsAdapter implements MealsPort {
         }
     }
 
-    async updateIngredientBought(mealId: string, ingredientId: string, bought: boolean): Promise<MealIngredientDomainModel> {
+    async updateMealIngredient(mealId: string, ingredientId: string, bought: boolean): Promise<MealIngredientDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (ingredientId === '2') {

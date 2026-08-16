@@ -11,7 +11,7 @@ export class UpdateMealDoneUseCase {
     async execute(id: string, done: boolean): Promise<void> {
         this.startLoading(id);
         try {
-            const meal = await this.mealsPort.updateMealDone(id, done);
+            const meal = await this.mealsPort.updateMeal(id, done);
             this.presentMealUpdated(meal);
         } catch {
             this.presentError(id);
