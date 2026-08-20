@@ -7,7 +7,7 @@ export class SearchMealsOptionsUseCase {
 
     execute(query: string): void {
         const normalizedQuery = query.trim().toLowerCase();
-        const current = this.mealsView.mealsViewModel.get();
+        const current = this.mealsView.mealsViewModel();
         const firstMatch = normalizedQuery
             ? current.mealsOptions.find(option => option.name.toLowerCase().includes(normalizedQuery))
             : undefined;

@@ -22,28 +22,28 @@ export class RemoveMealUseCase {
     }
 
     private startLoading(id: string): void {
-        const meals = this.mealsView.mealsViewModel.get().meals.map(meal =>
+        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
             meal.id === id ? { ...meal, isLoadingRemoving: true, isErrorRemoving: false } : meal
         );
         this.mealsView.update({ meals });
     }
 
     private stopLoading(id: string): void {
-        const meals = this.mealsView.mealsViewModel.get().meals.map(meal =>
+        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
             meal.id === id ? { ...meal, isLoadingRemoving: false } : meal
         );
         this.mealsView.update({ meals });
     }
 
     private presentError(id: string): void {
-        const meals = this.mealsView.mealsViewModel.get().meals.map(meal =>
+        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
             meal.id === id ? { ...meal, isErrorRemoving: true } : meal
         );
         this.mealsView.update({ meals });
     }
 
     private presentMealRemoved(id: string): void {
-        const current = this.mealsView.mealsViewModel.get();
+        const current = this.mealsView.mealsViewModel();
         const removedMeal = current.meals.find(meal => meal.id === id);
         const meals = current.meals.filter(meal => meal.id !== id);
         const mealsOptions = removedMeal

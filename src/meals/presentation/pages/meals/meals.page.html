@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-4 p-4">
-  @let vm = viewModel.get();
+  @let vm = viewModel();
 
   @if (vm.isLoadingFetchingMeals) {
     <span class="bg-charcoal/10 h-5 w-24 animate-pulse rounded-full"></span>

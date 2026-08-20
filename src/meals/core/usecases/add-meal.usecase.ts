@@ -36,7 +36,7 @@ export class AddMealUseCase {
     }
 
     private presentMealAdded(meal: RecipeDomainModel): void {
-        const current = this.mealsView.mealsViewModel.get();
+        const current = this.mealsView.mealsViewModel();
         const meals = [
             ...current.meals,
             {

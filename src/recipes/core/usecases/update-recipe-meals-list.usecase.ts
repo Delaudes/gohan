@@ -21,28 +21,28 @@ export class UpdateRecipeMealsListUseCase {
     }
 
     private startLoading(id: string): void {
-        const recipes = this.recipesView.recipesViewModel.get().recipes.map(recipe =>
+        const recipes = this.recipesView.recipesViewModel().recipes.map(recipe =>
             recipe.id === id ? { ...recipe, isLoadingUpdating: true, isErrorUpdating: false } : recipe
         );
         this.recipesView.update({ recipes });
     }
 
     private stopLoading(id: string): void {
-        const recipes = this.recipesView.recipesViewModel.get().recipes.map(recipe =>
+        const recipes = this.recipesView.recipesViewModel().recipes.map(recipe =>
             recipe.id === id ? { ...recipe, isLoadingUpdating: false } : recipe
         );
         this.recipesView.update({ recipes });
     }
 
     private presentError(id: string): void {
-        const recipes = this.recipesView.recipesViewModel.get().recipes.map(recipe =>
+        const recipes = this.recipesView.recipesViewModel().recipes.map(recipe =>
             recipe.id === id ? { ...recipe, isErrorUpdating: true } : recipe
         );
         this.recipesView.update({ recipes });
     }
 
     private presentRecipeUpdated(recipe: RecipeDomainModel): void {
-        const recipes = this.recipesView.recipesViewModel.get().recipes.map(current =>
+        const recipes = this.recipesView.recipesViewModel().recipes.map(current =>
             recipe.is(current.id) ? { ...current, inMealsList: recipe.inMealsList } : current
         );
         this.recipesView.update({ recipes });

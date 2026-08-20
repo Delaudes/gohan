@@ -38,7 +38,7 @@ export class CreateIngredientUseCase {
 
     private presentIngredientCreated(ingredient: IngredientDomainModel): void {
         const ingredients = [
-            ...this.ingredientsView.ingredientsViewModel.get().ingredients,
+            ...this.ingredientsView.ingredientsViewModel().ingredients,
             { id: ingredient.id, name: ingredient.name, isLoadingDeleting: false, isErrorDeleting: false, isLoadingUpdating: false, isErrorUpdating: false, inShoppingList: ingredient.inShoppingList },
         ].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
         this.ingredientsView.update({ ingredients, hasIngredients: true });

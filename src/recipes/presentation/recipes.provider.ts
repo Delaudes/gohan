@@ -1,13 +1,10 @@
 import { inject, InjectionToken } from "@angular/core";
-import { AngularSignalAdapter } from "../../infra/signal/angular-signal.adapter";
 import { InMemoryRecipesAdapter } from "../adapters/in-memory-recipes.adapter";
 import { InMemoryRecipeIngredientsAdapter } from "../adapters/in-memory-recipe-ingredients.adapter";
 import { RecipesPort } from "../core/recipes.port";
 import { RecipeIngredientsPort } from "../core/recipe-ingredients.port";
 import { RecipesView } from "../core/recipes.view";
 import { RecipeView } from "../core/recipe.view";
-import { RecipesViewModel } from "../core/models/recipes.view.model";
-import { RecipeDetailViewModel } from "../core/models/recipe.view.model";
 import { CreateRecipeUseCase } from "../core/usecases/create-recipe.usecase";
 import { DeleteRecipeUseCase } from "../core/usecases/delete-recipe.usecase";
 import { FetchRecipesUseCase } from "../core/usecases/fetch-recipes.usecase";
@@ -32,7 +29,7 @@ export const RECIPE_INGREDIENTS_TOKEN = new InjectionToken<RecipeIngredientsPort
 export const RECIPES_PROVIDERS = [
     {
         provide: RecipesView,
-        useFactory: () => new RecipesView(new AngularSignalAdapter<RecipesViewModel>())
+        useFactory: () => new RecipesView()
     },
     {
         provide: FetchRecipesUseCase,
@@ -52,7 +49,7 @@ export const RECIPES_PROVIDERS = [
     },
     {
         provide: RecipeView,
-        useFactory: () => new RecipeView(new AngularSignalAdapter<RecipeDetailViewModel>())
+        useFactory: () => new RecipeView()
     },
     {
         provide: FetchRecipeUseCase,

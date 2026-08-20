@@ -22,28 +22,28 @@ export class RemoveShoppingIngredientUseCase {
     }
 
     private startLoading(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isLoadingRemoving: true, isErrorRemoving: false } : ingredient
         );
         this.shoppingView.update({ ingredients });
     }
 
     private stopLoading(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isLoadingRemoving: false } : ingredient
         );
         this.shoppingView.update({ ingredients });
     }
 
     private presentError(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isErrorRemoving: true } : ingredient
         );
         this.shoppingView.update({ ingredients });
     }
 
     private presentIngredientRemoved(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel.get().ingredients.filter(ingredient => ingredient.id !== id);
+        const ingredients = this.shoppingView.shoppingViewModel().ingredients.filter(ingredient => ingredient.id !== id);
         this.shoppingView.update({
             ingredients,
             hasIngredients: ingredients.length > 0,

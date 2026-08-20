@@ -26,28 +26,28 @@ export class RemoveRecipeIngredientUseCase {
     }
 
     private startLoading(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.recipeView.recipeViewModel().ingredients.map(ingredient =>
             ingredient.id === ingredientId ? { ...ingredient, isLoadingRemoving: true, isErrorRemoving: false } : ingredient
         );
         this.recipeView.update({ ingredients });
     }
 
     private stopLoading(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.recipeView.recipeViewModel().ingredients.map(ingredient =>
             ingredient.id === ingredientId ? { ...ingredient, isLoadingRemoving: false } : ingredient
         );
         this.recipeView.update({ ingredients });
     }
 
     private presentError(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.recipeView.recipeViewModel().ingredients.map(ingredient =>
             ingredient.id === ingredientId ? { ...ingredient, isErrorRemoving: true } : ingredient
         );
         this.recipeView.update({ ingredients });
     }
 
     private presentIngredientRemoved(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel.get().ingredients.filter(ingredient => ingredient.id !== ingredientId);
+        const ingredients = this.recipeView.recipeViewModel().ingredients.filter(ingredient => ingredient.id !== ingredientId);
         this.recipeView.update({ ingredients, hasIngredients: ingredients.length > 0 });
     }
 }

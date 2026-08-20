@@ -1,9 +1,7 @@
 import { inject, InjectionToken } from "@angular/core";
-import { AngularSignalAdapter } from "../../infra/signal/angular-signal.adapter";
 import { InMemoryIngredientsAdapter } from "../adapters/in-memory-ingredients.adapter";
 import { IngredientsPort } from "../core/ingredients.port";
 import { IngredientsView } from "../core/ingredients.view";
-import { IngredientsViewModel } from "../core/models/ingredients.view.model";
 import { CreateIngredientUseCase } from "../core/usecases/create-ingredient.usecase";
 import { DeleteIngredientUseCase } from "../core/usecases/delete-ingredient.usecase";
 import { FetchIngredientsUseCase } from "../core/usecases/fetch-ingredients.usecase";
@@ -17,7 +15,7 @@ export const INGREDIENTS_TOKEN = new InjectionToken<IngredientsPort>('INGREDIENT
 export const INGREDIENTS_PROVIDERS = [
     {
         provide: IngredientsView,
-        useFactory: () => new IngredientsView(new AngularSignalAdapter<IngredientsViewModel>())
+        useFactory: () => new IngredientsView()
     },
     {
         provide: FetchIngredientsUseCase,

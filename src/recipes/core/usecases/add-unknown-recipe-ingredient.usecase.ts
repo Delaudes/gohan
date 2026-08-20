@@ -41,7 +41,7 @@ export class AddUnknownRecipeIngredientUseCase {
     }
 
     private presentIngredientAdded(ingredient: RecipeIngredientDomainModel): void {
-        const current = this.recipeView.recipeViewModel.get();
+        const current = this.recipeView.recipeViewModel();
         const ingredients = [
             ...current.ingredients,
             { id: ingredient.id, name: ingredient.name, isLoadingRemoving: false, isErrorRemoving: false },

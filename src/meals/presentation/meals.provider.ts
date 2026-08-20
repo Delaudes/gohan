@@ -1,9 +1,7 @@
 import { inject, InjectionToken } from "@angular/core";
-import { AngularSignalAdapter } from "../../infra/signal/angular-signal.adapter";
 import { InMemoryMealsAdapter } from "../adapters/in-memory-meals.adapter";
 import { MealsPort } from "../core/meals.port";
 import { MealsView } from "../core/meals.view";
-import { MealsViewModel } from "../core/models/meals.view.model";
 import { FetchMealsUseCase } from "../core/usecases/fetch-meals.usecase";
 import { FetchMealUseCase } from "../core/usecases/fetch-meal.usecase";
 import { UpdateMealDoneUseCase } from "../core/usecases/update-meal-done.usecase";
@@ -20,7 +18,7 @@ export const MEALS_TOKEN = new InjectionToken<MealsPort>('MEALS_TOKEN', {
 export const MEALS_PROVIDERS = [
     {
         provide: MealsView,
-        useFactory: () => new MealsView(new AngularSignalAdapter<MealsViewModel>())
+        useFactory: () => new MealsView()
     },
     {
         provide: FetchMealsUseCase,

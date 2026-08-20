@@ -38,7 +38,7 @@ export class CreateRecipeUseCase {
 
     private presentRecipeCreated(recipe: RecipeDomainModel): void {
         const recipes = [
-            ...this.recipesView.recipesViewModel.get().recipes,
+            ...this.recipesView.recipesViewModel().recipes,
             { id: recipe.id, name: recipe.name, isLoadingDeleting: false, isErrorDeleting: false, isLoadingUpdating: false, isErrorUpdating: false, inMealsList: recipe.inMealsList },
         ];
         this.recipesView.update({ recipes, hasRecipes: true });

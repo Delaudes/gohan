@@ -22,28 +22,28 @@ export class DeleteIngredientUseCase {
     }
 
     private startLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isLoadingDeleting: true, isErrorDeleting: false } : ingredient
         );
         this.ingredientsView.update({ ingredients });
     }
 
     private stopLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isLoadingDeleting: false } : ingredient
         );
         this.ingredientsView.update({ ingredients });
     }
 
     private presentError(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isErrorDeleting: true } : ingredient
         );
         this.ingredientsView.update({ ingredients });
     }
 
     private presentIngredientDeleted(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.filter(ingredient => ingredient.id !== id);
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.filter(ingredient => ingredient.id !== id);
         this.ingredientsView.update({
             ingredients,
             hasIngredients: ingredients.length > 0,

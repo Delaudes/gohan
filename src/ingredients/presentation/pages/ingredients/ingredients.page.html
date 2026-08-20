@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-4 p-4 pb-32">
-  @let vm = viewModel.get();
+  @let vm = viewModel();
 
   @if (vm.isLoadingFetchingIngredients) {
     <ul class="divide-charcoal/10 flex flex-col divide-y">

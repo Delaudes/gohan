@@ -30,7 +30,7 @@ Chaque feature métier = un dossier à plat sous `src/<feature>/` (pas sous `src
 src/<feature>/
   core/
     <feature>.port.ts                     interface <Feature>Port
-    <feature>.view.ts                     <Feature>View — wrapper SignalPort<ViewModel>, update(partial) merge l'état
+    <feature>.view.ts                     <Feature>View — wrapper signal<ViewModel>() d'Angular, update(partial) merge l'état
     usecases/<action>.usecase.ts          <Action>UseCase(view, port).execute() : loading → appel port → present ou error → loading off
                                            collaborateur propre à l'appel (ex. Dialog à fermer sur succès) → paramètre d'execute(), pas du constructeur
     models/<feature>.domain.model.ts      classes domaine + méthodes métier, tell don't ask (ex. hasItems(), is(id) plutôt qu'une comparaison === éparpillée dans les usecases)
@@ -59,7 +59,7 @@ Quand une action (ex. un panneau de recherche pour ajouter un item) a besoin d'u
 
 Nommage des méthodes `update*` d'un port : générique (`update<Entity>(id, champ)`) tant qu'une seule chose est mutable sur ce port pour cette entité — le paramètre suffit à documenter l'intention. Dès qu'un port expose plusieurs mises à jour distinctes pour la même entité (ex. `<Feature>Port.update<EntityA>` pour l'état principal vs `update<EntityB>` pour une sous-entité qui lui appartient — deux ressources différentes), ou la même opération conceptuelle vers deux endpoints différents selon le contexte de l'entité mise à jour, nommer chaque méthode d'après l'**entité** qu'elle touche plutôt que le champ qu'elle modifie — jamais suffixer par le nom du champ. Le usecase appelant garde lui son nom explicite (`Update<Entity><Champ>UseCase`) même quand la méthode de port qu'il appelle est générique — c'est le usecase qui porte l'intention, pas le port. La variable locale qui l'injecte reprend ce nom sans le suffixe `UseCase` (`update<Entity><Champ> = inject(Update<Entity><Champ>UseCase)`, pas `update<Entity><Champ>UseCase`).
 
-Template : `@let vm = xViewModel.get();` (lecture trackée par Angular même via une méthode) puis `@if`/`@else if` sur les booléens d'état ; les actions rappellent directement `<action>UseCase.execute()`.
+Template : `@let vm = xViewModel();` puis `@if`/`@else if` sur les booléens d'état ; les actions rappellent directement `<action>UseCase.execute()`.
 
 Composants de layout globaux (header, footer, navigation) : suffixe `.component`, préfixés `app.`, à plat dans `src/app/` — ex. `app.header.component.ts` → `AppHeaderComponent`.
 

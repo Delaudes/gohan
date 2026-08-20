@@ -34,7 +34,7 @@ export class UpdateMealIngredientBoughtUseCase {
     }
 
     private presentIngredientUpdated(mealId: string, ingredient: MealIngredientDomainModel): void {
-        const meals = this.mealsView.mealsViewModel.get().meals.map(meal =>
+        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
             meal.id === mealId ? {
                 ...meal,
                 ingredients: meal.ingredients.map(current => ingredient.is(current.id) ? { ...current, bought: ingredient.bought } : current),
@@ -44,7 +44,7 @@ export class UpdateMealIngredientBoughtUseCase {
     }
 
     private updateIngredient(mealId: string, ingredientId: string, updateFn: (ingredient: MealIngredientViewModel) => MealIngredientViewModel): void {
-        const meals = this.mealsView.mealsViewModel.get().meals.map(meal =>
+        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
             meal.id === mealId ? {
                 ...meal,
                 ingredients: meal.ingredients.map(ingredient => ingredient.id === ingredientId ? updateFn(ingredient) : ingredient),

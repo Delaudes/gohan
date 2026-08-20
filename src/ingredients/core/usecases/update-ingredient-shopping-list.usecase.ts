@@ -21,28 +21,28 @@ export class UpdateIngredientShoppingListUseCase {
     }
 
     private startLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isLoadingUpdating: true, isErrorUpdating: false } : ingredient
         );
         this.ingredientsView.update({ ingredients });
     }
 
     private stopLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isLoadingUpdating: false } : ingredient
         );
         this.ingredientsView.update({ ingredients });
     }
 
     private presentError(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(ingredient =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
             ingredient.id === id ? { ...ingredient, isErrorUpdating: true } : ingredient
         );
         this.ingredientsView.update({ ingredients });
     }
 
     private presentIngredientUpdated(ingredient: IngredientDomainModel): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel.get().ingredients.map(current =>
+        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(current =>
             ingredient.is(current.id) ? { ...current, inShoppingList: ingredient.inShoppingList } : current
         );
         this.ingredientsView.update({ ingredients });
