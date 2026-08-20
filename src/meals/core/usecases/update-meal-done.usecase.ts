@@ -45,6 +45,9 @@ export class UpdateMealDoneUseCase {
         const meals = this.mealsView.mealsViewModel.get().meals.map(current =>
             meal.is(current.id) ? { ...current, done: meal.done } : current
         );
-        this.mealsView.update({ meals });
+        this.mealsView.update({
+            meals,
+            mealsProgress: `${meals.filter(meal => meal.done).length}/${meals.length} réalisé${meals.length > 1 ? 's' : ''}`,
+        });
     }
 }

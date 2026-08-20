@@ -8,6 +8,7 @@ export class MealsView {
             isErrorFetchingMeals: false,
             meals: [],
             hasMeals: false,
+            mealsProgress: '',
             mealsOptions: [],
             hasMealsOptions: false,
             isLoadingAddingMeal: false,

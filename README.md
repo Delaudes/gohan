@@ -1,10 +1,11 @@
 Ajouter un ingrédient directement depuis la vue courses (sans repasser par la page ingrédients).
+Recherche/filtre rapide dans la liste d'ingrédients ou de recettes (dès qu'elles s'allongent, le tri seul ne suffit plus à s'y retrouver).
+Compteur de progression en haut de vue ("3/8 achetés", "2/5 réalisés") pour voir l'avancement sans scroller.
+
 Vider toute la liste de courses en un clic.
 Retirer uniquement les ingrédients déjà cochés "acheté" (plus ciblé que tout vider).
 Supprimer tous les repas planifiés d'un coup depuis la vue repas (reset de semaine).
 Tout marquer "acheté" / tout marquer "réalisé" en un clic (symétrique du bulk delete, sur l'état plutôt que la suppression).
-Recherche/filtre rapide dans la liste d'ingrédients ou de recettes (dès qu'elles s'allongent, le tri seul ne suffit plus à s'y retrouver).
-Compteur de progression en haut de vue ("3/8 achetés", "2/5 réalisés") pour voir l'avancement sans scroller.
 
 Quantités/unités sur les ingrédients — aujourd'hui un ingrédient n'a qu'un nom (recette comme liste de courses). Sans quantité, la liste de courses reste une liste de noms, pas vraiment exploitable pour faire les courses sérieusement.
 Rayon/catégorie sur un ingrédient (fruits & légumes, épicerie, frais...) pour grouper la liste de courses par rayon de magasin plutôt qu'en vrac.

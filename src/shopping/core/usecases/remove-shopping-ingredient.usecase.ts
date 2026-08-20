@@ -47,6 +47,7 @@ export class RemoveShoppingIngredientUseCase {
         this.shoppingView.update({
             ingredients,
             hasIngredients: ingredients.length > 0,
+            ingredientsProgress: `${ingredients.filter(ingredient => ingredient.bought).length}/${ingredients.length} acheté${ingredients.length > 1 ? 's' : ''}`,
         });
     }
 }

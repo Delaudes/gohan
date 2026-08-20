@@ -8,6 +8,7 @@ export class ShoppingView {
             isErrorFetchingIngredients: false,
             ingredients: [],
             hasIngredients: false,
+            ingredientsProgress: '',
         });
     }
 

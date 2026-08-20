@@ -47,6 +47,9 @@ export class UpdateShoppingIngredientBoughtUseCase {
         const ingredients = this.shoppingView.shoppingViewModel.get().ingredients.map(current =>
             ingredient.is(current.id) ? { ...current, bought: ingredient.bought } : current
         );
-        this.shoppingView.update({ ingredients });
+        this.shoppingView.update({
+            ingredients,
+            ingredientsProgress: `${ingredients.filter(ingredient => ingredient.bought).length}/${ingredients.length} acheté${ingredients.length > 1 ? 's' : ''}`,
+        });
     }
 }

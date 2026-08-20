@@ -33,8 +33,10 @@ export class FetchMealsUseCase {
     }
 
     private presentMealsList(recipesList: RecipesListDomainModel): void {
+        const meals = recipesList.getMeals();
+        const mealsCount = recipesList.mealsCount();
         this.mealsView.update({
-            meals: recipesList.getMeals().map(meal => ({
+            meals: meals.map(meal => ({
                 id: meal.id,
                 name: meal.name,
                 done: meal.done,
@@ -49,6 +51,7 @@ export class FetchMealsUseCase {
                 hasIngredients: false,
             })),
             hasMeals: recipesList.hasMeals(),
+            mealsProgress: `${recipesList.doneMealsCount()}/${mealsCount} réalisé${mealsCount > 1 ? 's' : ''}`,
             mealsOptions: recipesList.getMealsOptions().map(option => ({
                 id: option.id,
                 name: option.name,

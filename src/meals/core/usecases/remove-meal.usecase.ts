@@ -52,6 +52,7 @@ export class RemoveMealUseCase {
         this.mealsView.update({
             meals,
             hasMeals: meals.length > 0,
+            mealsProgress: `${meals.filter(meal => meal.done).length}/${meals.length} réalisé${meals.length > 1 ? 's' : ''}`,
             mealsOptions,
             hasMealsOptions: mealsOptions.length > 0,
         });

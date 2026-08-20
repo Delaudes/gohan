@@ -8,6 +8,14 @@ export class ShoppingListDomainModel {
     hasIngredients(): boolean {
         return this.ingredients.length > 0;
     }
+
+    boughtIngredientsCount(): number {
+        return this.ingredients.filter(ingredient => ingredient.bought).length;
+    }
+
+    ingredientsCount(): number {
+        return this.ingredients.length;
+    }
 }
 
 export class ShoppingIngredientDomainModel {

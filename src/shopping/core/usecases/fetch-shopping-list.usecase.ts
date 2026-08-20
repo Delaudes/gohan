@@ -33,8 +33,10 @@ export class FetchShoppingListUseCase {
     }
 
     private presentShoppingList(shoppingList: ShoppingListDomainModel): void {
+        const ingredients = shoppingList.ingredients;
+        const ingredientsCount = shoppingList.ingredientsCount();
         this.shoppingView.update({
-            ingredients: shoppingList.ingredients.map(ingredient => ({
+            ingredients: ingredients.map(ingredient => ({
                 id: ingredient.id,
                 name: ingredient.name,
                 bought: ingredient.bought,
@@ -46,6 +48,7 @@ export class FetchShoppingListUseCase {
                 isErrorRemoving: false,
             })),
             hasIngredients: shoppingList.hasIngredients(),
+            ingredientsProgress: `${shoppingList.boughtIngredientsCount()}/${ingredientsCount} acheté${ingredientsCount > 1 ? 's' : ''}`,
         });
     }
 }

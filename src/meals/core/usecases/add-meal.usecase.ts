@@ -55,6 +55,12 @@ export class AddMealUseCase {
             },
         ];
         const mealsOptions = current.mealsOptions.filter(option => !meal.is(option.id));
-        this.mealsView.update({ meals, hasMeals: true, mealsOptions, hasMealsOptions: mealsOptions.length > 0 });
+        this.mealsView.update({
+            meals,
+            hasMeals: true,
+            mealsProgress: `${meals.filter(meal => meal.done).length}/${meals.length} réalisé${meals.length > 1 ? 's' : ''}`,
+            mealsOptions,
+            hasMealsOptions: mealsOptions.length > 0,
+        });
     }
 }

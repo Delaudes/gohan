@@ -3,6 +3,7 @@ export type ShoppingViewModel = {
     isErrorFetchingIngredients: boolean;
     ingredients: ShoppingIngredientViewModel[];
     hasIngredients: boolean;
+    ingredientsProgress: string;
 }
 
 export type ShoppingIngredientViewModel = {

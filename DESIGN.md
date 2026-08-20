@@ -50,6 +50,8 @@ Badge de statut sous un nom d'item (ex. "Repas planifié"/"non planifié", "Acha
 
 Tag de référence (informatif, pas un état — ex. le repas d'origine d'un ingrédient de courses) : texte simple `text-charcoal/40 font-mono text-[11px]/4`, pas de fond ni de pilule ni d'icône — contrairement au badge de statut ci-dessus (qui représente un état, `text-tomato`/`text-charcoal/40` selon la valeur), ce tag n'est qu'une information de contexte. Quand il coexiste avec un badge de statut sur le même item, les deux vont sur la **même ligne**, séparés par un point médian (`·`), dans un conteneur `flex flex-wrap items-center gap-1` plutôt qu'empilés en `block` — évite qu'une ligne accumule 3 niveaux de texte (nom, statut, référence).
 
+Compteur de progression en tête de liste (ex. "2/7 réalisés") : `text-charcoal/50 font-mono text-sm`, une ligne simple juste au-dessus de la liste — pas de barre de progression ni de badge autour. N'apparaît que dans la branche "liste non vide" (pas pendant le chargement/erreur, pas sur liste vide où il n'apporte rien) ; skeleton associé : `h-5 w-24` (matche la line-height de `text-sm`).
+
 États vide/erreur (fetch) : icône seule `text-3xl`, pas de badge ni de cercle autour. Erreur : icône `warning` en `text-danger` (la même que dans la modale de confirmation) + message unique "Une erreur est survenue, réessayez." (identique partout dans l'app, pas de variante par contexte). Vide : icône dédiée en `text-tomato`.
 Dans un contexte imbriqué/compact (accordéon, panneau de résultats de recherche) : même principe à échelle réduite — icône `text-2xl` (au lieu de `text-3xl`) dans un conteneur `py-4` (au lieu de `py-16`), message en `text-sm`.
 

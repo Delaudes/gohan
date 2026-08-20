@@ -11,6 +11,14 @@ export class RecipesListDomainModel {
         return this.getMeals().length > 0;
     }
 
+    doneMealsCount(): number {
+        return this.getMeals().filter(meal => meal.done).length;
+    }
+
+    mealsCount(): number {
+        return this.getMeals().length;
+    }
+
     getMealsOptions(): RecipeDomainModel[] {
         return this.recipes.filter(recipe => !recipe.inMealsList);
     }

@@ -3,6 +3,7 @@ export type MealsViewModel = {
     isErrorFetchingMeals: boolean;
     meals: MealViewModel[];
     hasMeals: boolean;
+    mealsProgress: string;
     mealsOptions: MealOptionViewModel[];
     hasMealsOptions: boolean;
     isLoadingAddingMeal: boolean;
