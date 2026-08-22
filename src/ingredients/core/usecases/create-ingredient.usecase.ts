@@ -3,6 +3,7 @@ import { Field } from "../../../presentation/field/field.port";
 import { IngredientsPort } from "../ingredients.port";
 import { IngredientsView } from "../ingredients.view";
 import { IngredientDomainModel } from "../models/ingredients.domain.model";
+import { IngredientViewModel } from "../models/ingredient.view.model";
 
 export class CreateIngredientUseCase {
     constructor(
@@ -11,36 +12,30 @@ export class CreateIngredientUseCase {
     ) { }
 
     async execute(dialog: Dialog, field: Field): Promise<void> {
-        this.startLoading();
+        this.ingredientsView.update(vm => vm.startLoadingCreatingIngredient());
         try {
             const ingredient = await this.ingredientsPort.createIngredient(field.value.trim());
             this.presentIngredientCreated(ingredient);
             field.value = '';
             dialog.close();
         } catch {
-            this.presentError();
+            this.ingredientsView.update(vm => vm.presentErrorCreatingIngredient());
         } finally {
-            this.stopLoading();
+            this.ingredientsView.update(vm => vm.stopLoadingCreatingIngredient())
         }
     }
 
-    private startLoading(): void {
-        this.ingredientsView.update({ isLoadingCreatingIngredient: true, isErrorCreatingIngredient: false });
-    }
-
-    private stopLoading(): void {
-        this.ingredientsView.update({ isLoadingCreatingIngredient: false });
-    }
-
-    private presentError(): void {
-        this.ingredientsView.update({ isErrorCreatingIngredient: true });
-    }
 
     private presentIngredientCreated(ingredient: IngredientDomainModel): void {
-        const ingredients = [
-            ...this.ingredientsView.ingredientsViewModel().ingredients,
-            { id: ingredient.id, name: ingredient.name, isLoadingDeleting: false, isErrorDeleting: false, isLoadingUpdating: false, isErrorUpdating: false, inShoppingList: ingredient.inShoppingList },
-        ].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-        this.ingredientsView.update({ ingredients, hasIngredients: true });
+        const ingredientViewModel = new IngredientViewModel({
+            id: ingredient.id,
+            name: ingredient.name,
+            isLoadingDeleting: false,
+            isErrorDeleting: false,
+            isLoadingUpdating: false,
+            isErrorUpdating: false,
+            inShoppingList: ingredient.inShoppingList,
+        });
+        this.ingredientsView.update(vm => vm.presentIngredientCreated(ingredientViewModel));
     }
 }

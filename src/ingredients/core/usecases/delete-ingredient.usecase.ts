@@ -9,44 +9,15 @@ export class DeleteIngredientUseCase {
     ) { }
 
     async execute(id: string, dialog: Dialog): Promise<void> {
-        this.startLoading(id);
+        this.ingredientsView.update(vm => vm.startLoadingDeletingIngredient(id));
         try {
             await this.ingredientsPort.deleteIngredient(id);
-            this.presentIngredientDeleted(id);
+            this.ingredientsView.update(vm => vm.presentIngredientDeleted(id));
             dialog.close();
         } catch {
-            this.presentError(id);
+            this.ingredientsView.update(vm => vm.presentErrorDeletingIngredient(id));
         } finally {
-            this.stopLoading(id);
+            this.ingredientsView.update(vm => vm.stopLoadingDeletingIngredient(id));
         }
-    }
-
-    private startLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isLoadingDeleting: true, isErrorDeleting: false } : ingredient
-        );
-        this.ingredientsView.update({ ingredients });
-    }
-
-    private stopLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isLoadingDeleting: false } : ingredient
-        );
-        this.ingredientsView.update({ ingredients });
-    }
-
-    private presentError(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isErrorDeleting: true } : ingredient
-        );
-        this.ingredientsView.update({ ingredients });
-    }
-
-    private presentIngredientDeleted(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.filter(ingredient => ingredient.id !== id);
-        this.ingredientsView.update({
-            ingredients,
-            hasIngredients: ingredients.length > 0,
-        });
     }
 }

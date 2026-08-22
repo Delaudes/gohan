@@ -1,5 +1,6 @@
 import { IngredientsPort } from "../ingredients.port";
 import { IngredientsView } from "../ingredients.view";
+import { IngredientViewModel } from "../models/ingredient.view.model";
 import { IngredientsListDomainModel } from "../models/ingredients.domain.model";
 
 export class FetchIngredientsUseCase {
@@ -9,41 +10,27 @@ export class FetchIngredientsUseCase {
     ) { }
 
     async execute(): Promise<void> {
-        this.startLoading();
+        this.ingredientsView.update(vm => vm.startLoadingFetchingIngredients());
         try {
             const ingredientsList = await this.ingredientsPort.fetchIngredientsList();
-            this.presentIngredientsList(ingredientsList);
+            this.presentIngredientsFetched(ingredientsList);
         } catch {
-            this.presentError();
+            this.ingredientsView.update(vm => vm.presentErrorFetchingIngredients());
         } finally {
-            this.stopLoading();
+            this.ingredientsView.update(vm => vm.stopLoadingFetchingIngredients());
         }
     }
 
-    private startLoading(): void {
-        this.ingredientsView.update({ isLoadingFetchingIngredients: true, isErrorFetchingIngredients: false });
-    }
-
-    private stopLoading(): void {
-        this.ingredientsView.update({ isLoadingFetchingIngredients: false });
-    }
-
-    private presentError(): void {
-        this.ingredientsView.update({ isErrorFetchingIngredients: true });
-    }
-
-    private presentIngredientsList(ingredientsList: IngredientsListDomainModel) {
-        this.ingredientsView.update({
-            ingredients: ingredientsList.ingredients.map(ingredient => ({
-                id: ingredient.id,
-                name: ingredient.name,
-                isLoadingDeleting: false,
-                isErrorDeleting: false,
-                isLoadingUpdating: false,
-                isErrorUpdating: false,
-                inShoppingList: ingredient.inShoppingList,
-            })),
-            hasIngredients: ingredientsList.hasIngredients(),
-        });
+    private presentIngredientsFetched(ingredientsList: IngredientsListDomainModel): void {
+        const ingredients = ingredientsList.ingredients.map(ingredient => new IngredientViewModel({
+            id: ingredient.id,
+            name: ingredient.name,
+            isLoadingDeleting: false,
+            isErrorDeleting: false,
+            isLoadingUpdating: false,
+            isErrorUpdating: false,
+            inShoppingList: ingredient.inShoppingList,
+        }));
+        this.ingredientsView.update(vm => vm.presentIngredientsFetched(ingredients));
     }
 }

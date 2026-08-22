@@ -3,24 +3,17 @@ import { IngredientDomainModel, IngredientsListDomainModel } from "../core/model
 
 export class InMemoryIngredientsAdapter implements IngredientsPort {
     async fetchIngredientsList(): Promise<IngredientsListDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (Math.random() < 0.33) {
-            throw new Error('Failed to fetch ingredients list');
-        }
-
-        if (Math.random() < 0.66) {
-            return new IngredientsListDomainModel([]);
-        }
-
-        const ingredients = [
-            new IngredientDomainModel('1', 'Tomato', true),
-            new IngredientDomainModel('2', 'Cheese', false),
-            new IngredientDomainModel('3', 'Basil', true),
-            new IngredientDomainModel('4', 'Olive Oil', false),
-            new IngredientDomainModel('5', 'Garlic', false),
-        ];
-        return new IngredientsListDomainModel(ingredients);
+        return {
+            ingredients: [
+                { id: '1', name: 'Tomato', inShoppingList: true },
+                { id: '2', name: 'Cheese', inShoppingList: false },
+                { id: '3', name: 'Basil', inShoppingList: true },
+                { id: '4', name: 'Olive Oil', inShoppingList: false },
+                { id: '5', name: 'Garlic', inShoppingList: false },
+            ],
+        };
     }
 
     async createIngredient(name: string): Promise<IngredientDomainModel> {
@@ -30,17 +23,17 @@ export class InMemoryIngredientsAdapter implements IngredientsPort {
             throw new Error('Failed to create ingredient');
         }
 
-        return new IngredientDomainModel(crypto.randomUUID(), name, false);
+        return { id: crypto.randomUUID(), name, inShoppingList: false };
     }
 
     async updateIngredient(id: string, inShoppingList: boolean): Promise<IngredientDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (id === '2') {
+        if (id === '1') {
             throw new Error('Failed to update ingredient');
         }
 
-        return new IngredientDomainModel(id, '', inShoppingList);
+        return { id, name: '', inShoppingList };
     }
 
     async deleteIngredient(id: string): Promise<void> {

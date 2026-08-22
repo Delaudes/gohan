@@ -1,6 +1,5 @@
 import { IngredientsPort } from "../ingredients.port";
 import { IngredientsView } from "../ingredients.view";
-import { IngredientDomainModel } from "../models/ingredients.domain.model";
 
 export class UpdateIngredientShoppingListUseCase {
     constructor(
@@ -9,42 +8,14 @@ export class UpdateIngredientShoppingListUseCase {
     ) { }
 
     async execute(id: string, inShoppingList: boolean): Promise<void> {
-        this.startLoading(id);
+        this.ingredientsView.update(vm => vm.startLoadingUpdatingIngredient(id));
         try {
             const ingredient = await this.ingredientsPort.updateIngredient(id, inShoppingList);
-            this.presentIngredientUpdated(ingredient);
+            this.ingredientsView.update(vm => vm.presentIngredientUpdated(ingredient.id, ingredient.inShoppingList));
         } catch {
-            this.presentError(id);
+            this.ingredientsView.update(vm => vm.presentErrorUpdatingIngredient(id));
         } finally {
-            this.stopLoading(id);
+            this.ingredientsView.update(vm => vm.stopLoadingUpdatingIngredient(id));
         }
-    }
-
-    private startLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isLoadingUpdating: true, isErrorUpdating: false } : ingredient
-        );
-        this.ingredientsView.update({ ingredients });
-    }
-
-    private stopLoading(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isLoadingUpdating: false } : ingredient
-        );
-        this.ingredientsView.update({ ingredients });
-    }
-
-    private presentError(id: string): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isErrorUpdating: true } : ingredient
-        );
-        this.ingredientsView.update({ ingredients });
-    }
-
-    private presentIngredientUpdated(ingredient: IngredientDomainModel): void {
-        const ingredients = this.ingredientsView.ingredientsViewModel().ingredients.map(current =>
-            ingredient.is(current.id) ? { ...current, inShoppingList: ingredient.inShoppingList } : current
-        );
-        this.ingredientsView.update({ ingredients });
     }
 }

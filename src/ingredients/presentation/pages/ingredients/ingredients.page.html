@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-4 p-4 pb-32">
+<div class="flex flex-col gap-4 p-4 pb-56">
   @let vm = viewModel();
 
   @if (vm.isLoadingFetchingIngredients) {
@@ -31,9 +31,9 @@
         Réessayer
       </button>
     </div>
-  } @else if (vm.hasIngredients) {
+  } @else if (vm.hasIngredients()) {
     <ul class="divide-charcoal/10 flex flex-col divide-y">
-      @for (ingredient of vm.ingredients; track ingredient.id) {
+      @for (ingredient of vm.filteredIngredients(); track ingredient.id) {
         <li class="flex items-center gap-3 px-2 py-3">
           <app-toggle-ingredient-shopping-list [ingredient]="ingredient" />
           <span class="min-w-0 flex-1">
@@ -52,6 +52,11 @@
           </span>
           <app-delete-ingredient [ingredient]="ingredient" />
         </li>
+      } @empty {
+        <li class="flex flex-col items-center gap-4 py-16 text-center">
+          <span class="material-symbols-outlined text-tomato text-3xl">search_off</span>
+          <p class="text-charcoal">Aucun ingrédient ne correspond à la recherche.</p>
+        </li>
       }
     </ul>
   } @else {
@@ -61,8 +66,23 @@
     </div>
   }
 
+  <div class="bg-cream border-charcoal/10 fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 border-t p-3">
+    <div class="relative">
+      <label for="ingredients-search" class="sr-only">Rechercher un ingrédient</label>
+      <span class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl">search</span>
+      <input
+        #searchInput
+        id="ingredients-search"
+        type="text"
+        (input)="searchIngredients.execute(searchInput.value)"
+        placeholder="Rechercher un ingrédient"
+        class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
+      />
+    </div>
+  </div>
+
   @if (vm.isLoadingFetchingIngredients) {
-    <div class="bg-charcoal/10 fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-10 h-14 w-14 animate-pulse rounded-full"></div>
+    <div class="bg-charcoal/10 fixed right-4 bottom-[calc(9.5rem+env(safe-area-inset-bottom))] z-10 h-14 w-14 animate-pulse rounded-full"></div>
   } @else if (!vm.isErrorFetchingIngredients) {
     <app-create-ingredient />
   }
