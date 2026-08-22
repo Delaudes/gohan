@@ -1,6 +1,5 @@
 Ajouter un ingrédient directement depuis la vue courses (sans repasser par la page ingrédients).
 Recherche/filtre rapide dans la liste d'ingrédients ou de recettes (dès qu'elles s'allongent, le tri seul ne suffit plus à s'y retrouver).
-Compteur de progression en haut de vue ("3/8 achetés", "2/5 réalisés") pour voir l'avancement sans scroller.
 
 Vider toute la liste de courses en un clic.
 Retirer uniquement les ingrédients déjà cochés "acheté" (plus ciblé que tout vider).
