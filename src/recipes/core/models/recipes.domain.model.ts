@@ -18,7 +18,7 @@ export class RecipeDomainModel {
     }
 }
 
-export class RecipeIngredientDomainModel {
+export class IngredientOptionDomainModel {
     constructor(
         public readonly id: string,
         public readonly name: string,
@@ -30,15 +30,18 @@ export class RecipeIngredientDomainModel {
 }
 
 export class IngredientsOptionsDomainModel {
-    constructor(public readonly ingredientsOptions: RecipeIngredientDomainModel[]) { }
+    constructor(public readonly ingredientsOptions: IngredientOptionDomainModel[]) { }
 
-    getFirstMatch(query: string): RecipeIngredientDomainModel | undefined {
+    getFirstMatch(query: string): IngredientOptionDomainModel | undefined {
         const normalizedQuery = query.trim().toLowerCase();
         if (!normalizedQuery) {
             return undefined;
         }
         return this.ingredientsOptions.find(option => option.name.toLowerCase().includes(normalizedQuery));
     }
+}
+
+export class RecipeIngredientDomainModel extends IngredientOptionDomainModel {
 }
 
 export class RecipeDetailDomainModel extends RecipeDomainModel {

@@ -1,17 +1,17 @@
-import { IngredientsOptionsDomainModel, RecipeIngredientDomainModel } from "../core/models/recipes.domain.model";
+import { IngredientOptionDomainModel, IngredientsOptionsDomainModel, RecipeIngredientDomainModel } from "../core/models/recipes.domain.model";
 import { RecipeIngredientsPort } from "../core/recipe-ingredients.port";
 
-let INGREDIENT_OPTIONS: RecipeIngredientDomainModel[] = [
-    new RecipeIngredientDomainModel('101', 'Tomate'),
-    new RecipeIngredientDomainModel('102', 'Oignon'),
-    new RecipeIngredientDomainModel('103', 'Ail'),
-    new RecipeIngredientDomainModel('104', 'Basilic'),
-    new RecipeIngredientDomainModel('105', 'Mozzarella'),
-    new RecipeIngredientDomainModel('106', 'Farine'),
-    new RecipeIngredientDomainModel('107', 'Sucre'),
-    new RecipeIngredientDomainModel('108', 'Sel'),
-    new RecipeIngredientDomainModel('109', 'Poivre'),
-    new RecipeIngredientDomainModel('110', "Huile d'olive"),
+let INGREDIENT_OPTIONS: IngredientOptionDomainModel[] = [
+    new IngredientOptionDomainModel('101', 'Tomate'),
+    new IngredientOptionDomainModel('102', 'Oignon'),
+    new IngredientOptionDomainModel('103', 'Ail'),
+    new IngredientOptionDomainModel('104', 'Basilic'),
+    new IngredientOptionDomainModel('105', 'Mozzarella'),
+    new IngredientOptionDomainModel('106', 'Farine'),
+    new IngredientOptionDomainModel('107', 'Sucre'),
+    new IngredientOptionDomainModel('108', 'Sel'),
+    new IngredientOptionDomainModel('109', 'Poivre'),
+    new IngredientOptionDomainModel('110', "Huile d'olive"),
 ];
 
 export class InMemoryRecipeIngredientsAdapter implements RecipeIngredientsPort {
@@ -23,14 +23,14 @@ export class InMemoryRecipeIngredientsAdapter implements RecipeIngredientsPort {
         return new IngredientsOptionsDomainModel(INGREDIENT_OPTIONS);
     }
 
-    async createIngredientOption(name: string): Promise<RecipeIngredientDomainModel> {
+    async createIngredientOption(name: string): Promise<IngredientOptionDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (name.trim().toLowerCase() === 'error') {
             throw new Error('Failed to create ingredient');
         }
 
-        const ingredient = new RecipeIngredientDomainModel(crypto.randomUUID(), name.trim());
+        const ingredient = new IngredientOptionDomainModel(crypto.randomUUID(), name.trim());
         INGREDIENT_OPTIONS = [...INGREDIENT_OPTIONS, ingredient];
         return ingredient;
     }
@@ -43,7 +43,7 @@ export class InMemoryRecipeIngredientsAdapter implements RecipeIngredientsPort {
         }
 
         const ingredient = INGREDIENT_OPTIONS.find(option => option.id === ingredientId);
-        return ingredient ?? new RecipeIngredientDomainModel(ingredientId, '');
+        return new RecipeIngredientDomainModel(ingredient?.id ?? ingredientId, ingredient?.name ?? '');
     }
 
     async removeRecipeIngredient(recipeId: string, ingredientId: string): Promise<void> {

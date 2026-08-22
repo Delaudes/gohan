@@ -3,12 +3,12 @@ import { IngredientViewModel } from '../../../core/models/ingredients.view.model
 import { UpdateIngredientShoppingListUseCase } from '../../../core/usecases/update-ingredient-shopping-list.usecase';
 
 @Component({
-  selector: 'app-toggle-shopping-list',
+  selector: 'app-toggle-ingredient-shopping-list',
   imports: [],
-  templateUrl: './toggle-shopping-list.component.html',
+  templateUrl: './toggle-ingredient-shopping-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleShoppingListComponent {
+export class ToggleIngredientShoppingListComponent {
   readonly ingredient = input.required<IngredientViewModel>();
 
   protected readonly updateIngredientShoppingList = inject(UpdateIngredientShoppingListUseCase);

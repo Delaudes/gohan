@@ -1,6 +1,6 @@
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
-import { RecipeDomainModel } from "../models/meals.domain.model";
+import { MealDomainModel } from "../models/meals.domain.model";
 
 export class UpdateMealDoneUseCase {
     constructor(
@@ -41,7 +41,7 @@ export class UpdateMealDoneUseCase {
         this.mealsView.update({ meals });
     }
 
-    private presentMealUpdated(meal: RecipeDomainModel): void {
+    private presentMealUpdated(meal: MealDomainModel): void {
         const meals = this.mealsView.mealsViewModel().meals.map(current =>
             meal.is(current.id) ? { ...current, done: meal.done } : current
         );

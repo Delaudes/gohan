@@ -1,4 +1,4 @@
-import { RecipeIngredientDomainModel } from "../models/recipes.domain.model";
+import { IngredientOptionDomainModel } from "../models/recipes.domain.model";
 import { RecipeIngredientsPort } from "../recipe-ingredients.port";
 import { RecipeView } from "../recipe.view";
 
@@ -14,7 +14,7 @@ export class SearchRecipeIngredientsOptionsUseCase {
         this.presentOptions(options.ingredientsOptions, firstMatch);
     }
 
-    private presentOptions(allOptions: RecipeIngredientDomainModel[], firstMatch: RecipeIngredientDomainModel | undefined): void {
+    private presentOptions(allOptions: IngredientOptionDomainModel[], firstMatch: IngredientOptionDomainModel | undefined): void {
         this.recipeView.update({
             ingredientsOptions: allOptions.map(option => ({
                 id: option.id,

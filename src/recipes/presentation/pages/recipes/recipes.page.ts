@@ -5,12 +5,12 @@ import { RecipesView } from '../../../core/recipes.view';
 import { FetchRecipesUseCase } from '../../../core/usecases/fetch-recipes.usecase';
 import { CreateRecipeComponent } from '../../components/create-recipe/create-recipe.component';
 import { DeleteRecipeComponent } from '../../components/delete-recipe/delete-recipe.component';
-import { ToggleMealsListComponent } from '../../components/toggle-meals-list/toggle-meals-list.component';
+import { ToggleRecipeMealsListComponent } from '../../components/toggle-recipe-meals-list/toggle-recipe-meals-list.component';
 import { RECIPES_PROVIDERS } from '../../recipes.provider';
 
 @Component({
   selector: 'app-recipes',
-  imports: [DeleteRecipeComponent, CreateRecipeComponent, ToggleMealsListComponent, RouterLink],
+  imports: [DeleteRecipeComponent, CreateRecipeComponent, ToggleRecipeMealsListComponent, RouterLink],
   templateUrl: './recipes.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RECIPES_PROVIDERS],

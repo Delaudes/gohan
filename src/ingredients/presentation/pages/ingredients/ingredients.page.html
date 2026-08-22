@@ -35,7 +35,7 @@
     <ul class="divide-charcoal/10 flex flex-col divide-y">
       @for (ingredient of vm.ingredients; track ingredient.id) {
         <li class="flex items-center gap-3 px-2 py-3">
-          <app-toggle-shopping-list [ingredient]="ingredient" />
+          <app-toggle-ingredient-shopping-list [ingredient]="ingredient" />
           <span class="min-w-0 flex-1">
             <span class="text-charcoal font-medium">{{ ingredient.name }}</span>
             <span

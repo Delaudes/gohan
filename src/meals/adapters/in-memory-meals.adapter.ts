@@ -1,5 +1,5 @@
 import { MealsPort } from "../core/meals.port";
-import { MealDetailDomainModel, MealIngredientDomainModel, RecipeDomainModel, RecipesListDomainModel } from "../core/models/meals.domain.model";
+import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, RecipeDomainModel, RecipesListDomainModel } from "../core/models/meals.domain.model";
 
 let RECIPES: RecipeDomainModel[] = [
     new RecipeDomainModel('1', 'Pasta Carbonara', true, false),
@@ -26,7 +26,7 @@ const MEAL_INGREDIENTS: Record<string, MealIngredientDomainModel[]> = {
 };
 
 export class InMemoryMealsAdapter implements MealsPort {
-    async fetchMealsList(): Promise<RecipesListDomainModel> {
+    async fetchRecipesList(): Promise<RecipesListDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         if (Math.random() < 0.33) {
@@ -48,10 +48,10 @@ export class InMemoryMealsAdapter implements MealsPort {
         }
 
         const recipe = RECIPES.find(recipe => recipe.id === id);
-        return new MealDetailDomainModel(id, recipe?.name ?? 'Repas', recipe?.inMealsList ?? true, recipe?.done ?? true, MEAL_INGREDIENTS[id] ?? []);
+        return new MealDetailDomainModel(id, recipe?.name ?? 'Repas', recipe?.done ?? true, MEAL_INGREDIENTS[id] ?? []);
     }
 
-    async updateMeal(id: string, done: boolean): Promise<RecipeDomainModel> {
+    async updateMeal(id: string, done: boolean): Promise<MealDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (id === '2') {
@@ -59,19 +59,19 @@ export class InMemoryMealsAdapter implements MealsPort {
         }
 
         RECIPES = RECIPES.map(recipe => recipe.id === id ? new RecipeDomainModel(recipe.id, recipe.name, recipe.inMealsList, done) : recipe);
-        return new RecipeDomainModel(id, '', true, done);
+        return new MealDomainModel(id, '', done);
     }
 
-    async addMeal(recipeId: string): Promise<RecipeDomainModel> {
+    async addMeal(id: string): Promise<MealDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        const recipe = RECIPES.find(recipe => recipe.id === recipeId);
+        const recipe = RECIPES.find(recipe => recipe.id === id);
         if (recipe?.id === '6') {
             throw new Error('Failed to add meal');
         }
 
         const meal = new RecipeDomainModel(recipe!.id, recipe!.name, true, false);
-        RECIPES = RECIPES.map(recipe => recipe.id === recipeId ? meal : recipe);
+        RECIPES = RECIPES.map(recipe => recipe.id === id ? meal : recipe);
         return meal;
     }
 

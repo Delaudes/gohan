@@ -11,7 +11,7 @@ export class FetchMealsUseCase {
     async execute(): Promise<void> {
         this.startLoading();
         try {
-            const mealsList = await this.mealsPort.fetchMealsList();
+            const mealsList = await this.mealsPort.fetchRecipesList();
             this.presentMealsList(mealsList);
         } catch {
             this.presentError();

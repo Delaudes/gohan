@@ -1,7 +1,7 @@
 import { Field } from "../../../presentation/field/field.port";
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
-import { RecipeDomainModel } from "../models/meals.domain.model";
+import { MealDomainModel } from "../models/meals.domain.model";
 
 export class AddMealUseCase {
     constructor(
@@ -9,10 +9,10 @@ export class AddMealUseCase {
         private readonly mealsPort: MealsPort,
     ) { }
 
-    async execute(recipeId: string, field: Field): Promise<void> {
+    async execute(id: string, field: Field): Promise<void> {
         this.startLoading();
         try {
-            const meal = await this.mealsPort.addMeal(recipeId);
+            const meal = await this.mealsPort.addMeal(id);
             this.presentMealAdded(meal);
             field.value = '';
             field.focus();
@@ -35,7 +35,7 @@ export class AddMealUseCase {
         this.mealsView.update({ isErrorAddingMeal: true });
     }
 
-    private presentMealAdded(meal: RecipeDomainModel): void {
+    private presentMealAdded(meal: MealDomainModel): void {
         const current = this.mealsView.mealsViewModel();
         const meals = [
             ...current.meals,

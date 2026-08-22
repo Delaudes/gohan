@@ -3,7 +3,7 @@
 export class RecipesListDomainModel {
     constructor(public readonly recipes: RecipeDomainModel[]) { }
 
-    getMeals(): RecipeDomainModel[] {
+    getMeals(): MealDomainModel[] {
         return this.recipes.filter(recipe => recipe.inMealsList);
     }
 
@@ -19,7 +19,7 @@ export class RecipesListDomainModel {
         return this.getMeals().length;
     }
 
-    getMealsOptions(): RecipeDomainModel[] {
+    getMealsOptions(): MealOptionDomainModel[] {
         return this.recipes.filter(recipe => !recipe.inMealsList);
     }
 
@@ -28,17 +28,50 @@ export class RecipesListDomainModel {
     }
 }
 
-export class RecipeDomainModel {
+export class MealOptionDomainModel {
     constructor(
         public readonly id: string,
         public readonly name: string,
-        public readonly inMealsList: boolean,
-        public readonly done: boolean,
-    ) {
-    }
+    ) { }
 
     is(id: string | undefined): boolean {
         return this.id === id;
+    }
+}
+
+export class MealDomainModel extends MealOptionDomainModel {
+    constructor(
+        id: string,
+        name: string,
+        public readonly done: boolean,
+    ) {
+        super(id, name);
+    }
+}
+
+export class RecipeDomainModel extends MealDomainModel {
+    constructor(
+        id: string,
+        name: string,
+        public readonly inMealsList: boolean,
+        done: boolean,
+    ) {
+        super(id, name, done);
+    }
+}
+
+export class MealDetailDomainModel extends MealDomainModel {
+    constructor(
+        id: string,
+        name: string,
+        done: boolean,
+        public readonly ingredients: MealIngredientDomainModel[],
+    ) {
+        super(id, name, done);
+    }
+
+    hasIngredients(): boolean {
+        return this.ingredients.length > 0;
     }
 }
 
@@ -54,18 +87,3 @@ export class MealIngredientDomainModel {
     }
 }
 
-export class MealDetailDomainModel extends RecipeDomainModel {
-    constructor(
-        id: string,
-        name: string,
-        inMealsList: boolean,
-        done: boolean,
-        public readonly ingredients: MealIngredientDomainModel[],
-    ) {
-        super(id, name, inMealsList, done);
-    }
-
-    hasIngredients(): boolean {
-        return this.ingredients.length > 0;
-    }
-}
