@@ -1,13 +1,13 @@
 import { AppParam } from "../../../infra/route/app-param";
 import { RoutePort } from "../../../infra/route/route.port";
 import { Dialog } from "../../../presentation/dialog/dialog.port";
-import { RecipeIngredientsPort } from "../recipe-ingredients.port";
+import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
 
 export class RemoveRecipeIngredientUseCase {
     constructor(
         private readonly recipeView: RecipeView,
-        private readonly recipeIngredientsPort: RecipeIngredientsPort,
+        private readonly recipePort: RecipePort,
         private readonly routePort: RoutePort,
     ) { }
 
@@ -15,7 +15,7 @@ export class RemoveRecipeIngredientUseCase {
         const recipeId = this.routePort.getParam(AppParam.Id);
         this.startLoading(ingredientId);
         try {
-            await this.recipeIngredientsPort.removeRecipeIngredient(recipeId, ingredientId);
+            await this.recipePort.removeRecipeIngredient(recipeId, ingredientId);
             this.presentIngredientRemoved(ingredientId);
             dialog.close();
         } catch {

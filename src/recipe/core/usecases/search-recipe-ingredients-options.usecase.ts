@@ -1,17 +1,17 @@
-import { IngredientOptionDomainModel } from "../models/recipes.domain.model";
-import { RecipeIngredientsPort } from "../recipe-ingredients.port";
+import { IngredientOptionDomainModel } from "../models/recipe.domain.model";
+import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
 
 export class SearchRecipeIngredientsOptionsUseCase {
     constructor(
         private readonly recipeView: RecipeView,
-        private readonly recipeIngredientsPort: RecipeIngredientsPort,
+        private readonly recipePort: RecipePort,
     ) { }
 
     async execute(query: string): Promise<void> {
-        const options = await this.recipeIngredientsPort.fetchIngredientsOptions();
+        const options = await this.recipePort.fetchIngredientsOptions();
         const firstMatch = options.getFirstMatch(query);
-        this.presentOptions(options.ingredientsOptions, firstMatch);
+        this.presentOptions(options.ingredients, firstMatch);
     }
 
     private presentOptions(allOptions: IngredientOptionDomainModel[], firstMatch: IngredientOptionDomainModel | undefined): void {

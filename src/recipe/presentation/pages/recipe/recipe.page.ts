@@ -4,7 +4,7 @@ import { AppPath } from '../../../../app/app.routes';
 import { RecipeView } from '../../../core/recipe.view';
 import { FetchRecipeUseCase } from '../../../core/usecases/fetch-recipe.usecase';
 import { SearchRecipeIngredientsOptionsUseCase } from '../../../core/usecases/search-recipe-ingredients-options.usecase';
-import { RECIPES_PROVIDERS } from '../../recipes.provider';
+import { RECIPE_PROVIDERS } from '../../recipe.provider';
 import { AddRecipeIngredientComponent } from '../../components/add-recipe-ingredient/add-recipe-ingredient.component';
 import { RemoveRecipeIngredientComponent } from '../../components/remove-recipe-ingredient/remove-recipe-ingredient.component';
 
@@ -13,7 +13,7 @@ import { RemoveRecipeIngredientComponent } from '../../components/remove-recipe-
   imports: [RouterLink, AddRecipeIngredientComponent, RemoveRecipeIngredientComponent],
   templateUrl: './recipe.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RECIPES_PROVIDERS],
+  providers: [RECIPE_PROVIDERS],
 })
 export class RecipePage implements OnInit {
   protected readonly AppPath = AppPath;

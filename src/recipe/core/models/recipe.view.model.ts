@@ -1,4 +1,4 @@
-export type RecipeDetailViewModel = {
+export type RecipeViewModel = {
     isLoadingFetchingRecipe: boolean;
     isErrorFetchingRecipe: boolean;
     id: string;

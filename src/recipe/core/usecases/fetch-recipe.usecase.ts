@@ -1,13 +1,13 @@
 import { AppParam } from "../../../infra/route/app-param";
 import { RoutePort } from "../../../infra/route/route.port";
-import { RecipesPort } from "../recipes.port";
+import { RecipeDomainModel } from "../models/recipe.domain.model";
+import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
-import { RecipeDetailDomainModel } from "../models/recipes.domain.model";
 
 export class FetchRecipeUseCase {
     constructor(
         private readonly recipeView: RecipeView,
-        private readonly recipesPort: RecipesPort,
+        private readonly recipePort: RecipePort,
         private readonly routePort: RoutePort,
     ) { }
 
@@ -15,7 +15,7 @@ export class FetchRecipeUseCase {
         const id = this.routePort.getParam(AppParam.Id);
         this.startLoading();
         try {
-            const recipe = await this.recipesPort.fetchRecipe(id);
+            const recipe = await this.recipePort.fetchRecipe(id);
             this.presentRecipe(recipe);
         } catch {
             this.presentError();
@@ -36,7 +36,7 @@ export class FetchRecipeUseCase {
         this.recipeView.update({ isErrorFetchingRecipe: true });
     }
 
-    private presentRecipe(recipe: RecipeDetailDomainModel): void {
+    private presentRecipe(recipe: RecipeDomainModel): void {
         this.recipeView.update({
             id: recipe.id,
             name: recipe.name,

@@ -1,8 +1,8 @@
 import { signal } from "@angular/core";
-import { RecipeDetailViewModel } from "./models/recipe.view.model";
+import { RecipeViewModel } from "./models/recipe.view.model";
 
 export class RecipeView {
-    readonly recipeViewModel = signal<RecipeDetailViewModel>({
+    readonly recipeViewModel = signal<RecipeViewModel>({
         isLoadingFetchingRecipe: false,
         isErrorFetchingRecipe: false,
         id: '',
@@ -15,7 +15,7 @@ export class RecipeView {
         isErrorAddingIngredient: false,
     });
 
-    update(partial: Partial<RecipeDetailViewModel>): void {
+    update(partial: Partial<RecipeViewModel>): void {
         this.recipeViewModel.update(viewModel => ({ ...viewModel, ...partial }));
     }
 }

@@ -1,22 +1,23 @@
+import { Field } from "../../../presentation/field/field.port";
 import { AppParam } from "../../../infra/route/app-param";
 import { RoutePort } from "../../../infra/route/route.port";
-import { Field } from "../../../presentation/field/field.port";
-import { RecipeIngredientDomainModel } from "../models/recipes.domain.model";
-import { RecipeIngredientsPort } from "../recipe-ingredients.port";
+import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
+import { RecipeIngredientDomainModel } from "../models/recipe.domain.model";
 
-export class AddKnownRecipeIngredientUseCase {
+export class AddUnknownRecipeIngredientUseCase {
     constructor(
         private readonly recipeView: RecipeView,
-        private readonly recipeIngredientsPort: RecipeIngredientsPort,
+        private readonly recipePort: RecipePort,
         private readonly routePort: RoutePort,
     ) { }
 
-    async execute(ingredientId: string, field: Field): Promise<void> {
+    async execute(field: Field): Promise<void> {
         const recipeId = this.routePort.getParam(AppParam.Id);
         this.startLoading();
         try {
-            const ingredient = await this.recipeIngredientsPort.addRecipeIngredient(recipeId, ingredientId);
+            const option = await this.recipePort.createIngredientOption(field.value.trim());
+            const ingredient = await this.recipePort.addRecipeIngredient(recipeId, option.id);
             this.presentIngredientAdded(ingredient);
             field.value = '';
             field.focus();
@@ -45,10 +46,10 @@ export class AddKnownRecipeIngredientUseCase {
             ...current.ingredients,
             { id: ingredient.id, name: ingredient.name, isLoadingRemoving: false, isErrorRemoving: false },
         ];
-        const ingredientsOptions = current.ingredientsOptions.map(option => ({
-            ...option,
-            isVisible: false,
-        }));
+        const ingredientsOptions = [
+            ...current.ingredientsOptions.map(option => ({ ...option, isVisible: false })),
+            { id: ingredient.id, name: ingredient.name, isVisible: false },
+        ];
         this.recipeView.update({
             ingredients,
             hasIngredients: true,

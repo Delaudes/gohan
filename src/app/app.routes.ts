@@ -23,7 +23,7 @@ export const routes: Routes = [
   },
   {
     path: `${AppPath.Recipes}/:id`,
-    loadComponent: () => import('../recipes/presentation/pages/recipe/recipe.page').then((m) => m.RecipePage),
+    loadComponent: () => import('../recipe/presentation/pages/recipe/recipe.page').then((m) => m.RecipePage),
   },
   {
     path: AppPath.Shopping,
