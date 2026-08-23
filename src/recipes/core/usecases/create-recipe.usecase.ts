@@ -3,6 +3,7 @@ import { Field } from "../../../presentation/field/field.port";
 import { RecipeDomainModel } from "../models/recipes.domain.model";
 import { RecipesPort } from "../recipes.port";
 import { RecipesView } from "../recipes.view";
+import { RecipeViewModel } from "../models/recipe.view.model";
 
 export class CreateRecipeUseCase {
     constructor(
@@ -11,36 +12,29 @@ export class CreateRecipeUseCase {
     ) { }
 
     async execute(dialog: Dialog, field: Field): Promise<void> {
-        this.startLoading();
+        this.recipesView.update(vm => vm.startLoadingCreatingRecipe());
         try {
             const recipe = await this.recipesPort.createRecipe(field.value.trim());
             this.presentRecipeCreated(recipe);
             field.value = '';
             dialog.close();
         } catch {
-            this.presentError();
+            this.recipesView.update(vm => vm.presentErrorCreatingRecipe());
         } finally {
-            this.stopLoading();
+            this.recipesView.update(vm => vm.stopLoadingCreatingRecipe());
         }
     }
 
-    private startLoading(): void {
-        this.recipesView.update({ isLoadingCreatingRecipe: true, isErrorCreatingRecipe: false });
-    }
-
-    private stopLoading(): void {
-        this.recipesView.update({ isLoadingCreatingRecipe: false });
-    }
-
-    private presentError(): void {
-        this.recipesView.update({ isErrorCreatingRecipe: true });
-    }
-
     private presentRecipeCreated(recipe: RecipeDomainModel): void {
-        const recipes = [
-            ...this.recipesView.recipesViewModel().recipes,
-            { id: recipe.id, name: recipe.name, isLoadingDeleting: false, isErrorDeleting: false, isLoadingUpdating: false, isErrorUpdating: false, inMealsList: recipe.inMealsList },
-        ];
-        this.recipesView.update({ recipes, hasRecipes: true });
+        const recipeViewModel = new RecipeViewModel({
+            id: recipe.id,
+            name: recipe.name,
+            isLoadingDeleting: false,
+            isErrorDeleting: false,
+            isLoadingUpdating: false,
+            isErrorUpdating: false,
+            inMealsList: recipe.inMealsList,
+        });
+        this.recipesView.update(vm => vm.presentRecipeCreated(recipeViewModel));
     }
 }

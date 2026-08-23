@@ -1,6 +1,7 @@
 import { RecipesPort } from "../recipes.port";
 import { RecipesView } from "../recipes.view";
 import { RecipesListDomainModel } from "../models/recipes.domain.model";
+import { RecipeViewModel } from "../models/recipe.view.model";
 
 export class FetchRecipesUseCase {
     constructor(
@@ -9,41 +10,27 @@ export class FetchRecipesUseCase {
     ) { }
 
     async execute(): Promise<void> {
-        this.startLoading();
+        this.recipesView.update(vm => vm.startLoadingFetchingRecipes());
         try {
             const recipesList = await this.recipesPort.fetchRecipesList();
-            this.presentRecipesList(recipesList);
+            this.presentRecipesFetched(recipesList);
         } catch {
-            this.presentError();
+            this.recipesView.update(vm => vm.presentErrorFetchingRecipes());
         } finally {
-            this.stopLoading();
+            this.recipesView.update(vm => vm.stopLoadingFetchingRecipes());
         }
     }
 
-    private startLoading(): void {
-        this.recipesView.update({ isLoadingFetchingRecipes: true, isErrorFetchingRecipes: false });
-    }
-
-    private stopLoading(): void {
-        this.recipesView.update({ isLoadingFetchingRecipes: false });
-    }
-
-    private presentError(): void {
-        this.recipesView.update({ isErrorFetchingRecipes: true });
-    }
-
-    private presentRecipesList(recipesList: RecipesListDomainModel) {
-        this.recipesView.update({
-            recipes: recipesList.recipes.map(recipe => ({
-                id: recipe.id,
-                name: recipe.name,
-                isLoadingDeleting: false,
-                isErrorDeleting: false,
-                isLoadingUpdating: false,
-                isErrorUpdating: false,
-                inMealsList: recipe.inMealsList,
-            })),
-            hasRecipes: recipesList.hasRecipes(),
-        });
+    private presentRecipesFetched(recipesList: RecipesListDomainModel): void {
+        const recipes = recipesList.recipes.map(recipe => new RecipeViewModel({
+            id: recipe.id,
+            name: recipe.name,
+            isLoadingDeleting: false,
+            isErrorDeleting: false,
+            isLoadingUpdating: false,
+            isErrorUpdating: false,
+            inMealsList: recipe.inMealsList,
+        }));
+        this.recipesView.update(vm => vm.presentRecipesFetched(recipes));
     }
 }

@@ -1,9 +1,9 @@
-<div class="flex flex-col gap-4 p-4 pb-32">
+<div class="flex flex-col gap-4 p-4 pb-56">
   @let vm = viewModel();
 
   @if (vm.isLoadingFetchingRecipes) {
     <ul class="flex flex-col gap-3">
-      @for (w of ['w-2/5', 'w-1/3', 'w-1/2']; track $index) {
+      @for (w of ['w-2/5', 'w-1/3', 'w-1/2', 'w-1/4', 'w-2/5']; track $index) {
         <li class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex items-center gap-3 rounded-2xl border-2 p-3">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center">
             <span class="bg-charcoal/10 h-5 w-5 animate-pulse rounded-full"></span>
@@ -32,13 +32,18 @@
         Réessayer
       </button>
     </div>
-  } @else if (vm.hasRecipes) {
+  } @else if (vm.hasRecipes()) {
     <ul class="flex flex-col gap-3">
-      @for (recipe of vm.recipes; track recipe.id) {
+      @for (recipe of vm.filteredRecipes(); track recipe.id) {
         <li class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex items-center gap-3 rounded-2xl border-2 p-3">
           <app-toggle-recipe-meals-list [recipe]="recipe" />
-          <app-recipe-link [recipe]="recipe" />
+          <app-recipe-link class="min-w-0 flex-1" [recipe]="recipe" />
           <app-delete-recipe [recipe]="recipe" />
+        </li>
+      } @empty {
+        <li class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col items-center gap-4 rounded-2xl border-2 py-16 text-center">
+          <span class="material-symbols-outlined text-tomato text-3xl">search_off</span>
+          <p class="text-charcoal">Aucune recette ne correspond à la recherche.</p>
         </li>
       }
     </ul>
@@ -49,8 +54,23 @@
     </div>
   }
 
+  <div class="bg-cream border-charcoal/10 fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 border-t p-3">
+    <div class="relative">
+      <label for="recipes-search" class="sr-only">Rechercher une recette</label>
+      <span class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl">search</span>
+      <input
+        #searchInput
+        id="recipes-search"
+        type="text"
+        (input)="searchRecipes.execute(searchInput.value)"
+        placeholder="Rechercher une recette"
+        class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
+      />
+    </div>
+  </div>
+
   @if (vm.isLoadingFetchingRecipes) {
-    <div class="bg-charcoal/10 fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-10 h-14 w-14 animate-pulse rounded-full"></div>
+    <div class="bg-charcoal/10 fixed right-4 bottom-[calc(9.5rem+env(safe-area-inset-bottom))] z-10 h-14 w-14 animate-pulse rounded-full"></div>
   } @else if (!vm.isErrorFetchingRecipes) {
     <app-create-recipe />
   }

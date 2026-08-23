@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { RecipeViewModel } from '../../../core/models/recipes.view.model';
+import { RecipeViewModel } from '../../../core/models/recipe.view.model';
 import { DeleteRecipeUseCase } from '../../../core/usecases/delete-recipe.usecase';
 
 @Component({

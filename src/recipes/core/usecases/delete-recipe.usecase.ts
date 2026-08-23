@@ -9,44 +9,15 @@ export class DeleteRecipeUseCase {
     ) { }
 
     async execute(id: string, dialog: Dialog): Promise<void> {
-        this.startLoading(id);
+        this.recipesView.update(vm => vm.startLoadingDeletingRecipe(id));
         try {
             await this.recipesPort.deleteRecipe(id);
-            this.presentRecipeDeleted(id);
+            this.recipesView.update(vm => vm.presentRecipeDeleted(id));
             dialog.close();
         } catch {
-            this.presentError(id);
+            this.recipesView.update(vm => vm.presentErrorDeletingRecipe(id));
         } finally {
-            this.stopLoading(id);
+            this.recipesView.update(vm => vm.stopLoadingDeletingRecipe(id));
         }
-    }
-
-    private startLoading(id: string): void {
-        const recipes = this.recipesView.recipesViewModel().recipes.map(recipe =>
-            recipe.id === id ? { ...recipe, isLoadingDeleting: true, isErrorDeleting: false } : recipe
-        );
-        this.recipesView.update({ recipes });
-    }
-
-    private stopLoading(id: string): void {
-        const recipes = this.recipesView.recipesViewModel().recipes.map(recipe =>
-            recipe.id === id ? { ...recipe, isLoadingDeleting: false } : recipe
-        );
-        this.recipesView.update({ recipes });
-    }
-
-    private presentError(id: string): void {
-        const recipes = this.recipesView.recipesViewModel().recipes.map(recipe =>
-            recipe.id === id ? { ...recipe, isErrorDeleting: true } : recipe
-        );
-        this.recipesView.update({ recipes });
-    }
-
-    private presentRecipeDeleted(id: string): void {
-        const recipes = this.recipesView.recipesViewModel().recipes.filter(recipe => recipe.id !== id);
-        this.recipesView.update({
-            recipes,
-            hasRecipes: recipes.length > 0,
-        });
     }
 }
