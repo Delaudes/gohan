@@ -60,7 +60,7 @@
       </span>
     </div>
 
-    @if (vm.hasIngredients) {
+    @if (vm.hasIngredients()) {
       <ul class="divide-charcoal/10 flex flex-col divide-y">
         @for (ingredient of vm.ingredients; track ingredient.id) {
           <li class="flex items-center justify-between gap-2 px-2 py-3">

@@ -13,41 +13,15 @@ export class RemoveRecipeIngredientUseCase {
 
     async execute(ingredientId: string, dialog: Dialog): Promise<void> {
         const recipeId = this.routePort.getParam(AppParam.Id);
-        this.startLoading(ingredientId);
+        this.recipeView.update(vm => vm.startLoadingRemovingIngredient(ingredientId));
         try {
             await this.recipePort.removeRecipeIngredient(recipeId, ingredientId);
-            this.presentIngredientRemoved(ingredientId);
+            this.recipeView.update(vm => vm.presentIngredientRemoved(ingredientId));
             dialog.close();
         } catch {
-            this.presentError(ingredientId);
+            this.recipeView.update(vm => vm.presentErrorRemovingIngredient(ingredientId));
         } finally {
-            this.stopLoading(ingredientId);
+            this.recipeView.update(vm => vm.stopLoadingRemovingIngredient(ingredientId));
         }
-    }
-
-    private startLoading(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel().ingredients.map(ingredient =>
-            ingredient.id === ingredientId ? { ...ingredient, isLoadingRemoving: true, isErrorRemoving: false } : ingredient
-        );
-        this.recipeView.update({ ingredients });
-    }
-
-    private stopLoading(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel().ingredients.map(ingredient =>
-            ingredient.id === ingredientId ? { ...ingredient, isLoadingRemoving: false } : ingredient
-        );
-        this.recipeView.update({ ingredients });
-    }
-
-    private presentError(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel().ingredients.map(ingredient =>
-            ingredient.id === ingredientId ? { ...ingredient, isErrorRemoving: true } : ingredient
-        );
-        this.recipeView.update({ ingredients });
-    }
-
-    private presentIngredientRemoved(ingredientId: string): void {
-        const ingredients = this.recipeView.recipeViewModel().ingredients.filter(ingredient => ingredient.id !== ingredientId);
-        this.recipeView.update({ ingredients, hasIngredients: ingredients.length > 0 });
     }
 }

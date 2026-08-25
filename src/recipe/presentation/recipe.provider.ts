@@ -3,7 +3,8 @@ import { InMemoryRecipeAdapter } from "../adapters/in-memory-recipe.adapter";
 import { RecipePort } from "../core/recipe.port";
 import { RecipeView } from "../core/recipe.view";
 import { FetchRecipeUseCase } from "../core/usecases/fetch-recipe.usecase";
-import { SearchRecipeIngredientsOptionsUseCase } from "../core/usecases/search-recipe-ingredients-options.usecase";
+import { FetchIngredientOptionsUseCase } from "../core/usecases/fetch-ingredient-options.usecase";
+import { SearchIngredientOptionsUseCase } from "../core/usecases/search-ingredient-options.usecase";
 import { AddKnownRecipeIngredientUseCase } from "../core/usecases/add-known-recipe-ingredient.usecase";
 import { AddUnknownRecipeIngredientUseCase } from "../core/usecases/add-unknown-recipe-ingredient.usecase";
 import { RemoveRecipeIngredientUseCase } from "../core/usecases/remove-recipe-ingredient.usecase";
@@ -24,8 +25,12 @@ export const RECIPE_PROVIDERS = [
         useFactory: () => new FetchRecipeUseCase(inject(RecipeView), inject(RECIPE_TOKEN), inject(ROUTE_TOKEN)),
     },
     {
-        provide: SearchRecipeIngredientsOptionsUseCase,
-        useFactory: () => new SearchRecipeIngredientsOptionsUseCase(inject(RecipeView), inject(RECIPE_TOKEN)),
+        provide: FetchIngredientOptionsUseCase,
+        useFactory: () => new FetchIngredientOptionsUseCase(inject(RecipeView), inject(RECIPE_TOKEN)),
+    },
+    {
+        provide: SearchIngredientOptionsUseCase,
+        useFactory: () => new SearchIngredientOptionsUseCase(inject(RecipeView)),
     },
     {
         provide: AddKnownRecipeIngredientUseCase,

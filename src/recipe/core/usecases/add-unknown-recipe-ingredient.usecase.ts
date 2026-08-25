@@ -4,6 +4,7 @@ import { RoutePort } from "../../../infra/route/route.port";
 import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
 import { RecipeIngredientDomainModel } from "../models/recipe.domain.model";
+import { IngredientOptionViewModel, RecipeIngredientViewModel } from "../models/recipe-ingredient.view.model";
 
 export class AddUnknownRecipeIngredientUseCase {
     constructor(
@@ -14,7 +15,7 @@ export class AddUnknownRecipeIngredientUseCase {
 
     async execute(field: Field): Promise<void> {
         const recipeId = this.routePort.getParam(AppParam.Id);
-        this.startLoading();
+        this.recipeView.update(vm => vm.startLoadingAddingIngredient());
         try {
             const option = await this.recipePort.createIngredientOption(field.value.trim());
             const ingredient = await this.recipePort.addRecipeIngredient(recipeId, option.id);
@@ -22,38 +23,23 @@ export class AddUnknownRecipeIngredientUseCase {
             field.value = '';
             field.focus();
         } catch {
-            this.presentError();
+            this.recipeView.update(vm => vm.presentErrorAddingIngredient());
         } finally {
-            this.stopLoading();
+            this.recipeView.update(vm => vm.stopLoadingAddingIngredient());
         }
     }
 
-    private startLoading(): void {
-        this.recipeView.update({ isLoadingAddingIngredient: true, isErrorAddingIngredient: false });
-    }
-
-    private stopLoading(): void {
-        this.recipeView.update({ isLoadingAddingIngredient: false });
-    }
-
-    private presentError(): void {
-        this.recipeView.update({ isErrorAddingIngredient: true });
-    }
-
     private presentIngredientAdded(ingredient: RecipeIngredientDomainModel): void {
-        const current = this.recipeView.recipeViewModel();
-        const ingredients = [
-            ...current.ingredients,
-            { id: ingredient.id, name: ingredient.name, isLoadingRemoving: false, isErrorRemoving: false },
-        ];
-        const ingredientsOptions = [
-            ...current.ingredientsOptions.map(option => ({ ...option, isVisible: false })),
-            { id: ingredient.id, name: ingredient.name, isVisible: false },
-        ];
-        this.recipeView.update({
-            ingredients,
-            hasIngredients: true,
-            ingredientsOptions,
+        const ingredientViewModel = new RecipeIngredientViewModel({
+            id: ingredient.id,
+            name: ingredient.name,
+            isLoadingRemoving: false,
+            isErrorRemoving: false,
         });
+        const optionViewModel = new IngredientOptionViewModel({
+            id: ingredient.id,
+            name: ingredient.name,
+        });
+        this.recipeView.update(vm => vm.presentIngredientAdded(ingredientViewModel).presentIngredientOptionCreated(optionViewModel));
     }
 }

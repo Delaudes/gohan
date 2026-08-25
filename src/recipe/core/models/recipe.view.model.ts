@@ -1,25 +1,163 @@
-export type RecipeViewModel = {
+import { IngredientOptionViewModel, RecipeIngredientViewModel } from "./recipe-ingredient.view.model";
+
+type RecipeProps = {
     isLoadingFetchingRecipe: boolean;
     isErrorFetchingRecipe: boolean;
     id: string;
     name: string;
     inMealsList: boolean;
     ingredients: RecipeIngredientViewModel[];
-    hasIngredients: boolean;
-    ingredientsOptions: IngredientOptionViewModel[];
+    ingredientOptions: IngredientOptionViewModel[];
+    ingredientsSearchQuery: string;
     isLoadingAddingIngredient: boolean;
     isErrorAddingIngredient: boolean;
 }
 
-export type RecipeIngredientViewModel = {
-    id: string;
-    name: string;
-    isLoadingRemoving: boolean;
-    isErrorRemoving: boolean;
-}
+export class RecipeViewModel {
+    readonly isLoadingFetchingRecipe: boolean;
+    readonly isErrorFetchingRecipe: boolean;
+    readonly id: string;
+    readonly name: string;
+    readonly inMealsList: boolean;
+    readonly ingredients: RecipeIngredientViewModel[];
+    readonly ingredientOptions: IngredientOptionViewModel[];
+    readonly ingredientsSearchQuery: string;
+    readonly isLoadingAddingIngredient: boolean;
+    readonly isErrorAddingIngredient: boolean;
 
-export type IngredientOptionViewModel = {
-    id: string;
-    name: string;
-    isVisible: boolean;
+    constructor(props: RecipeProps) {
+        this.isLoadingFetchingRecipe = props.isLoadingFetchingRecipe;
+        this.isErrorFetchingRecipe = props.isErrorFetchingRecipe;
+        this.id = props.id;
+        this.name = props.name;
+        this.inMealsList = props.inMealsList;
+        this.ingredients = props.ingredients;
+        this.ingredientOptions = props.ingredientOptions;
+        this.ingredientsSearchQuery = props.ingredientsSearchQuery;
+        this.isLoadingAddingIngredient = props.isLoadingAddingIngredient;
+        this.isErrorAddingIngredient = props.isErrorAddingIngredient;
+    }
+
+    static initial(): RecipeViewModel {
+        return new RecipeViewModel({
+            isLoadingFetchingRecipe: false,
+            isErrorFetchingRecipe: false,
+            id: '',
+            name: '',
+            inMealsList: false,
+            ingredients: [],
+            ingredientOptions: [],
+            ingredientsSearchQuery: '',
+            isLoadingAddingIngredient: false,
+            isErrorAddingIngredient: false,
+        });
+    }
+
+    hasIngredients(): boolean {
+        return this.ingredients.length > 0;
+    }
+
+    matchingIngredientOption(): IngredientOptionViewModel | undefined {
+        const normalizedQuery = this.ingredientsSearchQuery.trim().toLowerCase();
+        if (!normalizedQuery) return undefined;
+        return this.ingredientOptions.find(option => option.matches(normalizedQuery));
+    }
+
+    private with(partial: Partial<RecipeProps>): RecipeViewModel {
+        return new RecipeViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private mapIngredient(fn: (ingredient: RecipeIngredientViewModel) => RecipeIngredientViewModel): RecipeViewModel {
+        return this.with({
+            ingredients: this.ingredients.map(fn),
+        });
+    }
+
+    startLoadingFetchingRecipe(): RecipeViewModel {
+        return this.with({
+            isLoadingFetchingRecipe: true,
+            isErrorFetchingRecipe: false,
+        });
+    }
+
+    stopLoadingFetchingRecipe(): RecipeViewModel {
+        return this.with({
+            isLoadingFetchingRecipe: false,
+        });
+    }
+
+    presentErrorFetchingRecipe(): RecipeViewModel {
+        return this.with({
+            isErrorFetchingRecipe: true,
+        });
+    }
+
+    presentRecipeFetched(recipe: Partial<RecipeProps>): RecipeViewModel {
+        return this.with(recipe);
+    }
+
+    startLoadingAddingIngredient(): RecipeViewModel {
+        return this.with({
+            isLoadingAddingIngredient: true,
+            isErrorAddingIngredient: false,
+        });
+    }
+
+    stopLoadingAddingIngredient(): RecipeViewModel {
+        return this.with({
+            isLoadingAddingIngredient: false,
+        });
+    }
+
+    presentErrorAddingIngredient(): RecipeViewModel {
+        return this.with({
+            isErrorAddingIngredient: true,
+        });
+    }
+
+    presentIngredientAdded(ingredient: RecipeIngredientViewModel): RecipeViewModel {
+        return this.with({
+            ingredients: [...this.ingredients, ingredient],
+        });
+    }
+
+    presentIngredientOptionCreated(option: IngredientOptionViewModel): RecipeViewModel {
+        return this.with({
+            ingredientOptions: [...this.ingredientOptions, option],
+        });
+    }
+
+    startLoadingRemovingIngredient(id: string): RecipeViewModel {
+        return this.mapIngredient(ingredient => ingredient.startLoadingRemovingIngredient(id));
+    }
+
+    stopLoadingRemovingIngredient(id: string): RecipeViewModel {
+        return this.mapIngredient(ingredient => ingredient.stopLoadingRemovingIngredient(id));
+    }
+
+    presentErrorRemovingIngredient(id: string): RecipeViewModel {
+        return this.mapIngredient(ingredient => ingredient.presentErrorRemovingIngredient(id));
+    }
+
+    presentIngredientRemoved(id: string): RecipeViewModel {
+        const ingredients = this.ingredients.filter(ingredient => ingredient.isNot(id));
+        return this.with({
+            ingredients,
+        });
+    }
+
+    presentIngredientOptionsFetched(options: IngredientOptionViewModel[]): RecipeViewModel {
+        return this.with({
+            ingredientOptions: options,
+        });
+    }
+
+    presentIngredientsSearchQuery(query: string): RecipeViewModel {
+        return this.with({
+            ingredientsSearchQuery: query,
+        });
+    }
 }

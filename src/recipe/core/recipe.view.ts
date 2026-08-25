@@ -2,20 +2,10 @@ import { signal } from "@angular/core";
 import { RecipeViewModel } from "./models/recipe.view.model";
 
 export class RecipeView {
-    readonly recipeViewModel = signal<RecipeViewModel>({
-        isLoadingFetchingRecipe: false,
-        isErrorFetchingRecipe: false,
-        id: '',
-        name: '',
-        inMealsList: false,
-        ingredients: [],
-        hasIngredients: false,
-        ingredientsOptions: [],
-        isLoadingAddingIngredient: false,
-        isErrorAddingIngredient: false,
-    });
+    private readonly state = signal<RecipeViewModel>(RecipeViewModel.initial());
+    readonly recipeViewModel = this.state.asReadonly();
 
-    update(partial: Partial<RecipeViewModel>): void {
-        this.recipeViewModel.update(viewModel => ({ ...viewModel, ...partial }));
+    update(fn: (vm: RecipeViewModel) => RecipeViewModel): void {
+        this.state.update(fn);
     }
 }

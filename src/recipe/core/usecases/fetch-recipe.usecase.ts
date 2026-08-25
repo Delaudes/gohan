@@ -1,8 +1,9 @@
 import { AppParam } from "../../../infra/route/app-param";
 import { RoutePort } from "../../../infra/route/route.port";
-import { RecipeDomainModel } from "../models/recipe.domain.model";
 import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
+import { RecipeDomainModel } from "../models/recipe.domain.model";
+import { RecipeIngredientViewModel } from "../models/recipe-ingredient.view.model";
 
 export class FetchRecipeUseCase {
     constructor(
@@ -13,41 +14,29 @@ export class FetchRecipeUseCase {
 
     async execute(): Promise<void> {
         const id = this.routePort.getParam(AppParam.Id);
-        this.startLoading();
+        this.recipeView.update(vm => vm.startLoadingFetchingRecipe());
         try {
             const recipe = await this.recipePort.fetchRecipe(id);
-            this.presentRecipe(recipe);
+            this.presentRecipeFetched(recipe);
         } catch {
-            this.presentError();
+            this.recipeView.update(vm => vm.presentErrorFetchingRecipe());
         } finally {
-            this.stopLoading();
+            this.recipeView.update(vm => vm.stopLoadingFetchingRecipe());
         }
     }
 
-    private startLoading(): void {
-        this.recipeView.update({ isLoadingFetchingRecipe: true, isErrorFetchingRecipe: false });
-    }
-
-    private stopLoading(): void {
-        this.recipeView.update({ isLoadingFetchingRecipe: false });
-    }
-
-    private presentError(): void {
-        this.recipeView.update({ isErrorFetchingRecipe: true });
-    }
-
-    private presentRecipe(recipe: RecipeDomainModel): void {
-        this.recipeView.update({
+    private presentRecipeFetched(recipe: RecipeDomainModel): void {
+        const ingredients = recipe.ingredients.map(ingredient => new RecipeIngredientViewModel({
+            id: ingredient.id,
+            name: ingredient.name,
+            isLoadingRemoving: false,
+            isErrorRemoving: false,
+        }));
+        this.recipeView.update(vm => vm.presentRecipeFetched({
             id: recipe.id,
             name: recipe.name,
             inMealsList: recipe.inMealsList,
-            ingredients: recipe.ingredients.map(ingredient => ({
-                id: ingredient.id,
-                name: ingredient.name,
-                isLoadingRemoving: false,
-                isErrorRemoving: false,
-            })),
-            hasIngredients: recipe.hasIngredients(),
-        });
+            ingredients,
+        }));
     }
 }
