@@ -69,4 +69,15 @@
       <p class="text-charcoal">Aucun ingrédient dans la liste de courses.</p>
     </div>
   }
+
+  @if (vm.isLoadingFetchingIngredients) {
+    <div
+      class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4"
+    >
+      <span class="bg-charcoal/10 mx-auto h-7 w-40 animate-pulse rounded-full"></span>
+      <span class="bg-charcoal/10 h-11.5 w-full animate-pulse rounded-full"></span>
+    </div>
+  } @else if (!vm.isErrorFetchingIngredients) {
+    <app-add-shopping-ingredient />
+  }
 </div>

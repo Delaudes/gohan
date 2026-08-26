@@ -9,3 +9,13 @@ export type ShoppingIngredientDomainModel = {
     mealId?: string;
     mealName?: string;
 }
+
+export type IngredientOptionDomainModel = {
+    id: string;
+    name: string;
+    inShoppingList: boolean;
+}
+
+export type IngredientOptionsDomainModel = {
+    options: IngredientOptionDomainModel[];
+}

@@ -1,20 +1,33 @@
+import { IngredientOptionViewModel } from "./ingredient-option.view.model";
 import { ShoppingIngredientViewModel } from "./shopping-ingredient.view.model";
 
 type ShoppingProps = {
     isLoadingFetchingIngredients: boolean;
     isErrorFetchingIngredients: boolean;
     ingredients: ShoppingIngredientViewModel[];
+    ingredientOptions: IngredientOptionViewModel[];
+    ingredientsSearchQuery: string;
+    isLoadingAddingIngredient: boolean;
+    isErrorAddingIngredient: boolean;
 }
 
 export class ShoppingViewModel {
     readonly isLoadingFetchingIngredients: boolean;
     readonly isErrorFetchingIngredients: boolean;
     readonly ingredients: ShoppingIngredientViewModel[];
+    readonly ingredientOptions: IngredientOptionViewModel[];
+    readonly ingredientsSearchQuery: string;
+    readonly isLoadingAddingIngredient: boolean;
+    readonly isErrorAddingIngredient: boolean;
 
     constructor(props: ShoppingProps) {
         this.isLoadingFetchingIngredients = props.isLoadingFetchingIngredients;
         this.isErrorFetchingIngredients = props.isErrorFetchingIngredients;
         this.ingredients = props.ingredients;
+        this.ingredientOptions = props.ingredientOptions;
+        this.ingredientsSearchQuery = props.ingredientsSearchQuery;
+        this.isLoadingAddingIngredient = props.isLoadingAddingIngredient;
+        this.isErrorAddingIngredient = props.isErrorAddingIngredient;
     }
 
     static initial(): ShoppingViewModel {
@@ -22,11 +35,21 @@ export class ShoppingViewModel {
             isLoadingFetchingIngredients: false,
             isErrorFetchingIngredients: false,
             ingredients: [],
+            ingredientOptions: [],
+            ingredientsSearchQuery: '',
+            isLoadingAddingIngredient: false,
+            isErrorAddingIngredient: false,
         });
     }
 
     hasIngredients(): boolean {
         return this.ingredients.length > 0;
+    }
+
+    matchingIngredientOption(): IngredientOptionViewModel | undefined {
+        const normalizedQuery = this.ingredientsSearchQuery.trim().toLowerCase();
+        if (!normalizedQuery) return undefined;
+        return this.ingredientOptions.find(option => option.matches(normalizedQuery));
     }
 
     ingredientsProgress(): string {
@@ -109,6 +132,44 @@ export class ShoppingViewModel {
         const ingredients = this.ingredients.filter(ingredient => ingredient.isNot(id));
         return this.with({
             ingredients,
+        });
+    }
+
+    presentIngredientOptionsFetched(options: IngredientOptionViewModel[]): ShoppingViewModel {
+        return this.with({
+            ingredientOptions: options,
+        });
+    }
+
+    presentIngredientsSearchQuery(query: string): ShoppingViewModel {
+        return this.with({
+            ingredientsSearchQuery: query,
+        });
+    }
+
+    startLoadingAddingIngredient(): ShoppingViewModel {
+        return this.with({
+            isLoadingAddingIngredient: true,
+            isErrorAddingIngredient: false,
+        });
+    }
+
+    stopLoadingAddingIngredient(): ShoppingViewModel {
+        return this.with({
+            isLoadingAddingIngredient: false,
+        });
+    }
+
+    presentErrorAddingIngredient(): ShoppingViewModel {
+        return this.with({
+            isErrorAddingIngredient: true,
+        });
+    }
+
+    presentIngredientAdded(ingredient: ShoppingIngredientViewModel): ShoppingViewModel {
+        return this.with({
+            ingredients: this.sortIngredients([...this.ingredients, ingredient]),
+            ingredientOptions: this.ingredientOptions.filter(option => option.isNot(ingredient.id)),
         });
     }
 }
