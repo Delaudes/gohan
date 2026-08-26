@@ -2,6 +2,7 @@ import { Field } from "../../../presentation/field/field.port";
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
 import { MealDomainModel } from "../models/meals.domain.model";
+import { MealViewModel } from "../models/meal.view.model";
 
 export class AddMealUseCase {
     constructor(
@@ -10,57 +11,33 @@ export class AddMealUseCase {
     ) { }
 
     async execute(id: string, field: Field): Promise<void> {
-        this.startLoading();
+        this.mealsView.update(vm => vm.startLoadingAddingMeal());
         try {
             const meal = await this.mealsPort.addMeal(id);
             this.presentMealAdded(meal);
             field.value = '';
             field.focus();
         } catch {
-            this.presentError();
+            this.mealsView.update(vm => vm.presentErrorAddingMeal());
         } finally {
-            this.stopLoading();
+            this.mealsView.update(vm => vm.stopLoadingAddingMeal());
         }
     }
 
-    private startLoading(): void {
-        this.mealsView.update({ isLoadingAddingMeal: true, isErrorAddingMeal: false });
-    }
-
-    private stopLoading(): void {
-        this.mealsView.update({ isLoadingAddingMeal: false });
-    }
-
-    private presentError(): void {
-        this.mealsView.update({ isErrorAddingMeal: true });
-    }
-
     private presentMealAdded(meal: MealDomainModel): void {
-        const current = this.mealsView.mealsViewModel();
-        const meals = [
-            ...current.meals,
-            {
-                id: meal.id,
-                name: meal.name,
-                done: meal.done,
-                isLoadingUpdatingDone: false,
-                isErrorUpdatingDone: false,
-                isLoadingRemoving: false,
-                isErrorRemoving: false,
-                isExpanded: false,
-                isLoadingIngredients: false,
-                isErrorIngredients: false,
-                ingredients: [],
-                hasIngredients: false,
-            },
-        ];
-        const mealsOptions = current.mealsOptions.filter(option => !meal.is(option.id));
-        this.mealsView.update({
-            meals,
-            hasMeals: true,
-            mealsProgress: `${meals.filter(meal => meal.done).length}/${meals.length} réalisé${meals.length > 1 ? 's' : ''}`,
-            mealsOptions,
-            hasMealsOptions: mealsOptions.length > 0,
+        const mealViewModel = new MealViewModel({
+            id: meal.id,
+            name: meal.name,
+            done: meal.done,
+            isLoadingUpdatingDone: false,
+            isErrorUpdatingDone: false,
+            isLoadingRemoving: false,
+            isErrorRemoving: false,
+            isExpanded: false,
+            isLoadingIngredients: false,
+            isErrorIngredients: false,
+            ingredients: [],
         });
+        this.mealsView.update(vm => vm.presentMealAdded(mealViewModel));
     }
 }

@@ -76,6 +76,10 @@ export class RecipeViewModel {
         });
     }
 
+    private sortIngredients(ingredients: RecipeIngredientViewModel[]): RecipeIngredientViewModel[] {
+        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    }
+
     startLoadingFetchingRecipe(): RecipeViewModel {
         return this.with({
             isLoadingFetchingRecipe: true,
@@ -96,7 +100,10 @@ export class RecipeViewModel {
     }
 
     presentRecipeFetched(recipe: Partial<RecipeProps>): RecipeViewModel {
-        return this.with(recipe);
+        return this.with({
+            ...recipe,
+            ingredients: recipe.ingredients ? this.sortIngredients(recipe.ingredients) : recipe.ingredients,
+        });
     }
 
     startLoadingAddingIngredient(): RecipeViewModel {
@@ -120,7 +127,7 @@ export class RecipeViewModel {
 
     presentIngredientAdded(ingredient: RecipeIngredientViewModel): RecipeViewModel {
         return this.with({
-            ingredients: [...this.ingredients, ingredient],
+            ingredients: this.sortIngredients([...this.ingredients, ingredient]),
         });
     }
 

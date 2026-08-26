@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { MealViewModel } from '../../../core/models/meals.view.model';
+import { MealViewModel } from '../../../core/models/meal.view.model';
 import { RemoveMealUseCase } from '../../../core/usecases/remove-meal.usecase';
 
 @Component({

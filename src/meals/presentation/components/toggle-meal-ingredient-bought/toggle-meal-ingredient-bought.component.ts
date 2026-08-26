@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { MealIngredientViewModel } from '../../../core/models/meals.view.model';
+import { MealIngredientViewModel } from '../../../core/models/meal-ingredient.view.model';
 import { UpdateMealIngredientBoughtUseCase } from '../../../core/usecases/update-meal-ingredient-bought.usecase';
 
 @Component({

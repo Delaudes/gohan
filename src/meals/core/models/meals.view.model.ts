@@ -1,40 +1,218 @@
-export type MealsViewModel = {
+import { MealIngredientViewModel } from "./meal-ingredient.view.model";
+import { MealOptionViewModel } from "./meal-option.view.model";
+import { MealViewModel } from "./meal.view.model";
+
+type MealsProps = {
     isLoadingFetchingMeals: boolean;
     isErrorFetchingMeals: boolean;
     meals: MealViewModel[];
-    hasMeals: boolean;
-    mealsProgress: string;
     mealsOptions: MealOptionViewModel[];
-    hasMealsOptions: boolean;
+    mealsSearchQuery: string;
     isLoadingAddingMeal: boolean;
     isErrorAddingMeal: boolean;
 }
 
-export type MealOptionViewModel = {
-    id: string;
-    name: string;
-    isVisible: boolean;
-}
+export class MealsViewModel {
+    readonly isLoadingFetchingMeals: boolean;
+    readonly isErrorFetchingMeals: boolean;
+    readonly meals: MealViewModel[];
+    readonly mealsOptions: MealOptionViewModel[];
+    readonly mealsSearchQuery: string;
+    readonly isLoadingAddingMeal: boolean;
+    readonly isErrorAddingMeal: boolean;
 
-export type MealViewModel = {
-    id: string;
-    name: string;
-    done: boolean;
-    isLoadingUpdatingDone: boolean;
-    isErrorUpdatingDone: boolean;
-    isLoadingRemoving: boolean;
-    isErrorRemoving: boolean;
-    isExpanded: boolean;
-    isLoadingIngredients: boolean;
-    isErrorIngredients: boolean;
-    ingredients: MealIngredientViewModel[];
-    hasIngredients: boolean;
-}
+    constructor(props: MealsProps) {
+        this.isLoadingFetchingMeals = props.isLoadingFetchingMeals;
+        this.isErrorFetchingMeals = props.isErrorFetchingMeals;
+        this.meals = props.meals;
+        this.mealsOptions = props.mealsOptions;
+        this.mealsSearchQuery = props.mealsSearchQuery;
+        this.isLoadingAddingMeal = props.isLoadingAddingMeal;
+        this.isErrorAddingMeal = props.isErrorAddingMeal;
+    }
 
-export type MealIngredientViewModel = {
-    id: string;
-    name: string;
-    bought: boolean;
-    isLoadingUpdatingBought: boolean;
-    isErrorUpdatingBought: boolean;
+    static initial(): MealsViewModel {
+        return new MealsViewModel({
+            isLoadingFetchingMeals: false,
+            isErrorFetchingMeals: false,
+            meals: [],
+            mealsOptions: [],
+            mealsSearchQuery: '',
+            isLoadingAddingMeal: false,
+            isErrorAddingMeal: false,
+        });
+    }
+
+    hasMeals(): boolean {
+        return this.meals.length > 0;
+    }
+
+    mealsProgress(): string {
+        const doneCount = this.meals.filter(meal => meal.done).length;
+        const count = this.meals.length;
+        return `${doneCount}/${count} réalisé${count > 1 ? 's' : ''}`;
+    }
+
+    hasMealsOptions(): boolean {
+        return this.mealsOptions.length > 0;
+    }
+
+    matchingMealOption(): MealOptionViewModel | undefined {
+        const normalizedQuery = this.mealsSearchQuery.trim().toLowerCase();
+        if (!normalizedQuery) return undefined;
+        return this.mealsOptions.find(option => option.matches(normalizedQuery));
+    }
+
+    isMealExpanded(id: string): boolean {
+        return this.meals.find(meal => meal.is(id))?.isExpanded ?? false;
+    }
+
+    private with(partial: Partial<MealsProps>): MealsViewModel {
+        return new MealsViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private mapMeal(fn: (meal: MealViewModel) => MealViewModel): MealsViewModel {
+        return this.with({
+            meals: this.meals.map(fn),
+        });
+    }
+
+    private sortMeals(meals: MealViewModel[]): MealViewModel[] {
+        return [...meals].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    }
+
+    startLoadingFetchingMeals(): MealsViewModel {
+        return this.with({
+            isLoadingFetchingMeals: true,
+            isErrorFetchingMeals: false,
+        });
+    }
+
+    stopLoadingFetchingMeals(): MealsViewModel {
+        return this.with({
+            isLoadingFetchingMeals: false,
+        });
+    }
+
+    presentErrorFetchingMeals(): MealsViewModel {
+        return this.with({
+            isErrorFetchingMeals: true,
+        });
+    }
+
+    presentMealsFetched(meals: MealViewModel[], mealsOptions: MealOptionViewModel[]): MealsViewModel {
+        return this.with({
+            meals: this.sortMeals(meals),
+            mealsOptions,
+        });
+    }
+
+    presentSearchQuery(mealsSearchQuery: string): MealsViewModel {
+        return this.with({ mealsSearchQuery });
+    }
+
+    startLoadingAddingMeal(): MealsViewModel {
+        return this.with({
+            isLoadingAddingMeal: true,
+            isErrorAddingMeal: false,
+        });
+    }
+
+    stopLoadingAddingMeal(): MealsViewModel {
+        return this.with({
+            isLoadingAddingMeal: false,
+        });
+    }
+
+    presentErrorAddingMeal(): MealsViewModel {
+        return this.with({
+            isErrorAddingMeal: true,
+        });
+    }
+
+    presentMealAdded(meal: MealViewModel): MealsViewModel {
+        return this.with({
+            meals: this.sortMeals([...this.meals, meal]),
+            mealsOptions: this.mealsOptions.filter(option => option.isNot(meal.id)),
+        });
+    }
+
+    startLoadingRemovingMeal(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.startLoadingRemovingMeal(id));
+    }
+
+    stopLoadingRemovingMeal(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.stopLoadingRemovingMeal(id));
+    }
+
+    presentErrorRemovingMeal(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.presentErrorRemovingMeal(id));
+    }
+
+    presentMealRemoved(id: string): MealsViewModel {
+        const removedMeal = this.meals.find(meal => meal.is(id));
+        const meals = this.meals.filter(meal => meal.isNot(id));
+        const mealsOptions = removedMeal
+            ? [...this.mealsOptions, new MealOptionViewModel({ id: removedMeal.id, name: removedMeal.name })]
+            : this.mealsOptions;
+        return this.with({
+            meals,
+            mealsOptions,
+        });
+    }
+
+    startLoadingUpdatingDoneMeal(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.startLoadingUpdatingDoneMeal(id));
+    }
+
+    stopLoadingUpdatingDoneMeal(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.stopLoadingUpdatingDoneMeal(id));
+    }
+
+    presentErrorUpdatingDoneMeal(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.presentErrorUpdatingDoneMeal(id));
+    }
+
+    presentMealUpdated(id: string, done: boolean): MealsViewModel {
+        return this.mapMeal(meal => meal.presentMealUpdated(id, done));
+    }
+
+    startLoadingFetchingIngredients(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.startLoadingFetchingIngredients(id));
+    }
+
+    stopLoadingFetchingIngredients(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.stopLoadingFetchingIngredients(id));
+    }
+
+    presentErrorFetchingIngredients(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.presentErrorFetchingIngredients(id));
+    }
+
+    presentIngredientsFetched(id: string, ingredients: MealIngredientViewModel[]): MealsViewModel {
+        return this.mapMeal(meal => meal.presentIngredientsFetched(id, ingredients));
+    }
+
+    presentCollapsed(id: string): MealsViewModel {
+        return this.mapMeal(meal => meal.presentCollapsed(id));
+    }
+
+    startLoadingUpdatingBoughtIngredient(mealId: string, ingredientId: string): MealsViewModel {
+        return this.mapMeal(meal => meal.startLoadingUpdatingBoughtIngredient(mealId, ingredientId));
+    }
+
+    stopLoadingUpdatingBoughtIngredient(mealId: string, ingredientId: string): MealsViewModel {
+        return this.mapMeal(meal => meal.stopLoadingUpdatingBoughtIngredient(mealId, ingredientId));
+    }
+
+    presentErrorUpdatingBoughtIngredient(mealId: string, ingredientId: string): MealsViewModel {
+        return this.mapMeal(meal => meal.presentErrorUpdatingBoughtIngredient(mealId, ingredientId));
+    }
+
+    presentIngredientUpdated(mealId: string, ingredientId: string, bought: boolean): MealsViewModel {
+        return this.mapMeal(meal => meal.presentIngredientUpdated(mealId, ingredientId, bought));
+    }
 }

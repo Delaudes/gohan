@@ -1,7 +1,5 @@
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
-import { MealIngredientDomainModel } from "../models/meals.domain.model";
-import { MealIngredientViewModel } from "../models/meals.view.model";
 
 export class UpdateMealIngredientBoughtUseCase {
     constructor(
@@ -10,46 +8,14 @@ export class UpdateMealIngredientBoughtUseCase {
     ) { }
 
     async execute(mealId: string, ingredientId: string, bought: boolean): Promise<void> {
-        this.startLoading(mealId, ingredientId);
+        this.mealsView.update(vm => vm.startLoadingUpdatingBoughtIngredient(mealId, ingredientId));
         try {
             const ingredient = await this.mealsPort.updateMealIngredient(mealId, ingredientId, bought);
-            this.presentIngredientUpdated(mealId, ingredient);
+            this.mealsView.update(vm => vm.presentIngredientUpdated(mealId, ingredient.id, ingredient.bought));
         } catch {
-            this.presentError(mealId, ingredientId);
+            this.mealsView.update(vm => vm.presentErrorUpdatingBoughtIngredient(mealId, ingredientId));
         } finally {
-            this.stopLoading(mealId, ingredientId);
+            this.mealsView.update(vm => vm.stopLoadingUpdatingBoughtIngredient(mealId, ingredientId));
         }
-    }
-
-    private startLoading(mealId: string, ingredientId: string): void {
-        this.updateIngredient(mealId, ingredientId, ingredient => ({ ...ingredient, isLoadingUpdatingBought: true, isErrorUpdatingBought: false }));
-    }
-
-    private stopLoading(mealId: string, ingredientId: string): void {
-        this.updateIngredient(mealId, ingredientId, ingredient => ({ ...ingredient, isLoadingUpdatingBought: false }));
-    }
-
-    private presentError(mealId: string, ingredientId: string): void {
-        this.updateIngredient(mealId, ingredientId, ingredient => ({ ...ingredient, isErrorUpdatingBought: true }));
-    }
-
-    private presentIngredientUpdated(mealId: string, ingredient: MealIngredientDomainModel): void {
-        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
-            meal.id === mealId ? {
-                ...meal,
-                ingredients: meal.ingredients.map(current => ingredient.is(current.id) ? { ...current, bought: ingredient.bought } : current),
-            } : meal
-        );
-        this.mealsView.update({ meals });
-    }
-
-    private updateIngredient(mealId: string, ingredientId: string, updateFn: (ingredient: MealIngredientViewModel) => MealIngredientViewModel): void {
-        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
-            meal.id === mealId ? {
-                ...meal,
-                ingredients: meal.ingredients.map(ingredient => ingredient.id === ingredientId ? updateFn(ingredient) : ingredient),
-            } : meal
-        );
-        this.mealsView.update({ meals });
     }
 }

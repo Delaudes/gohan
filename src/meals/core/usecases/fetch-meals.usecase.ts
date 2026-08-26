@@ -1,6 +1,8 @@
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
 import { RecipesListDomainModel } from "../models/meals.domain.model";
+import { MealOptionViewModel } from "../models/meal-option.view.model";
+import { MealViewModel } from "../models/meal.view.model";
 
 export class FetchMealsUseCase {
     constructor(
@@ -9,37 +11,24 @@ export class FetchMealsUseCase {
     ) { }
 
     async execute(): Promise<void> {
-        this.startLoading();
+        this.mealsView.update(vm => vm.startLoadingFetchingMeals());
         try {
-            const mealsList = await this.mealsPort.fetchRecipesList();
-            this.presentMealsList(mealsList);
+            const recipesList = await this.mealsPort.fetchRecipesList();
+            this.presentMealsFetched(recipesList);
         } catch {
-            this.presentError();
+            this.mealsView.update(vm => vm.presentErrorFetchingMeals());
         } finally {
-            this.stopLoading();
+            this.mealsView.update(vm => vm.stopLoadingFetchingMeals());
         }
     }
 
-    private startLoading(): void {
-        this.mealsView.update({ isLoadingFetchingMeals: true, isErrorFetchingMeals: false });
-    }
-
-    private stopLoading(): void {
-        this.mealsView.update({ isLoadingFetchingMeals: false });
-    }
-
-    private presentError(): void {
-        this.mealsView.update({ isErrorFetchingMeals: true });
-    }
-
-    private presentMealsList(recipesList: RecipesListDomainModel): void {
-        const meals = recipesList.getMeals();
-        const mealsCount = recipesList.mealsCount();
-        this.mealsView.update({
-            meals: meals.map(meal => ({
-                id: meal.id,
-                name: meal.name,
-                done: meal.done,
+    private presentMealsFetched(recipesList: RecipesListDomainModel): void {
+        const meals = recipesList.recipes
+            .filter(recipe => recipe.inMealsList)
+            .map(recipe => new MealViewModel({
+                id: recipe.id,
+                name: recipe.name,
+                done: recipe.done,
                 isLoadingUpdatingDone: false,
                 isErrorUpdatingDone: false,
                 isLoadingRemoving: false,
@@ -48,16 +37,13 @@ export class FetchMealsUseCase {
                 isLoadingIngredients: false,
                 isErrorIngredients: false,
                 ingredients: [],
-                hasIngredients: false,
-            })),
-            hasMeals: recipesList.hasMeals(),
-            mealsProgress: `${recipesList.doneMealsCount()}/${mealsCount} réalisé${mealsCount > 1 ? 's' : ''}`,
-            mealsOptions: recipesList.getMealsOptions().map(option => ({
-                id: option.id,
-                name: option.name,
-                isVisible: false,
-            })),
-            hasMealsOptions: recipesList.hasMealsOptions(),
-        });
+            }));
+        const mealsOptions = recipesList.recipes
+            .filter(recipe => !recipe.inMealsList)
+            .map(recipe => new MealOptionViewModel({
+                id: recipe.id,
+                name: recipe.name,
+            }));
+        this.mealsView.update(vm => vm.presentMealsFetched(meals, mealsOptions));
     }
 }

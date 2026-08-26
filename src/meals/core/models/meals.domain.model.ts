@@ -1,89 +1,29 @@
-
-
-export class RecipesListDomainModel {
-    constructor(public readonly recipes: RecipeDomainModel[]) { }
-
-    getMeals(): MealDomainModel[] {
-        return this.recipes.filter(recipe => recipe.inMealsList);
-    }
-
-    hasMeals(): boolean {
-        return this.getMeals().length > 0;
-    }
-
-    doneMealsCount(): number {
-        return this.getMeals().filter(meal => meal.done).length;
-    }
-
-    mealsCount(): number {
-        return this.getMeals().length;
-    }
-
-    getMealsOptions(): MealOptionDomainModel[] {
-        return this.recipes.filter(recipe => !recipe.inMealsList);
-    }
-
-    hasMealsOptions(): boolean {
-        return this.getMealsOptions().length > 0;
-    }
+export type RecipesListDomainModel = {
+    recipes: RecipeDomainModel[];
 }
 
-export class MealOptionDomainModel {
-    constructor(
-        public readonly id: string,
-        public readonly name: string,
-    ) { }
-
-    is(id: string | undefined): boolean {
-        return this.id === id;
-    }
+export type RecipeDomainModel = {
+    id: string;
+    name: string;
+    inMealsList: boolean;
+    done: boolean;
 }
 
-export class MealDomainModel extends MealOptionDomainModel {
-    constructor(
-        id: string,
-        name: string,
-        public readonly done: boolean,
-    ) {
-        super(id, name);
-    }
+export type MealDomainModel = {
+    id: string;
+    name: string;
+    done: boolean;
 }
 
-export class RecipeDomainModel extends MealDomainModel {
-    constructor(
-        id: string,
-        name: string,
-        public readonly inMealsList: boolean,
-        done: boolean,
-    ) {
-        super(id, name, done);
-    }
+export type MealDetailDomainModel = {
+    id: string;
+    name: string;
+    done: boolean;
+    ingredients: MealIngredientDomainModel[];
 }
 
-export class MealDetailDomainModel extends MealDomainModel {
-    constructor(
-        id: string,
-        name: string,
-        done: boolean,
-        public readonly ingredients: MealIngredientDomainModel[],
-    ) {
-        super(id, name, done);
-    }
-
-    hasIngredients(): boolean {
-        return this.ingredients.length > 0;
-    }
+export type MealIngredientDomainModel = {
+    id: string;
+    name: string;
+    bought: boolean;
 }
-
-export class MealIngredientDomainModel {
-    constructor(
-        public readonly id: string,
-        public readonly name: string,
-        public readonly bought: boolean,
-    ) { }
-
-    is(id: string | undefined): boolean {
-        return this.id === id;
-    }
-}
-

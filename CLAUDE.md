@@ -30,12 +30,17 @@ Chaque feature métier = un dossier à plat sous `src/<feature>/` (pas sous `src
 src/<feature>/
   core/
     <feature>.port.ts                     interface <Feature>Port
-    <feature>.view.ts                     <Feature>View — wrapper signal<ViewModel>() d'Angular, update(partial) merge l'état
+    <feature>.view.ts                     <Feature>View — signal privé (signal<ViewModel>()), expose <feature>ViewModel en lecture seule (.asReadonly()), update(fn: (vm) => vm) unique point de mutation
     usecases/<action>.usecase.ts          <Action>UseCase(view, port).execute() : loading → appel port → present ou error → loading off
                                            collaborateur propre à l'appel (ex. Dialog à fermer sur succès) → paramètre d'execute(), pas du constructeur
-    models/<feature>.domain.model.ts      classes domaine + méthodes métier, tell don't ask (ex. hasItems(), is(id) plutôt qu'une comparaison === éparpillée dans les usecases)
-    models/<feature>.view.model.ts        état plat pour le template (isLoadingX, isErrorX, hasX, la donnée)
+                                           orchestration pure : construit les *ViewModel depuis les primitives du domain model reçu du port, puis view.update(vm => vm.presentX(...))
+    models/<feature>.domain.model.ts      types plats (aucune méthode) — la forme reçue du port, mappée en *ViewModel par le usecase
+    models/<feature>.view.model.ts        classe(s) immuable(s) : champs déclarés individuellement et assignés dans le constructeur (pas de wrapper .raw), with(partial) privé pour la copie
+                                           méthodes nommées par intention (startLoadingX/stopLoadingX/presentErrorX/presentXDone) plutôt que patchs arbitraires — jamais de *DomainModel en paramètre, seulement des primitives ou d'autres *ViewModel
+                                           isNot(id)/is(id) pour l'identité ; données dérivées (hasX(), progression, recherche) en méthodes, jamais stockées ni dupliquées entre usecases
+                                           liste avec délégation par item → mapX(fn) privé qui applique fn à chaque item, l'item se garde lui-même via isNot(id)/is(id) ; une sous-liste dans un item (item dans une liste qui contient lui-même une liste) compose ce même mapX à chaque niveau, chaque niveau gardé par son propre id
                                            action ciblant un item d'une liste → isLoadingX/isErrorX vivent sur l'item lui-même, pas sur le view model racine (sinon fuite d'état entre lignes)
+                                           recherche au fil de la frappe → la query est le seul état stocké (présentée par un usecase séparé, synchrone, sans port) ; le filtrage/matching est une méthode dérivée du view model, recalculée à la lecture
   adapters/
     fake-<feature>.adapter.ts             pour les tests
     in-memory-<feature>.adapter.ts        données en dur + délai/échec simulés — adapter par défaut avant la vraie API
@@ -55,7 +60,7 @@ Un usecase peut dépendre d'un port infra en plus du port métier (ex. `RoutePor
 
 Pas de couplage cross-feature : un usecase/port d'une feature n'importe jamais le port, le usecase ou le domain model d'une autre feature — même quand deux features modélisent conceptuellement la même entité sous un angle métier différent. Chaque feature définit alors son propre domain model local plutôt que d'importer celui de l'autre (même nom, même forme, aucun import entre les deux). Chaque feature reste ainsi modifiable/supprimable isolément.
 
-Quand une action (ex. un panneau de recherche pour ajouter un item) a besoin d'un sous-ensemble de données déjà récupérées par un autre usecase de la même feature, dériver ce sous-ensemble via une méthode du domain model plutôt que d'ajouter un port/usecase qui refait un appel réseau — un seul fetch alimente les deux. La recherche au fil de la frappe filtre alors ces données déjà en mémoire côté vue, sans appel port — contrairement à une recherche qui doit rester à jour avec une source vivante partagée entre plusieurs contextes.
+Quand une action (ex. un panneau de recherche pour ajouter un item) a besoin d'un sous-ensemble de données déjà récupérées par un autre usecase de la même feature, dériver ce sous-ensemble via une méthode du view model plutôt que d'ajouter un port/usecase qui refait un appel réseau — un seul fetch alimente les deux. La recherche au fil de la frappe filtre alors ces données déjà en mémoire côté vue, sans appel port — contrairement à une recherche qui doit rester à jour avec une source vivante partagée entre plusieurs contextes.
 
 Nommage des méthodes `update*` d'un port : générique (`update<Entity>(id, champ)`) tant qu'une seule chose est mutable sur ce port pour cette entité — le paramètre suffit à documenter l'intention. Dès qu'un port expose plusieurs mises à jour distinctes pour la même entité (ex. `<Feature>Port.update<EntityA>` pour l'état principal vs `update<EntityB>` pour une sous-entité qui lui appartient — deux ressources différentes), ou la même opération conceptuelle vers deux endpoints différents selon le contexte de l'entité mise à jour, nommer chaque méthode d'après l'**entité** qu'elle touche plutôt que le champ qu'elle modifie — jamais suffixer par le nom du champ. Le usecase appelant garde lui son nom explicite (`Update<Entity><Champ>UseCase`) même quand la méthode de port qu'il appelle est générique — c'est le usecase qui porte l'intention, pas le port. La variable locale qui l'injecte reprend ce nom sans le suffixe `UseCase` (`update<Entity><Champ> = inject(Update<Entity><Champ>UseCase)`, pas `update<Entity><Champ>UseCase`).
 

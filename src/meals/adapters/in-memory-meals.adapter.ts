@@ -2,75 +2,66 @@ import { MealsPort } from "../core/meals.port";
 import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, RecipeDomainModel, RecipesListDomainModel } from "../core/models/meals.domain.model";
 
 let RECIPES: RecipeDomainModel[] = [
-    new RecipeDomainModel('1', 'Pasta Carbonara', true, false),
-    new RecipeDomainModel('2', 'Chili Con Carne', true, false),
-    new RecipeDomainModel('3', 'Caesar Salad', true, true),
-    new RecipeDomainModel('4', 'Miso Soup', false, false),
-    new RecipeDomainModel('5', 'Beef Stir Fry', false, false),
-    new RecipeDomainModel('6', 'Ratatouille', false, false),
+    { id: '1', name: 'Pasta Carbonara', inMealsList: true, done: false },
+    { id: '2', name: 'Chili Con Carne', inMealsList: true, done: false },
+    { id: '3', name: 'Caesar Salad', inMealsList: true, done: true },
+    { id: '4', name: 'Miso Soup', inMealsList: false, done: false },
+    { id: '5', name: 'Beef Stir Fry', inMealsList: false, done: false },
+    { id: '6', name: 'Ratatouille', inMealsList: false, done: false },
 ];
 
 const MEAL_INGREDIENTS: Record<string, MealIngredientDomainModel[]> = {
-    '1': [
-        new MealIngredientDomainModel('1', 'Pâtes', true),
-        new MealIngredientDomainModel('2', 'Lardons', false),
-        new MealIngredientDomainModel('3', 'Œufs', false),
-    ],
     '2': [],
     '3': [
-        new MealIngredientDomainModel('5', 'Salade romaine', true),
-        new MealIngredientDomainModel('6', 'Poulet', true),
-        new MealIngredientDomainModel('7', 'Croûtons', false),
-        new MealIngredientDomainModel('4', 'Parmesan', true),
+        { id: '1', name: 'Salade romaine', bought: true },
+        { id: '2', name: 'Poulet', bought: true },
+        { id: '3', name: 'Croûtons', bought: false },
     ],
 };
 
 export class InMemoryMealsAdapter implements MealsPort {
     async fetchRecipesList(): Promise<RecipesListDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (Math.random() < 0.33) {
-            throw new Error('Failed to fetch meals list');
-        }
-
-        if (Math.random() < 0.66) {
-            return new RecipesListDomainModel([]);
-        }
-
-        return new RecipesListDomainModel(RECIPES);
+        return { recipes: RECIPES };
     }
 
     async fetchMeal(id: string): Promise<MealDetailDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (id === '3') {
+        if (id === '1') {
             throw new Error('Failed to fetch meal');
         }
 
         const recipe = RECIPES.find(recipe => recipe.id === id);
-        return new MealDetailDomainModel(id, recipe?.name ?? 'Repas', recipe?.done ?? true, MEAL_INGREDIENTS[id] ?? []);
+        return {
+            id,
+            name: recipe?.name ?? 'Repas',
+            done: recipe?.done ?? true,
+            ingredients: MEAL_INGREDIENTS[id] ?? [],
+        };
     }
 
     async updateMeal(id: string, done: boolean): Promise<MealDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (id === '2') {
+        if (id === '1') {
             throw new Error('Failed to update meal');
         }
 
-        RECIPES = RECIPES.map(recipe => recipe.id === id ? new RecipeDomainModel(recipe.id, recipe.name, recipe.inMealsList, done) : recipe);
-        return new MealDomainModel(id, '', done);
+        RECIPES = RECIPES.map(recipe => recipe.id === id ? { ...recipe, done } : recipe);
+        return { id, name: '', done };
     }
 
     async addMeal(id: string): Promise<MealDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         const recipe = RECIPES.find(recipe => recipe.id === id);
-        if (recipe?.id === '6') {
+        if (recipe?.id === '4') {
             throw new Error('Failed to add meal');
         }
 
-        const meal = new RecipeDomainModel(recipe!.id, recipe!.name, true, false);
+        const meal = { id: recipe!.id, name: recipe!.name, inMealsList: true, done: false };
         RECIPES = RECIPES.map(recipe => recipe.id === id ? meal : recipe);
         return meal;
     }
@@ -82,16 +73,16 @@ export class InMemoryMealsAdapter implements MealsPort {
             throw new Error('Failed to remove meal');
         }
 
-        RECIPES = RECIPES.map(recipe => recipe.id === id ? new RecipeDomainModel(recipe.id, recipe.name, false, recipe.done) : recipe);
+        RECIPES = RECIPES.map(recipe => recipe.id === id ? { ...recipe, inMealsList: false } : recipe);
     }
 
     async updateMealIngredient(mealId: string, ingredientId: string, bought: boolean): Promise<MealIngredientDomainModel> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (ingredientId === '2') {
+        if (ingredientId === '1') {
             throw new Error('Failed to update ingredient');
         }
 
-        return new MealIngredientDomainModel(ingredientId, '', bought);
+        return { id: ingredientId, name: '', bought };
     }
 }

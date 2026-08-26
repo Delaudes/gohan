@@ -1,6 +1,5 @@
 import { MealsPort } from "../meals.port";
 import { MealsView } from "../meals.view";
-import { MealDomainModel } from "../models/meals.domain.model";
 
 export class UpdateMealDoneUseCase {
     constructor(
@@ -9,45 +8,14 @@ export class UpdateMealDoneUseCase {
     ) { }
 
     async execute(id: string, done: boolean): Promise<void> {
-        this.startLoading(id);
+        this.mealsView.update(vm => vm.startLoadingUpdatingDoneMeal(id));
         try {
             const meal = await this.mealsPort.updateMeal(id, done);
-            this.presentMealUpdated(meal);
+            this.mealsView.update(vm => vm.presentMealUpdated(meal.id, meal.done));
         } catch {
-            this.presentError(id);
+            this.mealsView.update(vm => vm.presentErrorUpdatingDoneMeal(id));
         } finally {
-            this.stopLoading(id);
+            this.mealsView.update(vm => vm.stopLoadingUpdatingDoneMeal(id));
         }
-    }
-
-    private startLoading(id: string): void {
-        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
-            meal.id === id ? { ...meal, isLoadingUpdatingDone: true, isErrorUpdatingDone: false } : meal
-        );
-        this.mealsView.update({ meals });
-    }
-
-    private stopLoading(id: string): void {
-        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
-            meal.id === id ? { ...meal, isLoadingUpdatingDone: false } : meal
-        );
-        this.mealsView.update({ meals });
-    }
-
-    private presentError(id: string): void {
-        const meals = this.mealsView.mealsViewModel().meals.map(meal =>
-            meal.id === id ? { ...meal, isErrorUpdatingDone: true } : meal
-        );
-        this.mealsView.update({ meals });
-    }
-
-    private presentMealUpdated(meal: MealDomainModel): void {
-        const meals = this.mealsView.mealsViewModel().meals.map(current =>
-            meal.is(current.id) ? { ...current, done: meal.done } : current
-        );
-        this.mealsView.update({
-            meals,
-            mealsProgress: `${meals.filter(meal => meal.done).length}/${meals.length} réalisé${meals.length > 1 ? 's' : ''}`,
-        });
     }
 }
