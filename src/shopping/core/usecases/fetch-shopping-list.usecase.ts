@@ -1,6 +1,7 @@
 import { ShoppingPort } from "../shopping.port";
 import { ShoppingView } from "../shopping.view";
 import { ShoppingListDomainModel } from "../models/shopping.domain.model";
+import { ShoppingIngredientViewModel } from "../models/shopping-ingredient.view.model";
 
 export class FetchShoppingListUseCase {
     constructor(
@@ -9,46 +10,29 @@ export class FetchShoppingListUseCase {
     ) { }
 
     async execute(): Promise<void> {
-        this.startLoading();
+        this.shoppingView.update(vm => vm.startLoadingFetchingIngredients());
         try {
             const shoppingList = await this.shoppingPort.fetchShoppingList();
-            this.presentShoppingList(shoppingList);
+            this.presentIngredientsFetched(shoppingList);
         } catch {
-            this.presentError();
+            this.shoppingView.update(vm => vm.presentErrorFetchingIngredients());
         } finally {
-            this.stopLoading();
+            this.shoppingView.update(vm => vm.stopLoadingFetchingIngredients());
         }
     }
 
-    private startLoading(): void {
-        this.shoppingView.update({ isLoadingFetchingIngredients: true, isErrorFetchingIngredients: false });
-    }
-
-    private stopLoading(): void {
-        this.shoppingView.update({ isLoadingFetchingIngredients: false });
-    }
-
-    private presentError(): void {
-        this.shoppingView.update({ isErrorFetchingIngredients: true });
-    }
-
-    private presentShoppingList(shoppingList: ShoppingListDomainModel): void {
-        const ingredients = shoppingList.ingredients;
-        const ingredientsCount = shoppingList.ingredientsCount();
-        this.shoppingView.update({
-            ingredients: ingredients.map(ingredient => ({
-                id: ingredient.id,
-                name: ingredient.name,
-                bought: ingredient.bought,
-                mealId: ingredient.mealId,
-                mealName: ingredient.mealName,
-                isLoadingUpdatingBought: false,
-                isErrorUpdatingBought: false,
-                isLoadingRemoving: false,
-                isErrorRemoving: false,
-            })),
-            hasIngredients: shoppingList.hasIngredients(),
-            ingredientsProgress: `${shoppingList.boughtIngredientsCount()}/${ingredientsCount} acheté${ingredientsCount > 1 ? 's' : ''}`,
-        });
+    private presentIngredientsFetched(shoppingList: ShoppingListDomainModel): void {
+        const ingredients = shoppingList.ingredients.map(ingredient => new ShoppingIngredientViewModel({
+            id: ingredient.id,
+            name: ingredient.name,
+            bought: ingredient.bought,
+            mealId: ingredient.mealId,
+            mealName: ingredient.mealName,
+            isLoadingUpdatingBought: false,
+            isErrorUpdatingBought: false,
+            isLoadingRemoving: false,
+            isErrorRemoving: false,
+        }));
+        this.shoppingView.update(vm => vm.presentIngredientsFetched(ingredients));
     }
 }

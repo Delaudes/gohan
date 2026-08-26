@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { ShoppingIngredientViewModel } from '../../../core/models/shopping.view.model';
+import { ShoppingIngredientViewModel } from '../../../core/models/shopping-ingredient.view.model';
 import { UpdateShoppingIngredientBoughtUseCase } from '../../../core/usecases/update-shopping-ingredient-bought.usecase';
 
 @Component({

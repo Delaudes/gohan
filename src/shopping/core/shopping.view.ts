@@ -2,15 +2,10 @@ import { signal } from "@angular/core";
 import { ShoppingViewModel } from "./models/shopping.view.model";
 
 export class ShoppingView {
-    readonly shoppingViewModel = signal<ShoppingViewModel>({
-        isLoadingFetchingIngredients: false,
-        isErrorFetchingIngredients: false,
-        ingredients: [],
-        hasIngredients: false,
-        ingredientsProgress: '',
-    });
+    private readonly state = signal<ShoppingViewModel>(ShoppingViewModel.initial());
+    readonly shoppingViewModel = this.state.asReadonly();
 
-    update(partial: Partial<ShoppingViewModel>): void {
-        this.shoppingViewModel.update(viewModel => ({ ...viewModel, ...partial }));
+    update(fn: (vm: ShoppingViewModel) => ShoppingViewModel): void {
+        this.state.update(fn);
     }
 }

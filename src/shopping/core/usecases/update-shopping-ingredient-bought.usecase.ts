@@ -1,6 +1,5 @@
 import { ShoppingPort } from "../shopping.port";
 import { ShoppingView } from "../shopping.view";
-import { ShoppingIngredientDomainModel } from "../models/shopping.domain.model";
 
 export class UpdateShoppingIngredientBoughtUseCase {
     constructor(
@@ -9,47 +8,16 @@ export class UpdateShoppingIngredientBoughtUseCase {
     ) { }
 
     async execute(id: string, mealId: string | undefined, bought: boolean): Promise<void> {
-        this.startLoading(id);
+        this.shoppingView.update(vm => vm.startLoadingUpdatingBoughtIngredient(id));
         try {
             const ingredient = mealId
                 ? await this.shoppingPort.updateMealIngredient(mealId, id, bought)
                 : await this.shoppingPort.updateIngredient(id, bought);
-            this.presentIngredientUpdated(ingredient);
+            this.shoppingView.update(vm => vm.presentIngredientUpdated(ingredient.id, ingredient.bought));
         } catch {
-            this.presentError(id);
+            this.shoppingView.update(vm => vm.presentErrorUpdatingBoughtIngredient(id));
         } finally {
-            this.stopLoading(id);
+            this.shoppingView.update(vm => vm.stopLoadingUpdatingBoughtIngredient(id));
         }
-    }
-
-    private startLoading(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isLoadingUpdatingBought: true, isErrorUpdatingBought: false } : ingredient
-        );
-        this.shoppingView.update({ ingredients });
-    }
-
-    private stopLoading(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isLoadingUpdatingBought: false } : ingredient
-        );
-        this.shoppingView.update({ ingredients });
-    }
-
-    private presentError(id: string): void {
-        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(ingredient =>
-            ingredient.id === id ? { ...ingredient, isErrorUpdatingBought: true } : ingredient
-        );
-        this.shoppingView.update({ ingredients });
-    }
-
-    private presentIngredientUpdated(ingredient: ShoppingIngredientDomainModel): void {
-        const ingredients = this.shoppingView.shoppingViewModel().ingredients.map(current =>
-            ingredient.is(current.id) ? { ...current, bought: ingredient.bought } : current
-        );
-        this.shoppingView.update({
-            ingredients,
-            ingredientsProgress: `${ingredients.filter(ingredient => ingredient.bought).length}/${ingredients.length} acheté${ingredients.length > 1 ? 's' : ''}`,
-        });
     }
 }

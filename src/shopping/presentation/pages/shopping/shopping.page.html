@@ -32,8 +32,8 @@
         Réessayer
       </button>
     </div>
-  } @else if (vm.hasIngredients) {
-    <p class="text-charcoal/50 font-mono text-sm">{{ vm.ingredientsProgress }}</p>
+  } @else if (vm.hasIngredients()) {
+    <p class="text-charcoal/50 font-mono text-sm">{{ vm.ingredientsProgress() }}</p>
     <ul class="divide-charcoal/10 flex flex-col divide-y">
       @for (ingredient of vm.ingredients; track ingredient.id) {
         <li class="flex items-center gap-3 px-2 py-3">

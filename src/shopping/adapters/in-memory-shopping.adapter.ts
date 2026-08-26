@@ -3,44 +3,37 @@ import { ShoppingPort } from "../core/shopping.port";
 
 export class InMemoryShoppingAdapter implements ShoppingPort {
     async fetchShoppingList(): Promise<ShoppingListDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (Math.random() < 0.33) {
-            throw new Error('Failed to fetch shopping list');
-        }
-
-        if (Math.random() < 0.66) {
-            return new ShoppingListDomainModel([]);
-        }
-
-        const ingredients = [
-            new ShoppingIngredientDomainModel('1', 'Tomate', false),
-            new ShoppingIngredientDomainModel('2', 'Mozzarella', true),
-            new ShoppingIngredientDomainModel('3', 'Pâtes', false, '1', 'Pasta Carbonara'),
-            new ShoppingIngredientDomainModel('4', 'Parmesan', true, '1', 'Pasta Carbonara'),
-            new ShoppingIngredientDomainModel('5', 'Savon', true),
-        ];
-        return new ShoppingListDomainModel(ingredients);
+        return {
+            ingredients: [
+                { id: '1', name: 'Tomate', bought: false },
+                { id: '2', name: 'Mozzarella', bought: true },
+                { id: '3', name: 'Pâtes', bought: false, mealId: '1', mealName: 'Pasta Carbonara' },
+                { id: '4', name: 'Parmesan', bought: true, mealId: '1', mealName: 'Pasta Carbonara' },
+                { id: '5', name: 'Savon', bought: true },
+            ],
+        };
     }
 
     async updateIngredient(id: string, bought: boolean): Promise<ShoppingIngredientDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (id === '2') {
+        if (id === '1') {
             throw new Error('Failed to update shopping ingredient');
         }
 
-        return new ShoppingIngredientDomainModel(id, '', bought);
+        return { id, name: '', bought };
     }
 
     async updateMealIngredient(mealId: string, id: string, bought: boolean): Promise<ShoppingIngredientDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (id === '2') {
+        if (id === '3') {
             throw new Error('Failed to update shopping ingredient');
         }
 
-        return new ShoppingIngredientDomainModel(id, '', bought, mealId);
+        return { id, name: '', bought, mealId };
     }
 
     async removeIngredient(id: string): Promise<void> {
