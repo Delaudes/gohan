@@ -53,10 +53,6 @@ export class MealsViewModel {
         return `${doneCount}/${count} réalisé${count > 1 ? 's' : ''}`;
     }
 
-    hasMealsOptions(): boolean {
-        return this.mealsOptions.length > 0;
-    }
-
     matchingMealOption(): MealOptionViewModel | undefined {
         const normalizedQuery = this.mealsSearchQuery.trim().toLowerCase();
         if (!normalizedQuery) return undefined;

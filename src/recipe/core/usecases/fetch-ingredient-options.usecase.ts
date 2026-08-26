@@ -1,4 +1,4 @@
-import { IngredientOptionViewModel } from "../models/recipe-ingredient.view.model";
+import { IngredientOptionViewModel } from "../models/ingredient-option.view.model";
 import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
 

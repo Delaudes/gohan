@@ -4,7 +4,8 @@ import { RoutePort } from "../../../infra/route/route.port";
 import { RecipePort } from "../recipe.port";
 import { RecipeView } from "../recipe.view";
 import { RecipeIngredientDomainModel } from "../models/recipe.domain.model";
-import { IngredientOptionViewModel, RecipeIngredientViewModel } from "../models/recipe-ingredient.view.model";
+import { IngredientOptionViewModel } from "../models/ingredient-option.view.model";
+import { RecipeIngredientViewModel } from "../models/recipe-ingredient.view.model";
 
 export class AddUnknownRecipeIngredientUseCase {
     constructor(

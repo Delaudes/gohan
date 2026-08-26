@@ -1,4 +1,5 @@
-import { IngredientOptionViewModel, RecipeIngredientViewModel } from "./recipe-ingredient.view.model";
+import { IngredientOptionViewModel } from "./ingredient-option.view.model";
+import { RecipeIngredientViewModel } from "./recipe-ingredient.view.model";
 
 type RecipeProps = {
     isLoadingFetchingRecipe: boolean;

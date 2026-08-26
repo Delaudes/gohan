@@ -3,7 +3,7 @@ import { RecipePort } from "../core/recipe.port";
 
 export class InMemoryRecipeAdapter implements RecipePort {
     async fetchRecipe(id: string): Promise<RecipeDomainModel> {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (id === '1') {
             throw new Error('Failed to fetch recipe');
