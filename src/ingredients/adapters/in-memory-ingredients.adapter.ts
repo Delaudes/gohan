@@ -1,5 +1,5 @@
 import { IngredientsPort } from "../core/ingredients.port";
-import { IngredientDomainModel, IngredientsListDomainModel } from "../core/models/ingredients.domain.model";
+import { IngredientDeletionResult, IngredientDomainModel, IngredientsListDomainModel } from "../core/models/ingredients.domain.model";
 
 let INGREDIENTS: IngredientDomainModel[] = [
     { id: '1', name: 'Tomato', inShoppingList: true },
@@ -39,13 +39,18 @@ export class InMemoryIngredientsAdapter implements IngredientsPort {
         return INGREDIENTS.find(ingredient => ingredient.id === id)!;
     }
 
-    async deleteIngredient(id: string): Promise<void> {
+    async deleteIngredient(id: string): Promise<IngredientDeletionResult> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (id === '1') {
-            throw new Error('Failed to delete ingredient');
+            return { success: false, error: 'IngredientInUseError' };
+        }
+
+        if (id === '2') {
+            return { success: false, error: 'UnknownError' };
         }
 
         INGREDIENTS = INGREDIENTS.filter(ingredient => ingredient.id !== id);
+        return { success: true };
     }
 }

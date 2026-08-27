@@ -1,4 +1,4 @@
-import { IngredientViewModel } from "./ingredient.view.model";
+import { IngredientDeletionErrorMessage, IngredientViewModel } from "./ingredient.view.model";
 
 type IngredientsProps = {
     isLoadingFetchingIngredients: boolean;
@@ -125,8 +125,8 @@ export class IngredientsViewModel {
         return this.mapIngredient(ingredient => ingredient.stopLoadingDeletingIngredient(id));
     }
 
-    presentErrorDeletingIngredient(id: string): IngredientsViewModel {
-        return this.mapIngredient(ingredient => ingredient.presentErrorDeletingIngredient(id));
+    presentErrorDeletingIngredient(id: string, errorMessage: IngredientDeletionErrorMessage): IngredientsViewModel {
+        return this.mapIngredient(ingredient => ingredient.presentErrorDeletingIngredient(id, errorMessage));
     }
 
     presentIngredientDeleted(id: string): IngredientsViewModel {

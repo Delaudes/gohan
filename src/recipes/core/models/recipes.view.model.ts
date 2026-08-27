@@ -1,4 +1,4 @@
-import { RecipeViewModel } from "./recipe.view.model";
+import { RecipeDeletionErrorMessage, RecipeViewModel } from "./recipe.view.model";
 
 type RecipesProps = {
     isLoadingFetchingRecipes: boolean;
@@ -125,8 +125,8 @@ export class RecipesViewModel {
         return this.mapRecipe(recipe => recipe.stopLoadingDeletingRecipe(id));
     }
 
-    presentErrorDeletingRecipe(id: string): RecipesViewModel {
-        return this.mapRecipe(recipe => recipe.presentErrorDeletingRecipe(id));
+    presentErrorDeletingRecipe(id: string, errorMessage: RecipeDeletionErrorMessage): RecipesViewModel {
+        return this.mapRecipe(recipe => recipe.presentErrorDeletingRecipe(id, errorMessage));
     }
 
     presentRecipeDeleted(id: string): RecipesViewModel {

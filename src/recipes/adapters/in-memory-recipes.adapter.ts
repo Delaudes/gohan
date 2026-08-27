@@ -1,4 +1,4 @@
-import { RecipeDomainModel, RecipesListDomainModel } from "../core/models/recipes.domain.model";
+import { RecipeDeletionResult, RecipeDomainModel, RecipesListDomainModel } from "../core/models/recipes.domain.model";
 import { RecipesPort } from "../core/recipes.port";
 
 let RECIPES: RecipeDomainModel[] = [
@@ -39,13 +39,18 @@ export class InMemoryRecipesAdapter implements RecipesPort {
         return RECIPES.find(recipe => recipe.id === id)!;
     }
 
-    async deleteRecipe(id: string): Promise<void> {
+    async deleteRecipe(id: string): Promise<RecipeDeletionResult> {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (id === '1') {
-            throw new Error('Failed to delete recipe');
+            return { success: false, error: 'RecipeInMealsListError' };
+        }
+
+        if (id === '2') {
+            return { success: false, error: 'UnknownError' };
         }
 
         RECIPES = RECIPES.filter(recipe => recipe.id !== id);
+        return { success: true };
     }
 }

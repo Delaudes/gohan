@@ -2,17 +2,19 @@ type IngredientProps = {
     id: string;
     name: string;
     isLoadingDeleting: boolean;
-    isErrorDeleting: boolean;
+    errorDeletingMessage?: IngredientDeletionErrorMessage;
     isLoadingUpdating: boolean;
     isErrorUpdating: boolean;
     inShoppingList: boolean;
 }
 
+export type IngredientDeletionErrorMessage = 'Ingrédient non supprimable : il est dans une recette ou dans la liste de courses' | 'Une erreur est survenue, réessayez.';
+
 export class IngredientViewModel {
     readonly id: string;
     readonly name: string;
     readonly isLoadingDeleting: boolean;
-    readonly isErrorDeleting: boolean;
+    readonly errorDeletingMessage?: IngredientDeletionErrorMessage;
     readonly isLoadingUpdating: boolean;
     readonly isErrorUpdating: boolean;
     readonly inShoppingList: boolean;
@@ -21,7 +23,7 @@ export class IngredientViewModel {
         this.id = props.id;
         this.name = props.name;
         this.isLoadingDeleting = props.isLoadingDeleting;
-        this.isErrorDeleting = props.isErrorDeleting;
+        this.errorDeletingMessage = props.errorDeletingMessage;
         this.isLoadingUpdating = props.isLoadingUpdating;
         this.isErrorUpdating = props.isErrorUpdating;
         this.inShoppingList = props.inShoppingList;
@@ -46,7 +48,7 @@ export class IngredientViewModel {
     startLoadingDeletingIngredient(id: string): IngredientViewModel {
         if (this.isNot(id)) return this;
         return this.with({
-            isLoadingDeleting: true, isErrorDeleting: false,
+            isLoadingDeleting: true, errorDeletingMessage: undefined,
         });
     }
 
@@ -57,10 +59,10 @@ export class IngredientViewModel {
         });
     }
 
-    presentErrorDeletingIngredient(id: string): IngredientViewModel {
+    presentErrorDeletingIngredient(id: string, errorMessage: IngredientDeletionErrorMessage): IngredientViewModel {
         if (this.isNot(id)) return this;
         return this.with({
-            isErrorDeleting: true,
+            errorDeletingMessage: errorMessage,
         });
     }
 

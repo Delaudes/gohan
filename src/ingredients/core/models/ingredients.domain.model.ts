@@ -7,3 +7,13 @@ export type IngredientDomainModel = {
     name: string;
     inShoppingList: boolean;
 }
+
+export type IngredientDeletionResult =
+    {
+        success: true;
+    } |
+    {
+        success: false; error: IngredientDeletionError;
+    }
+
+export type IngredientDeletionError = 'IngredientInUseError' | 'UnknownError';

@@ -26,7 +26,6 @@ export class FetchIngredientsUseCase {
             id: ingredient.id,
             name: ingredient.name,
             isLoadingDeleting: false,
-            isErrorDeleting: false,
             isLoadingUpdating: false,
             isErrorUpdating: false,
             inShoppingList: ingredient.inShoppingList,

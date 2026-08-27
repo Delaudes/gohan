@@ -2,8 +2,8 @@ import { Dialog } from "../../../presentation/dialog/dialog.port";
 import { Field } from "../../../presentation/field/field.port";
 import { IngredientsPort } from "../ingredients.port";
 import { IngredientsView } from "../ingredients.view";
-import { IngredientDomainModel } from "../models/ingredients.domain.model";
 import { IngredientViewModel } from "../models/ingredient.view.model";
+import { IngredientDomainModel } from "../models/ingredients.domain.model";
 
 export class CreateIngredientUseCase {
     constructor(
@@ -31,7 +31,6 @@ export class CreateIngredientUseCase {
             id: ingredient.id,
             name: ingredient.name,
             isLoadingDeleting: false,
-            isErrorDeleting: false,
             isLoadingUpdating: false,
             isErrorUpdating: false,
             inShoppingList: ingredient.inShoppingList,

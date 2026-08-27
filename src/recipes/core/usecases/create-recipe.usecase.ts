@@ -30,7 +30,6 @@ export class CreateRecipeUseCase {
             id: recipe.id,
             name: recipe.name,
             isLoadingDeleting: false,
-            isErrorDeleting: false,
             isLoadingUpdating: false,
             isErrorUpdating: false,
             inMealsList: recipe.inMealsList,

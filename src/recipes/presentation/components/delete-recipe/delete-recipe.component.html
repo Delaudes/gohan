@@ -11,8 +11,8 @@
   <div class="flex flex-col items-center gap-3 text-center">
     <span class="material-symbols-outlined text-danger text-3xl">warning</span>
     <p class="text-charcoal">Voulez-vous vraiment supprimer cette recette ?</p>
-    @if (recipe().isErrorDeleting) {
-      <p class="text-danger text-sm">Une erreur est survenue, réessayez.</p>
+    @if (recipe().errorDeletingMessage) {
+      <p class="text-danger text-sm">{{ recipe().errorDeletingMessage }}</p>
     }
     @if (recipe().isLoadingDeleting) {
       <div class="flex h-11 w-full items-center justify-center">

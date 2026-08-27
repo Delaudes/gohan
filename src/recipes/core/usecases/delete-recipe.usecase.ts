@@ -1,6 +1,8 @@
 import { Dialog } from "../../../presentation/dialog/dialog.port";
 import { RecipesPort } from "../recipes.port";
 import { RecipesView } from "../recipes.view";
+import { RecipeDeletionErrorMessage } from "../models/recipe.view.model";
+import { RecipeDeletionError } from "../models/recipes.domain.model";
 
 export class DeleteRecipeUseCase {
     constructor(
@@ -10,14 +12,22 @@ export class DeleteRecipeUseCase {
 
     async execute(id: string, dialog: Dialog): Promise<void> {
         this.recipesView.update(vm => vm.startLoadingDeletingRecipe(id));
-        try {
-            await this.recipesPort.deleteRecipe(id);
+        const result = await this.recipesPort.deleteRecipe(id);
+        if (result.success) {
             this.recipesView.update(vm => vm.presentRecipeDeleted(id));
             dialog.close();
-        } catch {
-            this.recipesView.update(vm => vm.presentErrorDeletingRecipe(id));
-        } finally {
-            this.recipesView.update(vm => vm.stopLoadingDeletingRecipe(id));
+        } else {
+            const errorMessage = this.findErrorMessage(result.error);
+            this.recipesView.update(vm => vm.presentErrorDeletingRecipe(id, errorMessage));
         }
+        this.recipesView.update(vm => vm.stopLoadingDeletingRecipe(id));
+    }
+
+    private findErrorMessage(error: RecipeDeletionError): RecipeDeletionErrorMessage {
+        const errorMessages: Record<RecipeDeletionError, RecipeDeletionErrorMessage> = {
+            'RecipeInMealsListError': 'Recette non supprimable : elle est dans la liste de repas',
+            'UnknownError': 'Une erreur est survenue, réessayez.',
+        };
+        return errorMessages[error];
     }
 }

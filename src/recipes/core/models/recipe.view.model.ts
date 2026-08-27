@@ -2,17 +2,19 @@ type RecipeProps = {
     id: string;
     name: string;
     isLoadingDeleting: boolean;
-    isErrorDeleting: boolean;
+    errorDeletingMessage?: RecipeDeletionErrorMessage;
     isLoadingUpdating: boolean;
     isErrorUpdating: boolean;
     inMealsList: boolean;
 }
 
+export type RecipeDeletionErrorMessage = 'Recette non supprimable : elle est dans la liste de repas' | 'Une erreur est survenue, réessayez.';
+
 export class RecipeViewModel {
     readonly id: string;
     readonly name: string;
     readonly isLoadingDeleting: boolean;
-    readonly isErrorDeleting: boolean;
+    readonly errorDeletingMessage?: RecipeDeletionErrorMessage;
     readonly isLoadingUpdating: boolean;
     readonly isErrorUpdating: boolean;
     readonly inMealsList: boolean;
@@ -21,7 +23,7 @@ export class RecipeViewModel {
         this.id = props.id;
         this.name = props.name;
         this.isLoadingDeleting = props.isLoadingDeleting;
-        this.isErrorDeleting = props.isErrorDeleting;
+        this.errorDeletingMessage = props.errorDeletingMessage;
         this.isLoadingUpdating = props.isLoadingUpdating;
         this.isErrorUpdating = props.isErrorUpdating;
         this.inMealsList = props.inMealsList;
@@ -46,7 +48,7 @@ export class RecipeViewModel {
     startLoadingDeletingRecipe(id: string): RecipeViewModel {
         if (this.isNot(id)) return this;
         return this.with({
-            isLoadingDeleting: true, isErrorDeleting: false,
+            isLoadingDeleting: true, errorDeletingMessage: undefined,
         });
     }
 
@@ -57,10 +59,10 @@ export class RecipeViewModel {
         });
     }
 
-    presentErrorDeletingRecipe(id: string): RecipeViewModel {
+    presentErrorDeletingRecipe(id: string, errorMessage: RecipeDeletionErrorMessage): RecipeViewModel {
         if (this.isNot(id)) return this;
         return this.with({
-            isErrorDeleting: true,
+            errorDeletingMessage: errorMessage,
         });
     }
 
