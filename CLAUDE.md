@@ -46,10 +46,12 @@ src/<feature>/
   adapters/
     fake-<feature>.adapter.ts             pour les tests
     in-memory-<feature>.adapter.ts        données en dur + délai/échec simulés — adapter par défaut avant la vraie API
-    http-<feature>.adapter.ts             vraie implémentation
+    http-<feature>.adapter.ts             vraie implémentation — reçoit `HttpPort` par constructeur (pas `inject()` en champ, contrairement aux adapters `infra/`), construit ses URLs via `API_BASE_URL` (`infra/http/api-url.ts`)
+                                           méthode qui renvoie `<Action>Result` (cf. usecase) → c'est l'adapter qui catch l'erreur HTTP, inspecte le status code pour distinguer l'échec métier (ex. 409) d'un échec technique, et ne rejette jamais
     models/<feature>.api.model.ts         forme API, mappée vers le domain model
   presentation/
     <feature>.provider.ts                 <FEATURE>_TOKEN (InjectionToken<Port>, providedIn:'root') + <FEATURE>_PROVIDERS (View + UseCase via useFactory)
+                                           factory de <FEATURE>_TOKEN pour un http-<feature>.adapter.ts → injecte HTTP_TOKEN (`infra/http/http.provider.ts`) et le passe au constructeur
     pages/<feature>/<feature>.page.ts     <Feature>Page — providers:[<FEATURE>_PROVIDERS], injecte View+UseCase, execute() dans ngOnInit
     components/nav-<feature>/nav-<feature>.component.ts   Nav<Feature>Component, item de nav associé
     components/<action>-<feature>/<action>-<feature>.component.ts   composant autonome pour une action ciblant un item (bouton + sa propre UI, ex. confirmation) : reçoit l'item en input(), injecte le <Action>UseCase associé

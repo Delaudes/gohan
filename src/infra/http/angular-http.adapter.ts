@@ -18,6 +18,10 @@ export class AngularHttpAdapter implements HttpPort {
     return firstValueFrom(this.httpClient.put<T>(url, body));
   }
 
+  patch<T>(url: string, body: unknown): Promise<T> {
+    return firstValueFrom(this.httpClient.patch<T>(url, body));
+  }
+
   delete<T>(url: string): Promise<T> {
     return firstValueFrom(this.httpClient.delete<T>(url));
   }

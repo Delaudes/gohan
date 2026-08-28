@@ -1,5 +1,6 @@
 import { inject, InjectionToken } from "@angular/core";
-import { InMemoryShoppingAdapter } from "../adapters/in-memory-shopping.adapter";
+import { HttpShoppingAdapter } from "../adapters/http-shopping.adapter";
+import { HTTP_TOKEN } from "../../infra/http/http.provider";
 import { ShoppingPort } from "../core/shopping.port";
 import { ShoppingView } from "../core/shopping.view";
 import { FetchShoppingListUseCase } from "../core/usecases/fetch-shopping-list.usecase";
@@ -12,7 +13,7 @@ import { AddUnknownShoppingIngredientUseCase } from "../core/usecases/add-unknow
 
 export const SHOPPING_TOKEN = new InjectionToken<ShoppingPort>('SHOPPING_TOKEN', {
     providedIn: 'root',
-    factory: () => new InMemoryShoppingAdapter(),
+    factory: () => new HttpShoppingAdapter(inject(HTTP_TOKEN)),
 });
 
 export const SHOPPING_PROVIDERS = [

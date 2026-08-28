@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ShoppingView } from '../../../core/shopping.view';
-import { FetchShoppingListUseCase } from '../../../core/usecases/fetch-shopping-list.usecase';
 import { FetchIngredientOptionsUseCase } from '../../../core/usecases/fetch-ingredient-options.usecase';
+import { FetchShoppingListUseCase } from '../../../core/usecases/fetch-shopping-list.usecase';
+import { AddShoppingIngredientComponent } from '../../components/add-shopping-ingredient/add-shopping-ingredient.component';
 import { RemoveShoppingIngredientComponent } from '../../components/remove-shopping-ingredient/remove-shopping-ingredient.component';
 import { ToggleShoppingIngredientBoughtComponent } from '../../components/toggle-shopping-ingredient-bought/toggle-shopping-ingredient-bought.component';
-import { AddShoppingIngredientComponent } from '../../components/add-shopping-ingredient/add-shopping-ingredient.component';
 import { SHOPPING_PROVIDERS } from '../../shopping.provider';
 
 @Component({

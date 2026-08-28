@@ -1,5 +1,6 @@
 import { inject, InjectionToken } from "@angular/core";
-import { InMemoryIngredientsAdapter } from "../adapters/in-memory-ingredients.adapter";
+import { HttpIngredientsAdapter } from "../adapters/http-ingredients.adapter";
+import { HTTP_TOKEN } from "../../infra/http/http.provider";
 import { IngredientsPort } from "../core/ingredients.port";
 import { IngredientsView } from "../core/ingredients.view";
 import { CreateIngredientUseCase } from "../core/usecases/create-ingredient.usecase";
@@ -10,7 +11,7 @@ import { UpdateIngredientShoppingListUseCase } from "../core/usecases/update-ing
 
 export const INGREDIENTS_TOKEN = new InjectionToken<IngredientsPort>('INGREDIENTS_TOKEN', {
     providedIn: 'root',
-    factory: () => new InMemoryIngredientsAdapter(),
+    factory: () => new HttpIngredientsAdapter(inject(HTTP_TOKEN)),
 });
 
 export const INGREDIENTS_PROVIDERS = [

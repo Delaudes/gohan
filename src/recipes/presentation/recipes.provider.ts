@@ -1,5 +1,6 @@
 import { inject, InjectionToken } from "@angular/core";
-import { InMemoryRecipesAdapter } from "../adapters/in-memory-recipes.adapter";
+import { HttpRecipesAdapter } from "../adapters/http-recipes.adapter";
+import { HTTP_TOKEN } from "../../infra/http/http.provider";
 import { RecipesPort } from "../core/recipes.port";
 import { RecipesView } from "../core/recipes.view";
 import { CreateRecipeUseCase } from "../core/usecases/create-recipe.usecase";
@@ -10,7 +11,7 @@ import { UpdateRecipeMealsListUseCase } from "../core/usecases/update-recipe-mea
 
 export const RECIPES_TOKEN = new InjectionToken<RecipesPort>('RECIPES_TOKEN', {
     providedIn: 'root',
-    factory: () => new InMemoryRecipesAdapter(),
+    factory: () => new HttpRecipesAdapter(inject(HTTP_TOKEN)),
 });
 
 export const RECIPES_PROVIDERS = [

@@ -1,5 +1,6 @@
 import { inject, InjectionToken } from "@angular/core";
-import { InMemoryMealsAdapter } from "../adapters/in-memory-meals.adapter";
+import { HttpMealsAdapter } from "../adapters/http-meals.adapter";
+import { HTTP_TOKEN } from "../../infra/http/http.provider";
 import { MealsPort } from "../core/meals.port";
 import { MealsView } from "../core/meals.view";
 import { FetchMealsUseCase } from "../core/usecases/fetch-meals.usecase";
@@ -12,7 +13,7 @@ import { AddMealUseCase } from "../core/usecases/add-meal.usecase";
 
 export const MEALS_TOKEN = new InjectionToken<MealsPort>('MEALS_TOKEN', {
     providedIn: 'root',
-    factory: () => new InMemoryMealsAdapter(),
+    factory: () => new HttpMealsAdapter(inject(HTTP_TOKEN)),
 });
 
 export const MEALS_PROVIDERS = [
