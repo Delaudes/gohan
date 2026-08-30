@@ -1,0 +1,24 @@
+{
+  "name": "Gohan",
+  "short_name": "Gohan",
+  "description": "Recettes, planification des repas et liste de courses",
+  "theme_color": "#E8432C",
+  "background_color": "#FFF6E9",
+  "display": "standalone",
+  "scope": "/gohan/",
+  "start_url": "/gohan/",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
