@@ -6,6 +6,7 @@ import { AddMealComponent } from '../../components/add-meal/add-meal.component';
 import { RemoveMealComponent } from '../../components/remove-meal/remove-meal.component';
 import { ToggleMealIngredientBoughtComponent } from '../../components/toggle-meal-ingredient-bought/toggle-meal-ingredient-bought.component';
 import { ToggleMealDoneComponent } from '../../components/toggle-meal-done/toggle-meal-done.component';
+import { ToggleHideDoneMealsUseCase } from '../../../core/usecases/toggle-hide-done-meals.usecase';
 import { MEALS_PROVIDERS } from '../../meals.provider';
 
 @Component({
@@ -19,6 +20,7 @@ export class MealsPage implements OnInit {
   protected readonly viewModel = inject(MealsView).mealsViewModel;
   protected readonly fetchMeals = inject(FetchMealsUseCase);
   protected readonly fetchMeal = inject(FetchMealUseCase);
+  protected readonly toggleHideDoneMeals = inject(ToggleHideDoneMealsUseCase);
 
   ngOnInit(): void {
     this.fetchMeals.execute();

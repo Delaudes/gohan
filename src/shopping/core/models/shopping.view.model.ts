@@ -9,6 +9,7 @@ type ShoppingProps = {
     ingredientsSearchQuery: string;
     isLoadingAddingIngredient: boolean;
     isErrorAddingIngredient: boolean;
+    hideBoughtIngredients: boolean;
 }
 
 export class ShoppingViewModel {
@@ -19,6 +20,7 @@ export class ShoppingViewModel {
     readonly ingredientsSearchQuery: string;
     readonly isLoadingAddingIngredient: boolean;
     readonly isErrorAddingIngredient: boolean;
+    readonly hideBoughtIngredients: boolean;
 
     constructor(props: ShoppingProps) {
         this.isLoadingFetchingIngredients = props.isLoadingFetchingIngredients;
@@ -28,6 +30,7 @@ export class ShoppingViewModel {
         this.ingredientsSearchQuery = props.ingredientsSearchQuery;
         this.isLoadingAddingIngredient = props.isLoadingAddingIngredient;
         this.isErrorAddingIngredient = props.isErrorAddingIngredient;
+        this.hideBoughtIngredients = props.hideBoughtIngredients;
     }
 
     static initial(): ShoppingViewModel {
@@ -39,11 +42,18 @@ export class ShoppingViewModel {
             ingredientsSearchQuery: '',
             isLoadingAddingIngredient: false,
             isErrorAddingIngredient: false,
+            hideBoughtIngredients: false,
         });
     }
 
     hasIngredients(): boolean {
         return this.ingredients.length > 0;
+    }
+
+    visibleIngredients(): ShoppingIngredientViewModel[] {
+        return this.hideBoughtIngredients
+            ? this.ingredients.filter(ingredient => !ingredient.bought)
+            : this.ingredients;
     }
 
     matchingIngredientOption(): IngredientOptionViewModel | undefined {
@@ -144,6 +154,12 @@ export class ShoppingViewModel {
     presentIngredientsSearchQuery(query: string): ShoppingViewModel {
         return this.with({
             ingredientsSearchQuery: query,
+        });
+    }
+
+    presentHideBoughtIngredients(hide: boolean): ShoppingViewModel {
+        return this.with({
+            hideBoughtIngredients: hide,
         });
     }
 

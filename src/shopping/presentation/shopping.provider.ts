@@ -1,19 +1,19 @@
 import { inject, InjectionToken } from "@angular/core";
-import { HttpShoppingAdapter } from "../adapters/http-shopping.adapter";
-import { HTTP_TOKEN } from "../../infra/http/http.provider";
+import { InMemoryShoppingAdapter } from "../adapters/in-memory-shopping.adapter";
 import { ShoppingPort } from "../core/shopping.port";
 import { ShoppingView } from "../core/shopping.view";
-import { FetchShoppingListUseCase } from "../core/usecases/fetch-shopping-list.usecase";
-import { UpdateShoppingIngredientBoughtUseCase } from "../core/usecases/update-shopping-ingredient-bought.usecase";
-import { RemoveShoppingIngredientUseCase } from "../core/usecases/remove-shopping-ingredient.usecase";
-import { FetchIngredientOptionsUseCase } from "../core/usecases/fetch-ingredient-options.usecase";
-import { SearchIngredientOptionsUseCase } from "../core/usecases/search-ingredient-options.usecase";
 import { AddKnownShoppingIngredientUseCase } from "../core/usecases/add-known-shopping-ingredient.usecase";
 import { AddUnknownShoppingIngredientUseCase } from "../core/usecases/add-unknown-shopping-ingredient.usecase";
+import { FetchIngredientOptionsUseCase } from "../core/usecases/fetch-ingredient-options.usecase";
+import { FetchShoppingListUseCase } from "../core/usecases/fetch-shopping-list.usecase";
+import { RemoveShoppingIngredientUseCase } from "../core/usecases/remove-shopping-ingredient.usecase";
+import { SearchIngredientOptionsUseCase } from "../core/usecases/search-ingredient-options.usecase";
+import { ToggleHideBoughtIngredientsUseCase } from "../core/usecases/toggle-hide-bought-ingredients.usecase";
+import { UpdateShoppingIngredientBoughtUseCase } from "../core/usecases/update-shopping-ingredient-bought.usecase";
 
 export const SHOPPING_TOKEN = new InjectionToken<ShoppingPort>('SHOPPING_TOKEN', {
     providedIn: 'root',
-    factory: () => new HttpShoppingAdapter(inject(HTTP_TOKEN)),
+    factory: () => new InMemoryShoppingAdapter(),
 });
 
 export const SHOPPING_PROVIDERS = [
@@ -48,5 +48,9 @@ export const SHOPPING_PROVIDERS = [
     {
         provide: AddUnknownShoppingIngredientUseCase,
         useFactory: () => new AddUnknownShoppingIngredientUseCase(inject(ShoppingView), inject(SHOPPING_TOKEN)),
+    },
+    {
+        provide: ToggleHideBoughtIngredientsUseCase,
+        useFactory: () => new ToggleHideBoughtIngredientsUseCase(inject(ShoppingView)),
     },
 ]

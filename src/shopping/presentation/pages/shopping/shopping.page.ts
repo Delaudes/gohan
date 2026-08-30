@@ -5,6 +5,7 @@ import { FetchShoppingListUseCase } from '../../../core/usecases/fetch-shopping-
 import { AddShoppingIngredientComponent } from '../../components/add-shopping-ingredient/add-shopping-ingredient.component';
 import { RemoveShoppingIngredientComponent } from '../../components/remove-shopping-ingredient/remove-shopping-ingredient.component';
 import { ToggleShoppingIngredientBoughtComponent } from '../../components/toggle-shopping-ingredient-bought/toggle-shopping-ingredient-bought.component';
+import { ToggleHideBoughtIngredientsUseCase } from '../../../core/usecases/toggle-hide-bought-ingredients.usecase';
 import { SHOPPING_PROVIDERS } from '../../shopping.provider';
 
 @Component({
@@ -18,6 +19,7 @@ export class ShoppingPage implements OnInit {
   protected readonly viewModel = inject(ShoppingView).shoppingViewModel;
   protected readonly fetchShoppingList = inject(FetchShoppingListUseCase);
   protected readonly fetchIngredientOptions = inject(FetchIngredientOptionsUseCase);
+  protected readonly toggleHideBoughtIngredients = inject(ToggleHideBoughtIngredientsUseCase);
 
   ngOnInit(): void {
     this.fetchShoppingList.execute();

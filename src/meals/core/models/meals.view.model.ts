@@ -10,6 +10,7 @@ type MealsProps = {
     mealsSearchQuery: string;
     isLoadingAddingMeal: boolean;
     isErrorAddingMeal: boolean;
+    hideDoneMeals: boolean;
 }
 
 export class MealsViewModel {
@@ -20,6 +21,7 @@ export class MealsViewModel {
     readonly mealsSearchQuery: string;
     readonly isLoadingAddingMeal: boolean;
     readonly isErrorAddingMeal: boolean;
+    readonly hideDoneMeals: boolean;
 
     constructor(props: MealsProps) {
         this.isLoadingFetchingMeals = props.isLoadingFetchingMeals;
@@ -29,6 +31,7 @@ export class MealsViewModel {
         this.mealsSearchQuery = props.mealsSearchQuery;
         this.isLoadingAddingMeal = props.isLoadingAddingMeal;
         this.isErrorAddingMeal = props.isErrorAddingMeal;
+        this.hideDoneMeals = props.hideDoneMeals;
     }
 
     static initial(): MealsViewModel {
@@ -40,11 +43,18 @@ export class MealsViewModel {
             mealsSearchQuery: '',
             isLoadingAddingMeal: false,
             isErrorAddingMeal: false,
+            hideDoneMeals: false,
         });
     }
 
     hasMeals(): boolean {
         return this.meals.length > 0;
+    }
+
+    visibleMeals(): MealViewModel[] {
+        return this.hideDoneMeals
+            ? this.meals.filter(meal => !meal.done)
+            : this.meals;
     }
 
     mealsProgress(): string {
@@ -108,6 +118,10 @@ export class MealsViewModel {
 
     presentSearchQuery(mealsSearchQuery: string): MealsViewModel {
         return this.with({ mealsSearchQuery });
+    }
+
+    presentHideDoneMeals(hide: boolean): MealsViewModel {
+        return this.with({ hideDoneMeals: hide });
     }
 
     startLoadingAddingMeal(): MealsViewModel {

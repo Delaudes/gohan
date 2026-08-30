@@ -1,6 +1,6 @@
 import { inject, InjectionToken } from "@angular/core";
-import { HttpIngredientsAdapter } from "../adapters/http-ingredients.adapter";
 import { HTTP_TOKEN } from "../../infra/http/http.provider";
+import { HttpIngredientsAdapter } from "../adapters/http-ingredients.adapter";
 import { IngredientsPort } from "../core/ingredients.port";
 import { IngredientsView } from "../core/ingredients.view";
 import { CreateIngredientUseCase } from "../core/usecases/create-ingredient.usecase";
