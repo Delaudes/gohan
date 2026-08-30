@@ -42,7 +42,7 @@ src/<feature>/
                                            isNot(id)/is(id) pour l'identité ; données dérivées (hasX(), progression, recherche) en méthodes, jamais stockées ni dupliquées entre usecases
                                            liste avec délégation par item → mapX(fn) privé qui applique fn à chaque item, l'item se garde lui-même via isNot(id)/is(id) ; une sous-liste dans un item (item dans une liste qui contient lui-même une liste) compose ce même mapX à chaque niveau, chaque niveau gardé par son propre id
                                            action ciblant un item d'une liste → isLoadingX/isErrorX vivent sur l'item lui-même, pas sur le view model racine (sinon fuite d'état entre lignes)
-                                           recherche au fil de la frappe → la query est le seul état stocké (présentée par un usecase séparé, synchrone, sans port) ; le filtrage/matching est une méthode dérivée du view model, recalculée à la lecture
+                                           recherche au fil de la frappe ou toggle d'affichage (ex. masquer les éléments déjà faits/achetés) → la query ou le booléen est le seul état stocké (présenté par un usecase séparé, synchrone, sans port) ; le filtrage/matching est une méthode dérivée du view model, recalculée à la lecture
   adapters/
     fake-<feature>.adapter.ts             pour les tests
     in-memory-<feature>.adapter.ts        données en dur + délai/échec simulés — adapter par défaut avant la vraie API
