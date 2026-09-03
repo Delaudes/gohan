@@ -1,4 +1,5 @@
 import { IngredientOptionViewModel } from "./ingredient-option.view.model";
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
 import { RecipeIngredientViewModel } from "./recipe-ingredient.view.model";
 
 type RecipeProps = {
@@ -63,7 +64,7 @@ export class RecipeViewModel {
     }
 
     matchingIngredientOption(): IngredientOptionViewModel | undefined {
-        const normalizedQuery = this.ingredientsSearchQuery.trim().toLowerCase();
+        const normalizedQuery = normalizeSearchText(this.ingredientsSearchQuery);
         if (!normalizedQuery) return undefined;
         return this.availableIngredientOptions().find(option => option.matches(normalizedQuery));
     }

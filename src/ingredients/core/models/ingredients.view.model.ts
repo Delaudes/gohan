@@ -1,4 +1,5 @@
 import { IngredientDeletionErrorMessage, IngredientViewModel } from "./ingredient.view.model";
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
 
 type IngredientsProps = {
     isLoadingFetchingIngredients: boolean;
@@ -42,7 +43,7 @@ export class IngredientsViewModel {
     }
 
     filteredIngredients(): IngredientViewModel[] {
-        const normalizedQuery = this.searchQuery.trim().toLowerCase();
+        const normalizedQuery = normalizeSearchText(this.searchQuery);
         if (!normalizedQuery) return this.ingredients;
         return this.ingredients.filter(ingredient => ingredient.matches(normalizedQuery));
     }

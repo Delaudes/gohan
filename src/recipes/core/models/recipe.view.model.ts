@@ -1,3 +1,5 @@
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
+
 type RecipeProps = {
     id: string;
     name: string;
@@ -42,7 +44,7 @@ export class RecipeViewModel {
 
     matches(normalizedQuery: string): boolean {
         if (!normalizedQuery) return true;
-        return this.name.toLowerCase().includes(normalizedQuery);
+        return normalizeSearchText(this.name).includes(normalizedQuery);
     }
 
     startLoadingDeletingRecipe(id: string): RecipeViewModel {

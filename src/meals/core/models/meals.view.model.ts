@@ -1,6 +1,7 @@
 import { MealIngredientViewModel } from "./meal-ingredient.view.model";
 import { MealOptionViewModel } from "./meal-option.view.model";
 import { MealViewModel } from "./meal.view.model";
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
 
 type MealsProps = {
     isLoadingFetchingMeals: boolean;
@@ -68,7 +69,7 @@ export class MealsViewModel {
     }
 
     matchingMealOption(): MealOptionViewModel | undefined {
-        const normalizedQuery = this.mealsSearchQuery.trim().toLowerCase();
+        const normalizedQuery = normalizeSearchText(this.mealsSearchQuery);
         if (!normalizedQuery) return undefined;
         return this.availableMealsOptions().find(option => option.matches(normalizedQuery));
     }

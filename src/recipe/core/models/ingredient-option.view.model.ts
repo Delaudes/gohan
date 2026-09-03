@@ -1,3 +1,5 @@
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
+
 type IngredientOptionProps = {
     id: string;
     name: string;
@@ -17,6 +19,6 @@ export class IngredientOptionViewModel {
     }
 
     matches(normalizedQuery: string): boolean {
-        return this.name.toLowerCase().includes(normalizedQuery);
+        return normalizeSearchText(this.name).includes(normalizedQuery);
     }
 }

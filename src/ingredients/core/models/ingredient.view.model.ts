@@ -1,3 +1,5 @@
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
+
 type IngredientProps = {
     id: string;
     name: string;
@@ -41,8 +43,7 @@ export class IngredientViewModel {
     }
 
     matches(normalizedQuery: string): boolean {
-
-        return this.name.toLowerCase().includes(normalizedQuery);
+        return normalizeSearchText(this.name).includes(normalizedQuery);
     }
 
     startLoadingDeletingIngredient(id: string): IngredientViewModel {

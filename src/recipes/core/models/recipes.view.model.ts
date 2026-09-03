@@ -1,4 +1,5 @@
 import { RecipeDeletionErrorMessage, RecipeViewModel } from "./recipe.view.model";
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
 
 type RecipesProps = {
     isLoadingFetchingRecipes: boolean;
@@ -42,7 +43,7 @@ export class RecipesViewModel {
     }
 
     filteredRecipes(): RecipeViewModel[] {
-        const normalizedQuery = this.searchQuery.trim().toLowerCase();
+        const normalizedQuery = normalizeSearchText(this.searchQuery);
         return this.recipes.filter(recipe => recipe.matches(normalizedQuery));
     }
 

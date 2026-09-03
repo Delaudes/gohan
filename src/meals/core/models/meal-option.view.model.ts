@@ -1,3 +1,5 @@
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
+
 type MealOptionProps = {
     id: string;
     name: string;
@@ -17,6 +19,6 @@ export class MealOptionViewModel {
     }
 
     matches(normalizedQuery: string): boolean {
-        return this.name.toLowerCase().includes(normalizedQuery);
+        return normalizeSearchText(this.name).includes(normalizedQuery);
     }
 }

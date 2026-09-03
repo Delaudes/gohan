@@ -1,5 +1,6 @@
 import { IngredientOptionViewModel } from "./ingredient-option.view.model";
 import { ShoppingIngredientViewModel } from "./shopping-ingredient.view.model";
+import { normalizeSearchText } from "../../../utils/normalize-search-text";
 
 type ShoppingProps = {
     isLoadingFetchingIngredients: boolean;
@@ -61,7 +62,7 @@ export class ShoppingViewModel {
     }
 
     matchingIngredientOption(): IngredientOptionViewModel | undefined {
-        const normalizedQuery = this.ingredientsSearchQuery.trim().toLowerCase();
+        const normalizedQuery = normalizeSearchText(this.ingredientsSearchQuery);
         if (!normalizedQuery) return undefined;
         return this.availableIngredientOptions().find(option => option.matches(normalizedQuery));
     }
