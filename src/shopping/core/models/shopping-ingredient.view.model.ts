@@ -40,54 +40,54 @@ export class ShoppingIngredientViewModel {
         });
     }
 
-    isNot(id: string): boolean {
-        return this.id !== id;
+    isNot(id: string, mealId?: string): boolean {
+        return this.id !== id || this.mealId !== mealId;
     }
 
-    startLoadingUpdatingBoughtIngredient(id: string): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    startLoadingUpdatingBoughtIngredient(id: string, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             isLoadingUpdatingBought: true, isErrorUpdatingBought: false,
         });
     }
 
-    stopLoadingUpdatingBoughtIngredient(id: string): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    stopLoadingUpdatingBoughtIngredient(id: string, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             isLoadingUpdatingBought: false,
         });
     }
 
-    presentErrorUpdatingBoughtIngredient(id: string): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    presentErrorUpdatingBoughtIngredient(id: string, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             isErrorUpdatingBought: true,
         });
     }
 
-    presentIngredientUpdated(id: string, bought: boolean): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    presentIngredientUpdated(id: string, bought: boolean, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             bought,
         });
     }
 
-    startLoadingRemovingIngredient(id: string): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    startLoadingRemovingIngredient(id: string, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             isLoadingRemoving: true, isErrorRemoving: false,
         });
     }
 
-    stopLoadingRemovingIngredient(id: string): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    stopLoadingRemovingIngredient(id: string, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             isLoadingRemoving: false,
         });
     }
 
-    presentErrorRemovingIngredient(id: string): ShoppingIngredientViewModel {
-        if (this.isNot(id)) return this;
+    presentErrorRemovingIngredient(id: string, mealId?: string): ShoppingIngredientViewModel {
+        if (this.isNot(id, mealId)) return this;
         return this.with({
             isErrorRemoving: true,
         });

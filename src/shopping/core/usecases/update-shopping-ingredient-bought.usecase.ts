@@ -8,16 +8,16 @@ export class UpdateShoppingIngredientBoughtUseCase {
     ) { }
 
     async execute(id: string, mealId: string | undefined, bought: boolean): Promise<void> {
-        this.shoppingView.update(vm => vm.startLoadingUpdatingBoughtIngredient(id));
+        this.shoppingView.update(vm => vm.startLoadingUpdatingBoughtIngredient(id, mealId));
         try {
             const ingredient = mealId
                 ? await this.shoppingPort.updateMealIngredient(mealId, id, bought)
                 : await this.shoppingPort.updateIngredient(id, bought);
-            this.shoppingView.update(vm => vm.presentIngredientUpdated(ingredient.id, ingredient.bought));
+            this.shoppingView.update(vm => vm.presentIngredientUpdated(ingredient.id, ingredient.bought, mealId));
         } catch {
-            this.shoppingView.update(vm => vm.presentErrorUpdatingBoughtIngredient(id));
+            this.shoppingView.update(vm => vm.presentErrorUpdatingBoughtIngredient(id, mealId));
         } finally {
-            this.shoppingView.update(vm => vm.stopLoadingUpdatingBoughtIngredient(id));
+            this.shoppingView.update(vm => vm.stopLoadingUpdatingBoughtIngredient(id, mealId));
         }
     }
 }

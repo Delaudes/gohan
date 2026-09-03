@@ -39,7 +39,6 @@ export class FetchMealsUseCase {
                 ingredients: [],
             }));
         const mealsOptions = recipesList.recipes
-            .filter(recipe => !recipe.inMealsList)
             .map(recipe => new MealOptionViewModel({
                 id: recipe.id,
                 name: recipe.name,

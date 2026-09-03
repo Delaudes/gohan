@@ -11,12 +11,10 @@ export class FetchIngredientOptionsUseCase {
     async execute(): Promise<void> {
         try {
             const result = await this.shoppingPort.fetchIngredientOptions();
-            const options = result.options
-                .filter(option => !option.inShoppingList)
-                .map(option => new IngredientOptionViewModel({
-                    id: option.id,
-                    name: option.name,
-                }));
+            const options = result.options.map(option => new IngredientOptionViewModel({
+                id: option.id,
+                name: option.name,
+            }));
             this.shoppingView.update(vm => vm.presentIngredientOptionsFetched(options));
         } catch {
             this.shoppingView.update(vm => vm.presentIngredientOptionsFetched([]));

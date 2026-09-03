@@ -58,10 +58,14 @@ export class RecipeViewModel {
         return this.ingredients.length > 0;
     }
 
+    availableIngredientOptions(): IngredientOptionViewModel[] {
+        return this.ingredientOptions.filter(option => this.ingredients.every(ingredient => option.isNot(ingredient.id)));
+    }
+
     matchingIngredientOption(): IngredientOptionViewModel | undefined {
         const normalizedQuery = this.ingredientsSearchQuery.trim().toLowerCase();
         if (!normalizedQuery) return undefined;
-        return this.ingredientOptions.find(option => option.matches(normalizedQuery));
+        return this.availableIngredientOptions().find(option => option.matches(normalizedQuery));
     }
 
     private with(partial: Partial<RecipeProps>): RecipeViewModel {

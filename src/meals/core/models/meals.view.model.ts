@@ -63,10 +63,14 @@ export class MealsViewModel {
         return `${doneCount}/${count} réalisé${count > 1 ? 's' : ''}`;
     }
 
+    availableMealsOptions(): MealOptionViewModel[] {
+        return this.mealsOptions.filter(option => this.meals.every(meal => option.isNot(meal.id)));
+    }
+
     matchingMealOption(): MealOptionViewModel | undefined {
         const normalizedQuery = this.mealsSearchQuery.trim().toLowerCase();
         if (!normalizedQuery) return undefined;
-        return this.mealsOptions.find(option => option.matches(normalizedQuery));
+        return this.availableMealsOptions().find(option => option.matches(normalizedQuery));
     }
 
     isMealExpanded(id: string): boolean {
@@ -146,7 +150,6 @@ export class MealsViewModel {
     presentMealAdded(meal: MealViewModel): MealsViewModel {
         return this.with({
             meals: this.sortMeals([...this.meals, meal]),
-            mealsOptions: this.mealsOptions.filter(option => option.isNot(meal.id)),
         });
     }
 
@@ -163,14 +166,9 @@ export class MealsViewModel {
     }
 
     presentMealRemoved(id: string): MealsViewModel {
-        const removedMeal = this.meals.find(meal => meal.is(id));
         const meals = this.meals.filter(meal => meal.isNot(id));
-        const mealsOptions = removedMeal
-            ? [...this.mealsOptions, new MealOptionViewModel({ id: removedMeal.id, name: removedMeal.name })]
-            : this.mealsOptions;
         return this.with({
             meals,
-            mealsOptions,
         });
     }
 

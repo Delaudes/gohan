@@ -12,6 +12,10 @@ export class IngredientOptionViewModel {
         this.name = props.name;
     }
 
+    isNot(id: string): boolean {
+        return this.id !== id;
+    }
+
     matches(normalizedQuery: string): boolean {
         return this.name.toLowerCase().includes(normalizedQuery);
     }

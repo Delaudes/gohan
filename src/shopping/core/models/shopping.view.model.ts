@@ -56,10 +56,14 @@ export class ShoppingViewModel {
             : this.ingredients;
     }
 
+    availableIngredientOptions(): IngredientOptionViewModel[] {
+        return this.ingredientOptions.filter(option => this.ingredients.every(ingredient => option.isNot(ingredient.id)));
+    }
+
     matchingIngredientOption(): IngredientOptionViewModel | undefined {
         const normalizedQuery = this.ingredientsSearchQuery.trim().toLowerCase();
         if (!normalizedQuery) return undefined;
-        return this.ingredientOptions.find(option => option.matches(normalizedQuery));
+        return this.availableIngredientOptions().find(option => option.matches(normalizedQuery));
     }
 
     ingredientsProgress(): string {
@@ -110,36 +114,36 @@ export class ShoppingViewModel {
         });
     }
 
-    startLoadingUpdatingBoughtIngredient(id: string): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.startLoadingUpdatingBoughtIngredient(id));
+    startLoadingUpdatingBoughtIngredient(id: string, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.startLoadingUpdatingBoughtIngredient(id, mealId));
     }
 
-    stopLoadingUpdatingBoughtIngredient(id: string): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.stopLoadingUpdatingBoughtIngredient(id));
+    stopLoadingUpdatingBoughtIngredient(id: string, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.stopLoadingUpdatingBoughtIngredient(id, mealId));
     }
 
-    presentErrorUpdatingBoughtIngredient(id: string): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.presentErrorUpdatingBoughtIngredient(id));
+    presentErrorUpdatingBoughtIngredient(id: string, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.presentErrorUpdatingBoughtIngredient(id, mealId));
     }
 
-    presentIngredientUpdated(id: string, bought: boolean): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.presentIngredientUpdated(id, bought));
+    presentIngredientUpdated(id: string, bought: boolean, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.presentIngredientUpdated(id, bought, mealId));
     }
 
-    startLoadingRemovingIngredient(id: string): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.startLoadingRemovingIngredient(id));
+    startLoadingRemovingIngredient(id: string, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.startLoadingRemovingIngredient(id, mealId));
     }
 
-    stopLoadingRemovingIngredient(id: string): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.stopLoadingRemovingIngredient(id));
+    stopLoadingRemovingIngredient(id: string, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.stopLoadingRemovingIngredient(id, mealId));
     }
 
-    presentErrorRemovingIngredient(id: string): ShoppingViewModel {
-        return this.mapIngredient(ingredient => ingredient.presentErrorRemovingIngredient(id));
+    presentErrorRemovingIngredient(id: string, mealId?: string): ShoppingViewModel {
+        return this.mapIngredient(ingredient => ingredient.presentErrorRemovingIngredient(id, mealId));
     }
 
-    presentIngredientRemoved(id: string): ShoppingViewModel {
-        const ingredients = this.ingredients.filter(ingredient => ingredient.isNot(id));
+    presentIngredientRemoved(id: string, mealId?: string): ShoppingViewModel {
+        const ingredients = this.ingredients.filter(ingredient => ingredient.isNot(id, mealId));
         return this.with({
             ingredients,
         });
@@ -185,7 +189,6 @@ export class ShoppingViewModel {
     presentIngredientAdded(ingredient: ShoppingIngredientViewModel): ShoppingViewModel {
         return this.with({
             ingredients: this.sortIngredients([...this.ingredients, ingredient]),
-            ingredientOptions: this.ingredientOptions.filter(option => option.isNot(ingredient.id)),
         });
     }
 }
