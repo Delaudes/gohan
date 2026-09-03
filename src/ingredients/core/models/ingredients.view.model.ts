@@ -43,6 +43,7 @@ export class IngredientsViewModel {
 
     filteredIngredients(): IngredientViewModel[] {
         const normalizedQuery = this.searchQuery.trim().toLowerCase();
+        if (!normalizedQuery) return this.ingredients;
         return this.ingredients.filter(ingredient => ingredient.matches(normalizedQuery));
     }
 

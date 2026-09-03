@@ -41,7 +41,7 @@ export class IngredientViewModel {
     }
 
     matches(normalizedQuery: string): boolean {
-        if (!normalizedQuery) return true;
+
         return this.name.toLowerCase().includes(normalizedQuery);
     }
 
