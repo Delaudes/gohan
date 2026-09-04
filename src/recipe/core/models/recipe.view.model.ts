@@ -13,6 +13,7 @@ type RecipeProps = {
     ingredientsSearchQuery: string;
     isLoadingAddingIngredient: boolean;
     isErrorAddingIngredient: boolean;
+    isAddingIngredientVisible: boolean;
 }
 
 export class RecipeViewModel {
@@ -26,6 +27,7 @@ export class RecipeViewModel {
     readonly ingredientsSearchQuery: string;
     readonly isLoadingAddingIngredient: boolean;
     readonly isErrorAddingIngredient: boolean;
+    readonly isAddingIngredientVisible: boolean;
 
     constructor(props: RecipeProps) {
         this.isLoadingFetchingRecipe = props.isLoadingFetchingRecipe;
@@ -38,6 +40,7 @@ export class RecipeViewModel {
         this.ingredientsSearchQuery = props.ingredientsSearchQuery;
         this.isLoadingAddingIngredient = props.isLoadingAddingIngredient;
         this.isErrorAddingIngredient = props.isErrorAddingIngredient;
+        this.isAddingIngredientVisible = props.isAddingIngredientVisible;
     }
 
     static initial(): RecipeViewModel {
@@ -52,6 +55,7 @@ export class RecipeViewModel {
             ingredientsSearchQuery: '',
             isLoadingAddingIngredient: false,
             isErrorAddingIngredient: false,
+            isAddingIngredientVisible: false,
         });
     }
 
@@ -171,6 +175,12 @@ export class RecipeViewModel {
     presentIngredientsSearchQuery(query: string): RecipeViewModel {
         return this.with({
             ingredientsSearchQuery: query,
+        });
+    }
+
+    presentAddingIngredientVisible(visible: boolean): RecipeViewModel {
+        return this.with({
+            isAddingIngredientVisible: visible,
         });
     }
 }

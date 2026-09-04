@@ -1,25 +1,48 @@
 @let vm = viewModel();
 
 <div
-  class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex flex-col gap-3 rounded-2xl border-2 p-4"
+  class="border-charcoal shadow-[4px_4px_0_0_var(--color-charcoal)] fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-10 flex h-14 items-center rounded-full border-2 transition-all"
+  [class]="vm.isAddingIngredientVisible ? 'bg-cream px-4' : 'bg-tomato hover:shadow-[2px_2px_0_0_var(--color-charcoal)] hover:translate-x-0.5 hover:translate-y-0.5'"
+  [style.width]="vm.isAddingIngredientVisible ? 'calc(100vw - 2rem)' : '3.5rem'"
 >
-  <h2 class="text-charcoal text-center text-lg">Ajouter un ingrédient</h2>
+  <button
+    type="button"
+    [class.hidden]="vm.isAddingIngredientVisible"
+    [class.flex]="!vm.isAddingIngredientVisible"
+    (click)="toggleAddingRecipeIngredient.execute(true)"
+    aria-label="Ajouter un ingrédient"
+    class="text-cream h-full w-full items-center justify-center"
+  >
+    <span class="material-symbols-outlined text-2xl">add</span>
+  </button>
 
-  <div class="relative">
-    <label for="ingredient-search" class="sr-only">Rechercher un ingrédient</label>
-    <span
-      class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl"
-      >search</span
-    >
+  <div
+    class="min-w-0 flex-1 items-center gap-2"
+    [class.hidden]="!vm.isAddingIngredientVisible"
+    [class.flex]="vm.isAddingIngredientVisible"
+  >
+    <span class="material-symbols-outlined text-tomato shrink-0 text-xl">search</span>
+    <label for="recipe-ingredient-search" class="sr-only">Rechercher un ingrédient</label>
     <input
       #searchInput
-      id="ingredient-search"
+      id="recipe-ingredient-search"
       type="text"
+      [appFocusOnVisible]="vm.isAddingIngredientVisible"
       (input)="searchIngredientOptions.execute(searchInput.value)"
-      placeholder="Rechercher un ingrédient"
-      class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
+      placeholder="Ajouter un ingrédient"
+      class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato min-w-0 flex-1 border-b-2 bg-transparent py-1 text-lg outline-none"
     />
+    <button
+      type="button"
+      (click)="toggleAddingRecipeIngredient.execute(false)"
+      aria-label="Fermer"
+      class="text-charcoal/50 hover:text-charcoal flex h-8 w-8 shrink-0 items-center justify-center"
+    >
+      <span class="material-symbols-outlined text-xl">close</span>
+    </button>
+  </div>
 
+  @if (vm.isAddingIngredientVisible) {
     @if (searchInput.value.trim()) {
       <div
         class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] absolute right-0 bottom-full left-0 z-10 flex flex-col gap-2 rounded-2xl border-2 p-2"
@@ -73,5 +96,5 @@
         }
       </div>
     }
-  </div>
+  }
 </div>

@@ -11,6 +11,7 @@ type ShoppingProps = {
     isLoadingAddingIngredient: boolean;
     isErrorAddingIngredient: boolean;
     hideBoughtIngredients: boolean;
+    isAddingIngredientVisible: boolean;
 }
 
 export class ShoppingViewModel {
@@ -22,6 +23,7 @@ export class ShoppingViewModel {
     readonly isLoadingAddingIngredient: boolean;
     readonly isErrorAddingIngredient: boolean;
     readonly hideBoughtIngredients: boolean;
+    readonly isAddingIngredientVisible: boolean;
 
     constructor(props: ShoppingProps) {
         this.isLoadingFetchingIngredients = props.isLoadingFetchingIngredients;
@@ -32,6 +34,7 @@ export class ShoppingViewModel {
         this.isLoadingAddingIngredient = props.isLoadingAddingIngredient;
         this.isErrorAddingIngredient = props.isErrorAddingIngredient;
         this.hideBoughtIngredients = props.hideBoughtIngredients;
+        this.isAddingIngredientVisible = props.isAddingIngredientVisible;
     }
 
     static initial(): ShoppingViewModel {
@@ -44,6 +47,7 @@ export class ShoppingViewModel {
             isLoadingAddingIngredient: false,
             isErrorAddingIngredient: false,
             hideBoughtIngredients: false,
+            isAddingIngredientVisible: false,
         });
     }
 
@@ -165,6 +169,12 @@ export class ShoppingViewModel {
     presentHideBoughtIngredients(hide: boolean): ShoppingViewModel {
         return this.with({
             hideBoughtIngredients: hide,
+        });
+    }
+
+    presentAddingIngredientVisible(visible: boolean): ShoppingViewModel {
+        return this.with({
+            isAddingIngredientVisible: visible,
         });
     }
 

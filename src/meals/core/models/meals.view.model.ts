@@ -12,6 +12,7 @@ type MealsProps = {
     isLoadingAddingMeal: boolean;
     isErrorAddingMeal: boolean;
     hideDoneMeals: boolean;
+    isAddingMealVisible: boolean;
 }
 
 export class MealsViewModel {
@@ -23,6 +24,7 @@ export class MealsViewModel {
     readonly isLoadingAddingMeal: boolean;
     readonly isErrorAddingMeal: boolean;
     readonly hideDoneMeals: boolean;
+    readonly isAddingMealVisible: boolean;
 
     constructor(props: MealsProps) {
         this.isLoadingFetchingMeals = props.isLoadingFetchingMeals;
@@ -33,6 +35,7 @@ export class MealsViewModel {
         this.isLoadingAddingMeal = props.isLoadingAddingMeal;
         this.isErrorAddingMeal = props.isErrorAddingMeal;
         this.hideDoneMeals = props.hideDoneMeals;
+        this.isAddingMealVisible = props.isAddingMealVisible;
     }
 
     static initial(): MealsViewModel {
@@ -45,6 +48,7 @@ export class MealsViewModel {
             isLoadingAddingMeal: false,
             isErrorAddingMeal: false,
             hideDoneMeals: false,
+            isAddingMealVisible: false,
         });
     }
 
@@ -127,6 +131,10 @@ export class MealsViewModel {
 
     presentHideDoneMeals(hide: boolean): MealsViewModel {
         return this.with({ hideDoneMeals: hide });
+    }
+
+    presentAddingMealVisible(visible: boolean): MealsViewModel {
+        return this.with({ isAddingMealVisible: visible });
     }
 
     startLoadingAddingMeal(): MealsViewModel {

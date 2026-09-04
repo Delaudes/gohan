@@ -1,5 +1,20 @@
-<div class="flex flex-col gap-4 p-4 pb-56">
+<div class="flex flex-col gap-4 p-4 pb-32">
   @let vm = viewModel();
+
+  <div class="bg-cream sticky top-0 z-10 -mx-4 -mt-4 p-3">
+    <div class="relative">
+      <label for="ingredients-search" class="sr-only">Rechercher un ingrédient</label>
+      <span class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl">search</span>
+      <input
+        #searchInput
+        id="ingredients-search"
+        type="text"
+        (input)="searchIngredients.execute(searchInput.value)"
+        placeholder="Rechercher un ingrédient"
+        class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
+      />
+    </div>
+  </div>
 
   @if (vm.isLoadingFetchingIngredients) {
     <ul class="divide-charcoal/10 flex flex-col divide-y">
@@ -66,23 +81,8 @@
     </div>
   }
 
-  <div class="bg-cream border-charcoal/10 fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 border-t p-3">
-    <div class="relative">
-      <label for="ingredients-search" class="sr-only">Rechercher un ingrédient</label>
-      <span class="material-symbols-outlined text-tomato pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-xl">search</span>
-      <input
-        #searchInput
-        id="ingredients-search"
-        type="text"
-        (input)="searchIngredients.execute(searchInput.value)"
-        placeholder="Rechercher un ingrédient"
-        class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato w-full border-b-2 bg-transparent py-2 pr-1 pl-8 text-left text-lg outline-none"
-      />
-    </div>
-  </div>
-
   @if (vm.isLoadingFetchingIngredients) {
-    <div class="bg-charcoal/10 fixed right-4 bottom-[calc(9.5rem+env(safe-area-inset-bottom))] z-10 h-14 w-14 animate-pulse rounded-full"></div>
+    <div class="bg-charcoal/10 fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-10 h-14 w-14 animate-pulse rounded-full"></div>
   } @else if (!vm.isErrorFetchingIngredients) {
     <app-create-ingredient />
   }

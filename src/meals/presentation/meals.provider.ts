@@ -10,6 +10,7 @@ import { UpdateMealIngredientBoughtUseCase } from "../core/usecases/update-meal-
 import { RemoveMealUseCase } from "../core/usecases/remove-meal.usecase";
 import { SearchMealsOptionsUseCase } from "../core/usecases/search-meals-options.usecase";
 import { AddMealUseCase } from "../core/usecases/add-meal.usecase";
+import { ToggleAddingMealUseCase } from "../core/usecases/toggle-adding-meal.usecase";
 import { ToggleHideDoneMealsUseCase } from "../core/usecases/toggle-hide-done-meals.usecase";
 
 export const MEALS_TOKEN = new InjectionToken<MealsPort>('MEALS_TOKEN', {
@@ -53,5 +54,9 @@ export const MEALS_PROVIDERS = [
     {
         provide: ToggleHideDoneMealsUseCase,
         useFactory: () => new ToggleHideDoneMealsUseCase(inject(MealsView)),
+    },
+    {
+        provide: ToggleAddingMealUseCase,
+        useFactory: () => new ToggleAddingMealUseCase(inject(MealsView)),
     },
 ]

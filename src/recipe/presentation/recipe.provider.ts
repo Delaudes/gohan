@@ -9,6 +9,7 @@ import { SearchIngredientOptionsUseCase } from "../core/usecases/search-ingredie
 import { AddKnownRecipeIngredientUseCase } from "../core/usecases/add-known-recipe-ingredient.usecase";
 import { AddUnknownRecipeIngredientUseCase } from "../core/usecases/add-unknown-recipe-ingredient.usecase";
 import { RemoveRecipeIngredientUseCase } from "../core/usecases/remove-recipe-ingredient.usecase";
+import { ToggleAddingRecipeIngredientUseCase } from "../core/usecases/toggle-adding-recipe-ingredient.usecase";
 import { ROUTE_TOKEN } from "../../infra/route/route.provider";
 
 export const RECIPE_TOKEN = new InjectionToken<RecipePort>('RECIPE_TOKEN', {
@@ -44,5 +45,9 @@ export const RECIPE_PROVIDERS = [
     {
         provide: RemoveRecipeIngredientUseCase,
         useFactory: () => new RemoveRecipeIngredientUseCase(inject(RecipeView), inject(RECIPE_TOKEN), inject(ROUTE_TOKEN)),
+    },
+    {
+        provide: ToggleAddingRecipeIngredientUseCase,
+        useFactory: () => new ToggleAddingRecipeIngredientUseCase(inject(RecipeView)),
     },
 ]

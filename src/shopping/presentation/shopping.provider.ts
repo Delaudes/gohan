@@ -9,6 +9,7 @@ import { FetchIngredientOptionsUseCase } from "../core/usecases/fetch-ingredient
 import { FetchShoppingListUseCase } from "../core/usecases/fetch-shopping-list.usecase";
 import { RemoveShoppingIngredientUseCase } from "../core/usecases/remove-shopping-ingredient.usecase";
 import { SearchIngredientOptionsUseCase } from "../core/usecases/search-ingredient-options.usecase";
+import { ToggleAddingShoppingIngredientUseCase } from "../core/usecases/toggle-adding-shopping-ingredient.usecase";
 import { ToggleHideBoughtIngredientsUseCase } from "../core/usecases/toggle-hide-bought-ingredients.usecase";
 import { UpdateShoppingIngredientBoughtUseCase } from "../core/usecases/update-shopping-ingredient-bought.usecase";
 
@@ -53,5 +54,9 @@ export const SHOPPING_PROVIDERS = [
     {
         provide: ToggleHideBoughtIngredientsUseCase,
         useFactory: () => new ToggleHideBoughtIngredientsUseCase(inject(ShoppingView)),
+    },
+    {
+        provide: ToggleAddingShoppingIngredientUseCase,
+        useFactory: () => new ToggleAddingShoppingIngredientUseCase(inject(ShoppingView)),
     },
 ]
