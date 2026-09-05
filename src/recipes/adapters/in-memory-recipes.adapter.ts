@@ -1,5 +1,5 @@
-import { RecipeDeletionResult, RecipeDomainModel, RecipesListDomainModel } from "../core/models/recipes.domain.model";
-import { RecipesPort } from "../core/recipes.port";
+import { RecipeDeletionResult, RecipeDomainModel, RecipesListDomainModel } from "../models/recipes.domain.model";
+import { RecipesPort } from "../recipes.port";
 
 let RECIPES: RecipeDomainModel[] = [
     { id: '1', name: 'Pasta Carbonara', inMealsList: true },

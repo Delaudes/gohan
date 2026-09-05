@@ -1,17 +1,17 @@
 import { inject, InjectionToken } from "@angular/core";
 import { HttpMealsAdapter } from "../adapters/http-meals.adapter";
 import { HTTP_TOKEN } from "../../infra/http/http.provider";
-import { MealsPort } from "../core/meals.port";
-import { MealsView } from "../core/meals.view";
-import { FetchMealsUseCase } from "../core/usecases/fetch-meals.usecase";
-import { FetchMealUseCase } from "../core/usecases/fetch-meal.usecase";
-import { UpdateMealDoneUseCase } from "../core/usecases/update-meal-done.usecase";
-import { UpdateMealIngredientBoughtUseCase } from "../core/usecases/update-meal-ingredient-bought.usecase";
-import { RemoveMealUseCase } from "../core/usecases/remove-meal.usecase";
-import { SearchMealsOptionsUseCase } from "../core/usecases/search-meals-options.usecase";
-import { AddMealUseCase } from "../core/usecases/add-meal.usecase";
-import { ToggleAddingMealUseCase } from "../core/usecases/toggle-adding-meal.usecase";
-import { ToggleHideDoneMealsUseCase } from "../core/usecases/toggle-hide-done-meals.usecase";
+import { MealsPort } from "../meals.port";
+import { MealsView } from "../meals.view";
+import { FetchMealsUseCase } from "../usecases/fetch-meals.usecase";
+import { FetchMealUseCase } from "../usecases/fetch-meal.usecase";
+import { UpdateMealDoneUseCase } from "../usecases/update-meal-done.usecase";
+import { UpdateMealIngredientBoughtUseCase } from "../usecases/update-meal-ingredient-bought.usecase";
+import { RemoveMealUseCase } from "../usecases/remove-meal.usecase";
+import { SearchMealsOptionsUseCase } from "../usecases/search-meals-options.usecase";
+import { AddMealUseCase } from "../usecases/add-meal.usecase";
+import { ToggleAddingMealUseCase } from "../usecases/toggle-adding-meal.usecase";
+import { ToggleHideDoneMealsUseCase } from "../usecases/toggle-hide-done-meals.usecase";
 
 export const MEALS_TOKEN = new InjectionToken<MealsPort>('MEALS_TOKEN', {
     providedIn: 'root',

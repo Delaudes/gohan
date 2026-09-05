@@ -1,6 +1,6 @@
 import { FakeIngredientsAdapter } from "../adapters/fake-ingredients.adapter";
-import { IngredientsView } from "../core/ingredients.view";
-import { UpdateIngredientShoppingListUseCase } from "../core/usecases/update-ingredient-shopping-list.usecase";
+import { IngredientsView } from "../ingredients.view";
+import { UpdateIngredientShoppingListUseCase } from "../usecases/update-ingredient-shopping-list.usecase";
 
 describe('Update ingredient shopping list', () => {
     let useCase: UpdateIngredientShoppingListUseCase;

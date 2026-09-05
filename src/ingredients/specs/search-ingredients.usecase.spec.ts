@@ -1,6 +1,6 @@
-import { IngredientsView } from "../core/ingredients.view";
-import { IngredientViewModel } from "../core/models/ingredient.view.model";
-import { SearchIngredientsUseCase } from "../core/usecases/search-ingredients.usecase";
+import { IngredientsView } from "../ingredients.view";
+import { IngredientViewModel } from "../models/ingredient.view.model";
+import { SearchIngredientsUseCase } from "../usecases/search-ingredients.usecase";
 
 describe('Search ingredients', () => {
     let useCase: SearchIngredientsUseCase;

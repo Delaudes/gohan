@@ -1,17 +1,17 @@
 import { inject, InjectionToken } from "@angular/core";
 import { HTTP_TOKEN } from "../../infra/http/http.provider";
 import { HttpShoppingAdapter } from "../adapters/http-shopping.adapter";
-import { ShoppingPort } from "../core/shopping.port";
-import { ShoppingView } from "../core/shopping.view";
-import { AddKnownShoppingIngredientUseCase } from "../core/usecases/add-known-shopping-ingredient.usecase";
-import { AddUnknownShoppingIngredientUseCase } from "../core/usecases/add-unknown-shopping-ingredient.usecase";
-import { FetchIngredientOptionsUseCase } from "../core/usecases/fetch-ingredient-options.usecase";
-import { FetchShoppingListUseCase } from "../core/usecases/fetch-shopping-list.usecase";
-import { RemoveShoppingIngredientUseCase } from "../core/usecases/remove-shopping-ingredient.usecase";
-import { SearchIngredientOptionsUseCase } from "../core/usecases/search-ingredient-options.usecase";
-import { ToggleAddingShoppingIngredientUseCase } from "../core/usecases/toggle-adding-shopping-ingredient.usecase";
-import { ToggleHideBoughtIngredientsUseCase } from "../core/usecases/toggle-hide-bought-ingredients.usecase";
-import { UpdateShoppingIngredientBoughtUseCase } from "../core/usecases/update-shopping-ingredient-bought.usecase";
+import { ShoppingPort } from "../shopping.port";
+import { ShoppingView } from "../shopping.view";
+import { AddKnownShoppingIngredientUseCase } from "../usecases/add-known-shopping-ingredient.usecase";
+import { AddUnknownShoppingIngredientUseCase } from "../usecases/add-unknown-shopping-ingredient.usecase";
+import { FetchIngredientOptionsUseCase } from "../usecases/fetch-ingredient-options.usecase";
+import { FetchShoppingListUseCase } from "../usecases/fetch-shopping-list.usecase";
+import { RemoveShoppingIngredientUseCase } from "../usecases/remove-shopping-ingredient.usecase";
+import { SearchIngredientOptionsUseCase } from "../usecases/search-ingredient-options.usecase";
+import { ToggleAddingShoppingIngredientUseCase } from "../usecases/toggle-adding-shopping-ingredient.usecase";
+import { ToggleHideBoughtIngredientsUseCase } from "../usecases/toggle-hide-bought-ingredients.usecase";
+import { UpdateShoppingIngredientBoughtUseCase } from "../usecases/update-shopping-ingredient-bought.usecase";
 
 export const SHOPPING_TOKEN = new InjectionToken<ShoppingPort>('SHOPPING_TOKEN', {
     providedIn: 'root',

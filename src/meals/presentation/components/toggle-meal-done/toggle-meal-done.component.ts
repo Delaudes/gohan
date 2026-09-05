@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { MealViewModel } from '../../../core/models/meal.view.model';
-import { UpdateMealDoneUseCase } from '../../../core/usecases/update-meal-done.usecase';
+import { MealViewModel } from '../../../models/meal.view.model';
+import { UpdateMealDoneUseCase } from '../../../usecases/update-meal-done.usecase';
 
 @Component({
   selector: 'app-toggle-meal-done',

@@ -27,7 +27,8 @@
       #searchInput
       id="recipe-ingredient-search"
       type="text"
-      [appFocusOnVisible]="vm.isAddingIngredientVisible"
+      [appFocusWhen]="vm.isAddingIngredientVisible"
+      [appClearWhen]="vm.isSuccessAddingIngredient"
       (input)="searchIngredientOptions.execute(searchInput.value)"
       placeholder="Ajouter un ingrédient"
       class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato min-w-0 flex-1 border-b-2 bg-transparent py-1 text-lg outline-none"
@@ -60,7 +61,7 @@
               <li>
                 <button
                   type="button"
-                  (click)="addKnownRecipeIngredient.execute(matchedOption.id, searchInput)"
+                  (click)="addKnownRecipeIngredient.execute(matchedOption.id)"
                   class="hover:bg-charcoal/5 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
                 >
                   <span class="text-charcoal font-medium">{{ matchedOption.name }}</span>
@@ -75,7 +76,7 @@
             <li>
               <button
                 type="button"
-                (click)="addUnknownRecipeIngredient.execute(searchInput)"
+                (click)="addUnknownRecipeIngredient.execute(searchInput.value)"
                 class="hover:bg-tomato/10 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
               >
                 <span class="text-tomato font-semibold"

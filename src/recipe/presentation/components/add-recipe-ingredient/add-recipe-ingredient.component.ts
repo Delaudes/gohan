@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FocusOnVisibleDirective } from '../../../../presentation/field/focus-on-visible.directive';
-import { RecipeView } from '../../../core/recipe.view';
-import { AddKnownRecipeIngredientUseCase } from '../../../core/usecases/add-known-recipe-ingredient.usecase';
-import { AddUnknownRecipeIngredientUseCase } from '../../../core/usecases/add-unknown-recipe-ingredient.usecase';
-import { SearchIngredientOptionsUseCase } from '../../../core/usecases/search-ingredient-options.usecase';
-import { ToggleAddingRecipeIngredientUseCase } from '../../../core/usecases/toggle-adding-recipe-ingredient.usecase';
+import { ClearWhenDirective } from '../../../../shared/directives/clear-when.directive';
+import { FocusWhenDirective } from '../../../../shared/directives/focus-when.directive';
+import { RecipeView } from '../../../recipe.view';
+import { AddKnownRecipeIngredientUseCase } from '../../../usecases/add-known-recipe-ingredient.usecase';
+import { AddUnknownRecipeIngredientUseCase } from '../../../usecases/add-unknown-recipe-ingredient.usecase';
+import { SearchIngredientOptionsUseCase } from '../../../usecases/search-ingredient-options.usecase';
+import { ToggleAddingRecipeIngredientUseCase } from '../../../usecases/toggle-adding-recipe-ingredient.usecase';
 
 @Component({
   selector: 'app-add-recipe-ingredient',
-  imports: [FocusOnVisibleDirective],
+  imports: [FocusWhenDirective, ClearWhenDirective],
   templateUrl: './add-recipe-ingredient.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

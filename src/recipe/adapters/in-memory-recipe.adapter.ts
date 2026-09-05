@@ -1,5 +1,5 @@
-import { IngredientOptionDomainModel, IngredientOptionsDomainModel, RecipeDomainModel, RecipeIngredientDomainModel } from "../core/models/recipe.domain.model";
-import { RecipePort } from "../core/recipe.port";
+import { IngredientOptionDomainModel, IngredientOptionsDomainModel, RecipeDomainModel, RecipeIngredientDomainModel } from "../models/recipe.domain.model";
+import { RecipePort } from "../recipe.port";
 
 let INGREDIENT_OPTIONS: IngredientOptionDomainModel[] = [
     { id: '101', name: 'Tomate' },

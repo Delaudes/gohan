@@ -1,8 +1,8 @@
 import { API_BASE_URL } from "../../infra/http/api-url";
 import { HttpPort } from "../../infra/http/http.port";
-import { RecipePort } from "../core/recipe.port";
-import { IngredientOptionDomainModel, IngredientOptionsDomainModel, RecipeDomainModel, RecipeIngredientDomainModel } from "../core/models/recipe.domain.model";
-import { CreateIngredientOptionApiRequest, IngredientOptionApiModel, IngredientOptionsListApiModel, RecipeDetailApiModel } from "./models/recipe.api.model";
+import { RecipePort } from "../recipe.port";
+import { IngredientOptionDomainModel, IngredientOptionsDomainModel, RecipeDomainModel, RecipeIngredientDomainModel } from "../models/recipe.domain.model";
+import { CreateIngredientOptionApiRequest, IngredientOptionApiModel, IngredientOptionsListApiModel, RecipeDetailApiModel } from "../models/recipe.api.model";
 
 const RECIPES_URL = `${API_BASE_URL}/gohan/recipes`;
 const INGREDIENTS_URL = `${API_BASE_URL}/gohan/ingredients`;

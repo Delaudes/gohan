@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { RecipeIngredientViewModel } from '../../../core/models/recipe-ingredient.view.model';
-import { RemoveRecipeIngredientUseCase } from '../../../core/usecases/remove-recipe-ingredient.usecase';
+import { RecipeIngredientViewModel } from '../../../models/recipe-ingredient.view.model';
+import { RemoveRecipeIngredientUseCase } from '../../../usecases/remove-recipe-ingredient.usecase';
 
 @Component({
   selector: 'app-remove-recipe-ingredient',

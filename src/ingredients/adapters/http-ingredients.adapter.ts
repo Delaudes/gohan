@@ -1,8 +1,8 @@
 import { API_BASE_URL } from "../../infra/http/api-url";
 import { HttpPort } from "../../infra/http/http.port";
-import { IngredientsPort } from "../core/ingredients.port";
-import { IngredientDeletionResult, IngredientDomainModel, IngredientsListDomainModel } from "../core/models/ingredients.domain.model";
-import { CreateIngredientApiRequest, IngredientApiModel, IngredientsListApiModel, PatchIngredientApiRequest } from "./models/ingredients.api.model";
+import { IngredientsPort } from "../ingredients.port";
+import { IngredientDeletionResult, IngredientDomainModel, IngredientsListDomainModel } from "../models/ingredients.domain.model";
+import { CreateIngredientApiRequest, IngredientApiModel, IngredientsListApiModel, PatchIngredientApiRequest } from "../models/ingredients.api.model";
 
 const INGREDIENTS_URL = `${API_BASE_URL}/gohan/ingredients`;
 

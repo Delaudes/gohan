@@ -1,13 +1,13 @@
 import { inject, InjectionToken } from "@angular/core";
 import { HttpRecipesAdapter } from "../adapters/http-recipes.adapter";
 import { HTTP_TOKEN } from "../../infra/http/http.provider";
-import { RecipesPort } from "../core/recipes.port";
-import { RecipesView } from "../core/recipes.view";
-import { CreateRecipeUseCase } from "../core/usecases/create-recipe.usecase";
-import { DeleteRecipeUseCase } from "../core/usecases/delete-recipe.usecase";
-import { FetchRecipesUseCase } from "../core/usecases/fetch-recipes.usecase";
-import { SearchRecipesUseCase } from "../core/usecases/search-recipes.usecase";
-import { UpdateRecipeMealsListUseCase } from "../core/usecases/update-recipe-meals-list.usecase";
+import { RecipesPort } from "../recipes.port";
+import { RecipesView } from "../recipes.view";
+import { CreateRecipeUseCase } from "../usecases/create-recipe.usecase";
+import { DeleteRecipeUseCase } from "../usecases/delete-recipe.usecase";
+import { FetchRecipesUseCase } from "../usecases/fetch-recipes.usecase";
+import { SearchRecipesUseCase } from "../usecases/search-recipes.usecase";
+import { UpdateRecipeMealsListUseCase } from "../usecases/update-recipe-meals-list.usecase";
 
 export const RECIPES_TOKEN = new InjectionToken<RecipesPort>('RECIPES_TOKEN', {
     providedIn: 'root',

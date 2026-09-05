@@ -1,5 +1,5 @@
-import { MealsPort } from "../core/meals.port";
-import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, RecipeDomainModel, RecipesListDomainModel } from "../core/models/meals.domain.model";
+import { MealsPort } from "../meals.port";
+import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, RecipeDomainModel, RecipesListDomainModel } from "../models/meals.domain.model";
 
 let RECIPES: RecipeDomainModel[] = [
     { id: '1', name: 'Pasta Carbonara', inMealsList: true, done: false },

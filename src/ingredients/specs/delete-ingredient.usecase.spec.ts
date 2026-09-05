@@ -1,6 +1,6 @@
 import { FakeIngredientsAdapter } from "../adapters/fake-ingredients.adapter";
-import { IngredientsView } from "../core/ingredients.view";
-import { DeleteIngredientUseCase } from "../core/usecases/delete-ingredient.usecase";
+import { IngredientsView } from "../ingredients.view";
+import { DeleteIngredientUseCase } from "../usecases/delete-ingredient.usecase";
 
 describe('Delete ingredient', () => {
     let useCase: DeleteIngredientUseCase;

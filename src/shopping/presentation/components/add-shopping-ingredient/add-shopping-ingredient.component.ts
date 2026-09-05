@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FocusOnVisibleDirective } from '../../../../presentation/field/focus-on-visible.directive';
-import { ShoppingView } from '../../../core/shopping.view';
-import { AddKnownShoppingIngredientUseCase } from '../../../core/usecases/add-known-shopping-ingredient.usecase';
-import { AddUnknownShoppingIngredientUseCase } from '../../../core/usecases/add-unknown-shopping-ingredient.usecase';
-import { SearchIngredientOptionsUseCase } from '../../../core/usecases/search-ingredient-options.usecase';
-import { ToggleAddingShoppingIngredientUseCase } from '../../../core/usecases/toggle-adding-shopping-ingredient.usecase';
+import { ClearWhenDirective } from '../../../../shared/directives/clear-when.directive';
+import { FocusWhenDirective } from '../../../../shared/directives/focus-when.directive';
+import { ShoppingView } from '../../../shopping.view';
+import { AddKnownShoppingIngredientUseCase } from '../../../usecases/add-known-shopping-ingredient.usecase';
+import { AddUnknownShoppingIngredientUseCase } from '../../../usecases/add-unknown-shopping-ingredient.usecase';
+import { SearchIngredientOptionsUseCase } from '../../../usecases/search-ingredient-options.usecase';
+import { ToggleAddingShoppingIngredientUseCase } from '../../../usecases/toggle-adding-shopping-ingredient.usecase';
 
 @Component({
   selector: 'app-add-shopping-ingredient',
-  imports: [FocusOnVisibleDirective],
+  imports: [FocusWhenDirective, ClearWhenDirective],
   templateUrl: './add-shopping-ingredient.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

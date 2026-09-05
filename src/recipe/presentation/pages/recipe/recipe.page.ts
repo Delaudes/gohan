@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppPath } from '../../../../app/app.routes';
-import { RecipeView } from '../../../core/recipe.view';
-import { FetchRecipeUseCase } from '../../../core/usecases/fetch-recipe.usecase';
-import { FetchIngredientOptionsUseCase } from '../../../core/usecases/fetch-ingredient-options.usecase';
+import { RecipeView } from '../../../recipe.view';
+import { FetchRecipeUseCase } from '../../../usecases/fetch-recipe.usecase';
+import { FetchIngredientOptionsUseCase } from '../../../usecases/fetch-ingredient-options.usecase';
 import { RECIPE_PROVIDERS } from '../../recipe.provider';
 import { AddRecipeIngredientComponent } from '../../components/add-recipe-ingredient/add-recipe-ingredient.component';
 import { RemoveRecipeIngredientComponent } from '../../components/remove-recipe-ingredient/remove-recipe-ingredient.component';

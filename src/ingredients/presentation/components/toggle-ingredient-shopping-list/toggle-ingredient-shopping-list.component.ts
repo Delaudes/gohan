@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { IngredientViewModel } from '../../../core/models/ingredient.view.model';
-import { UpdateIngredientShoppingListUseCase } from '../../../core/usecases/update-ingredient-shopping-list.usecase';
+import { IngredientViewModel } from '../../../models/ingredient.view.model';
+import { UpdateIngredientShoppingListUseCase } from '../../../usecases/update-ingredient-shopping-list.usecase';
 
 @Component({
   selector: 'app-toggle-ingredient-shopping-list',

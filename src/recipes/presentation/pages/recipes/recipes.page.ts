@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { RecipesView } from '../../../core/recipes.view';
-import { FetchRecipesUseCase } from '../../../core/usecases/fetch-recipes.usecase';
-import { SearchRecipesUseCase } from '../../../core/usecases/search-recipes.usecase';
+import { RecipesView } from '../../../recipes.view';
+import { FetchRecipesUseCase } from '../../../usecases/fetch-recipes.usecase';
+import { SearchRecipesUseCase } from '../../../usecases/search-recipes.usecase';
 import { CreateRecipeComponent } from '../../components/create-recipe/create-recipe.component';
 import { DeleteRecipeComponent } from '../../components/delete-recipe/delete-recipe.component';
 import { RecipeLinkComponent } from '../../../../recipe/presentation/components/recipe-link/recipe-link.component';

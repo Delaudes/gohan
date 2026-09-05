@@ -27,7 +27,8 @@
       #searchInput
       id="meal-search"
       type="text"
-      [appFocusOnVisible]="vm.isAddingMealVisible"
+      [appFocusWhen]="vm.isAddingMealVisible"
+      [appClearWhen]="vm.isSuccessAddingMeal"
       (input)="searchMealsOptions.execute(searchInput.value)"
       placeholder="Ajouter un repas"
       class="border-charcoal placeholder:text-charcoal/40 text-charcoal focus:border-tomato min-w-0 flex-1 border-b-2 bg-transparent py-1 text-lg outline-none"
@@ -58,7 +59,7 @@
             <li>
               <button
                 type="button"
-                (click)="addMeal.execute(matchedOption.id, searchInput)"
+                (click)="addMeal.execute(matchedOption.id)"
                 class="hover:bg-charcoal/5 flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left transition-colors"
               >
                 <span class="text-charcoal font-medium">{{ matchedOption.name }}</span>

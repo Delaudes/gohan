@@ -1,8 +1,8 @@
 import { API_BASE_URL } from "../../infra/http/api-url";
 import { HttpPort } from "../../infra/http/http.port";
-import { MealsPort } from "../core/meals.port";
-import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, RecipesListDomainModel } from "../core/models/meals.domain.model";
-import { MealDetailApiModel, PatchRecipeApiRequest, PatchRecipeIngredientApiRequest, RecipeApiModel, RecipesListApiModel } from "./models/meals.api.model";
+import { MealsPort } from "../meals.port";
+import { MealDetailDomainModel, MealDomainModel, MealIngredientDomainModel, RecipesListDomainModel } from "../models/meals.domain.model";
+import { MealDetailApiModel, PatchRecipeApiRequest, PatchRecipeIngredientApiRequest, RecipeApiModel, RecipesListApiModel } from "../models/meals.api.model";
 
 const RECIPES_URL = `${API_BASE_URL}/gohan/recipes`;
 

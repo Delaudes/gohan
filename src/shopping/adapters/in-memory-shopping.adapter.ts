@@ -1,5 +1,5 @@
-import { IngredientOptionDomainModel, IngredientOptionsDomainModel, ShoppingIngredientDomainModel, ShoppingListDomainModel } from "../core/models/shopping.domain.model";
-import { ShoppingPort } from "../core/shopping.port";
+import { IngredientOptionDomainModel, IngredientOptionsDomainModel, ShoppingIngredientDomainModel, ShoppingListDomainModel } from "../models/shopping.domain.model";
+import { ShoppingPort } from "../shopping.port";
 
 let INGREDIENT_OPTIONS: IngredientOptionDomainModel[] = [
     { id: '1', name: 'Tomate', inShoppingList: true },

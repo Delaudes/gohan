@@ -1,6 +1,6 @@
 import { FakeIngredientsAdapter } from "../adapters/fake-ingredients.adapter";
-import { IngredientsView } from "../core/ingredients.view";
-import { FetchIngredientsUseCase } from "../core/usecases/fetch-ingredients.usecase";
+import { IngredientsView } from "../ingredients.view";
+import { FetchIngredientsUseCase } from "../usecases/fetch-ingredients.usecase";
 
 describe('Fetch ingredients', () => {
     let useCase: FetchIngredientsUseCase;

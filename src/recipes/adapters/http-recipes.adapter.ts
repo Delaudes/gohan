@@ -1,8 +1,8 @@
 import { API_BASE_URL } from "../../infra/http/api-url";
 import { HttpPort } from "../../infra/http/http.port";
-import { RecipesPort } from "../core/recipes.port";
-import { RecipeDeletionResult, RecipeDomainModel, RecipesListDomainModel } from "../core/models/recipes.domain.model";
-import { CreateRecipeApiRequest, PatchRecipeApiRequest, RecipeApiModel, RecipeDetailApiModel, RecipesListApiModel } from "./models/recipes.api.model";
+import { RecipesPort } from "../recipes.port";
+import { RecipeDeletionResult, RecipeDomainModel, RecipesListDomainModel } from "../models/recipes.domain.model";
+import { CreateRecipeApiRequest, PatchRecipeApiRequest, RecipeApiModel, RecipeDetailApiModel, RecipesListApiModel } from "../models/recipes.api.model";
 
 const RECIPES_URL = `${API_BASE_URL}/gohan/recipes`;
 

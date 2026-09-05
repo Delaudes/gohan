@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { IngredientsView } from '../../../core/ingredients.view';
-import { FetchIngredientsUseCase } from '../../../core/usecases/fetch-ingredients.usecase';
-import { SearchIngredientsUseCase } from '../../../core/usecases/search-ingredients.usecase';
+import { IngredientsView } from '../../../ingredients.view';
+import { FetchIngredientsUseCase } from '../../../usecases/fetch-ingredients.usecase';
+import { SearchIngredientsUseCase } from '../../../usecases/search-ingredients.usecase';
 import { CreateIngredientComponent } from '../../components/create-ingredient/create-ingredient.component';
 import { DeleteIngredientComponent } from '../../components/delete-ingredient/delete-ingredient.component';
 import { ToggleIngredientShoppingListComponent } from '../../components/toggle-ingredient-shopping-list/toggle-ingredient-shopping-list.component';

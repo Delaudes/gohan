@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RecipesView } from '../../../core/recipes.view';
-import { CreateRecipeUseCase } from '../../../core/usecases/create-recipe.usecase';
+import { CloseWhenDirective } from '../../../../shared/directives/close-when.directive';
+import { ClearWhenDirective } from '../../../../shared/directives/clear-when.directive';
+import { RecipesView } from '../../../recipes.view';
+import { CreateRecipeUseCase } from '../../../usecases/create-recipe.usecase';
 
 @Component({
   selector: 'app-create-recipe',
-  imports: [],
+  imports: [CloseWhenDirective, ClearWhenDirective],
   templateUrl: './create-recipe.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

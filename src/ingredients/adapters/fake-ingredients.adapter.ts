@@ -1,5 +1,5 @@
-import { IngredientsPort } from "../core/ingredients.port";
-import { IngredientDeletionResult, IngredientDomainModel, IngredientsListDomainModel } from "../core/models/ingredients.domain.model";
+import { IngredientsPort } from "../ingredients.port";
+import { IngredientDeletionResult, IngredientDomainModel, IngredientsListDomainModel } from "../models/ingredients.domain.model";
 
 export class FakeIngredientsAdapter implements IngredientsPort {
     fetchIngredientsList(): Promise<IngredientsListDomainModel> {
