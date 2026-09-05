@@ -1,0 +1,1 @@
+import{M as t,ba as n,fa as i,qb as a,ya as o}from"./chunk-F5WSMZIJ.js";var p=class e{elementRef=t(i);appCloseWhen=a.required();constructor(){n(()=>{this.appCloseWhen()&&this.elementRef.nativeElement.close()})}static \u0275fac=function(r){return new(r||e)};static \u0275dir=o({type:e,selectors:[["","appCloseWhen",""]],inputs:{appCloseWhen:[1,"appCloseWhen"]}})};export{p as a};

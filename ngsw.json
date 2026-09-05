@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1788117069938,
+  "timestamp": 1788617877273,
   "index": "https://delaudes.github.io/gohan/index.html",
   "assetGroups": [
     {
@@ -12,19 +12,21 @@
       },
       "urls": [
         "https://delaudes.github.io/gohan/apple-touch-icon.png",
-        "https://delaudes.github.io/gohan/chunk-45HE3TZY.js",
-        "https://delaudes.github.io/gohan/chunk-6HVZ3MYZ.js",
-        "https://delaudes.github.io/gohan/chunk-APPESGYQ.js",
-        "https://delaudes.github.io/gohan/chunk-B2WNGDZV.js",
-        "https://delaudes.github.io/gohan/chunk-EBGAPZ5J.js",
-        "https://delaudes.github.io/gohan/chunk-P235OLJV.js",
-        "https://delaudes.github.io/gohan/chunk-TKW5SXRQ.js",
-        "https://delaudes.github.io/gohan/chunk-ZFZARYYL.js",
+        "https://delaudes.github.io/gohan/chunk-5NWANUUM.js",
+        "https://delaudes.github.io/gohan/chunk-CMZGI2YH.js",
+        "https://delaudes.github.io/gohan/chunk-CO4ZFDQN.js",
+        "https://delaudes.github.io/gohan/chunk-F5WSMZIJ.js",
+        "https://delaudes.github.io/gohan/chunk-IGNR55HU.js",
+        "https://delaudes.github.io/gohan/chunk-IOVMW3EO.js",
+        "https://delaudes.github.io/gohan/chunk-JNXK5QBS.js",
+        "https://delaudes.github.io/gohan/chunk-RPHTJ5TF.js",
+        "https://delaudes.github.io/gohan/chunk-SZLE74PA.js",
+        "https://delaudes.github.io/gohan/chunk-UM44CHBV.js",
         "https://delaudes.github.io/gohan/favicon.ico",
         "https://delaudes.github.io/gohan/index.html",
-        "https://delaudes.github.io/gohan/main-CP2FWQGM.js",
+        "https://delaudes.github.io/gohan/main-G54UC2FY.js",
         "https://delaudes.github.io/gohan/manifest.webmanifest",
-        "https://delaudes.github.io/gohan/styles-DMRRJP2F.css"
+        "https://delaudes.github.io/gohan/styles-CHNLO7J2.css"
       ],
       "patterns": []
     },
@@ -46,22 +48,24 @@
   "dataGroups": [],
   "hashTable": {
     "https://delaudes.github.io/gohan/apple-touch-icon.png": "7aea5b5a1f30c7808b9bd83cf0d85bd64103a80f",
-    "https://delaudes.github.io/gohan/chunk-45HE3TZY.js": "61f6420090d7e6a7eda015ee00ed3ec85a5ad1a4",
-    "https://delaudes.github.io/gohan/chunk-6HVZ3MYZ.js": "c64efe473441d640c785c1de6c50ace43c622201",
-    "https://delaudes.github.io/gohan/chunk-APPESGYQ.js": "bd562f62bce4f268e91392221e21f00ee28dffee",
-    "https://delaudes.github.io/gohan/chunk-B2WNGDZV.js": "999037e4d0f6e15833bca8eadbbe0fce56066fae",
-    "https://delaudes.github.io/gohan/chunk-EBGAPZ5J.js": "4d2a9ebdf0e1b4f07f3723d4d1ae670666b3ea6d",
-    "https://delaudes.github.io/gohan/chunk-P235OLJV.js": "736409ef5579d5811813608d1ad538efc9e3e46b",
-    "https://delaudes.github.io/gohan/chunk-TKW5SXRQ.js": "0bb62ffa9a1decbe704c7fd571defe5235fd31c4",
-    "https://delaudes.github.io/gohan/chunk-ZFZARYYL.js": "d5692b63a6380e41145f64be69a58d88117e7980",
+    "https://delaudes.github.io/gohan/chunk-5NWANUUM.js": "ee93545a47fa6c9572d10b4a10078650c2d83a6f",
+    "https://delaudes.github.io/gohan/chunk-CMZGI2YH.js": "ea53e7220908dbf777a3edf1a0d2dd6537e571ad",
+    "https://delaudes.github.io/gohan/chunk-CO4ZFDQN.js": "ea0aa472a23e7ee0bfae2a4605b3e082732031e2",
+    "https://delaudes.github.io/gohan/chunk-F5WSMZIJ.js": "c7e7a29e7ad4dbfb7f739078228de4b29bca7b95",
+    "https://delaudes.github.io/gohan/chunk-IGNR55HU.js": "0c6848e4dd1e13b16e33402e73f3cbfeebf732da",
+    "https://delaudes.github.io/gohan/chunk-IOVMW3EO.js": "57e50b5493e379bbef2d45c7e912f1942a2ff1ce",
+    "https://delaudes.github.io/gohan/chunk-JNXK5QBS.js": "4a12fc053767251f72e96a6985dc27e48f14c370",
+    "https://delaudes.github.io/gohan/chunk-RPHTJ5TF.js": "63f8e68dfb3674635da99d1b50b64f78034df9ad",
+    "https://delaudes.github.io/gohan/chunk-SZLE74PA.js": "bfb190eba3a02977134859c900942c41e0fb6f19",
+    "https://delaudes.github.io/gohan/chunk-UM44CHBV.js": "ae2221b06015524af0d4256bc448939f3744ad4b",
     "https://delaudes.github.io/gohan/favicon.ico": "af85605a063d8c013fbf8364dc88fd60cdf4e3a8",
     "https://delaudes.github.io/gohan/icons/icon-192x192.png": "58cca7842a9466d7d69eb840fe29670fa5e1c2cc",
     "https://delaudes.github.io/gohan/icons/icon-512x512.png": "ca3e7c7459ac66860b6cdac1aac3a6f341447185",
-    "https://delaudes.github.io/gohan/index.html": "ef8595ecf81ab9121aebdb5637110716b1ab770c",
+    "https://delaudes.github.io/gohan/index.html": "86c8d2e677ca5e8ad815a8fd89a82a7a0fee98c9",
     "https://delaudes.github.io/gohan/logo.png": "ca3e7c7459ac66860b6cdac1aac3a6f341447185",
-    "https://delaudes.github.io/gohan/main-CP2FWQGM.js": "25666451cbf2b1dae6020a0b75045b2399c33c91",
+    "https://delaudes.github.io/gohan/main-G54UC2FY.js": "8ae8a00d0a77e23bb9fd9ac8ce0cea276ca0c10a",
     "https://delaudes.github.io/gohan/manifest.webmanifest": "4b83f4dfde067bd7cc6f6b02209bedc1d2bfa339",
-    "https://delaudes.github.io/gohan/styles-DMRRJP2F.css": "4e9a76424fdc8ff9be92d7a89b71ab54c8cc84b0"
+    "https://delaudes.github.io/gohan/styles-CHNLO7J2.css": "7c76eb6c883d07b81be598f8766623a431f9f42e"
   },
   "navigationUrls": [
     {

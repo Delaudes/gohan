@@ -1,0 +1,1 @@
+import{M as t,ba as n,fa as i,qb as c,ya as o}from"./chunk-F5WSMZIJ.js";var p=class e{elementRef=t(i);appFocusWhen=c.required();constructor(){n(()=>{this.appFocusWhen()&&this.elementRef.nativeElement.focus()})}static \u0275fac=function(a){return new(a||e)};static \u0275dir=o({type:e,selectors:[["","appFocusWhen",""]],inputs:{appFocusWhen:[1,"appFocusWhen"]}})};export{p as a};
