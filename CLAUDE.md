@@ -21,6 +21,7 @@ Attention `hover:` sur mobile : par défaut Tailwind applique `:hover` sans cond
 Schematics par défaut (`angular.json`) : `style: none`, `changeDetection: OnPush` partout.
 
 Spécificités visuelles : voir `DESIGN.md` (volontairement absent d'ici, pour que ce fichier reste copiable tel quel dans un autre projet).
+Conventions de tests : voir `TESTING.md` (même principe, gabarit générique séparé).
 
 ## Architecture — hexagonale (ports & adapters)
 
@@ -37,7 +38,7 @@ src/<feature>/
                                          peut aussi exposer `<Action>Result`/`<Action>Error` (union discriminée succès/échec typé) à côté des types d'entité, quand un port doit distinguer un échec métier attendu d'un échec technique
   models/<feature>.view.model.ts        classe(s) immuable(s) : champs déclarés individuellement et assignés dans le constructeur (pas de wrapper .raw), with(partial) privé pour la copie
                                          méthodes nommées par intention (startLoadingX/stopLoadingX/presentErrorX/presentXDone) plutôt que patchs arbitraires — jamais de *DomainModel en paramètre, seulement des primitives ou d'autres *ViewModel
-                                         isNot(id)/is(id) pour l'identité ; données dérivées (hasX(), progression, recherche) en méthodes, jamais stockées ni dupliquées entre usecases
+                                         isNot(id)/is(id) pour l'identité ; données dérivées (hasX, progression, recherche) jamais stockées ni dupliquées entre usecases — en `get` sans paramètre (hasX, progression) pour signaler que ça se teste directement sur le ViewModel, en méthode dès qu'un paramètre est nécessaire (matches(query)), qui elle se teste uniquement à travers le usecase qui la consomme (cf. `TESTING.md`)
                                          liste avec délégation par item → mapX(fn) privé qui applique fn à chaque item, l'item se garde lui-même via isNot(id)/is(id) ; une sous-liste dans un item (item dans une liste qui contient lui-même une liste) compose ce même mapX à chaque niveau, chaque niveau gardé par son propre id
                                          action ciblant un item d'une liste → isLoadingX/isErrorX vivent sur l'item lui-même, pas sur le view model racine (sinon fuite d'état entre lignes)
                                          succès ponctuel devant déclencher un effet DOM déclaratif (focus, vidage de champ, fermeture de dialog) → isSuccessX à côté de isLoadingX/isErrorX, remis à false dans startLoadingX(), passé à true par la méthode qui présente le succès (voir directives dans `shared/` plus bas) — jamais une simple absence de loading/error, sinon l'effet se déclenche aussi à l'état initial
