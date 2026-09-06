@@ -42,34 +42,17 @@ export class RecipesViewModel {
         });
     }
 
-    hasRecipes(): boolean {
+    get hasRecipes(): boolean {
         return this.recipes.length > 0;
     }
 
-    filteredRecipes(): RecipeViewModel[] {
+    get filteredRecipes(): RecipeViewModel[] {
         const normalizedQuery = normalizeSearchText(this.searchQuery);
         return this.recipes.filter(recipe => recipe.matches(normalizedQuery));
     }
 
     presentSearchQuery(searchQuery: string): RecipesViewModel {
         return this.with({ searchQuery });
-    }
-
-    private with(partial: Partial<RecipesProps>): RecipesViewModel {
-        return new RecipesViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
-    private sortRecipes(recipes: RecipeViewModel[]): RecipeViewModel[] {
-        return [...recipes].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-    }
-
-    private mapRecipe(fn: (recipe: RecipeViewModel) => RecipeViewModel): RecipesViewModel {
-        return this.with({
-            recipes: this.recipes.map(fn),
-        });
     }
 
     startLoadingFetchingRecipes(): RecipesViewModel {
@@ -157,5 +140,22 @@ export class RecipesViewModel {
 
     presentRecipeUpdated(id: string, inMealsList: boolean): RecipesViewModel {
         return this.mapRecipe(recipe => recipe.presentRecipeUpdated(id, inMealsList));
+    }
+
+    private with(partial: Partial<RecipesProps>): RecipesViewModel {
+        return new RecipesViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private sortRecipes(recipes: RecipeViewModel[]): RecipeViewModel[] {
+        return [...recipes].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    }
+
+    private mapRecipe(fn: (recipe: RecipeViewModel) => RecipeViewModel): RecipesViewModel {
+        return this.with({
+            recipes: this.recipes.map(fn),
+        });
     }
 }

@@ -63,35 +63,18 @@ export class RecipeViewModel {
         });
     }
 
-    hasIngredients(): boolean {
+    get hasIngredients(): boolean {
         return this.ingredients.length > 0;
     }
 
-    availableIngredientOptions(): IngredientOptionViewModel[] {
+    get availableIngredientOptions(): IngredientOptionViewModel[] {
         return this.ingredientOptions.filter(option => this.ingredients.every(ingredient => option.isNot(ingredient.id)));
     }
 
-    matchingIngredientOption(): IngredientOptionViewModel | undefined {
+    get matchingIngredientOption(): IngredientOptionViewModel | undefined {
         const normalizedQuery = normalizeSearchText(this.ingredientsSearchQuery);
         if (!normalizedQuery) return undefined;
-        return this.availableIngredientOptions().find(option => option.matches(normalizedQuery));
-    }
-
-    private with(partial: Partial<RecipeProps>): RecipeViewModel {
-        return new RecipeViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
-    private mapIngredient(fn: (ingredient: RecipeIngredientViewModel) => RecipeIngredientViewModel): RecipeViewModel {
-        return this.with({
-            ingredients: this.ingredients.map(fn),
-        });
-    }
-
-    private sortIngredients(ingredients: RecipeIngredientViewModel[]): RecipeIngredientViewModel[] {
-        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+        return this.availableIngredientOptions.find(option => option.matches(normalizedQuery));
     }
 
     startLoadingFetchingRecipe(): RecipeViewModel {
@@ -188,5 +171,22 @@ export class RecipeViewModel {
         return this.with({
             isAddingIngredientVisible: visible,
         });
+    }
+
+    private with(partial: Partial<RecipeProps>): RecipeViewModel {
+        return new RecipeViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private mapIngredient(fn: (ingredient: RecipeIngredientViewModel) => RecipeIngredientViewModel): RecipeViewModel {
+        return this.with({
+            ingredients: this.ingredients.map(fn),
+        });
+    }
+
+    private sortIngredients(ingredients: RecipeIngredientViewModel[]): RecipeIngredientViewModel[] {
+        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
     }
 }

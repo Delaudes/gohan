@@ -31,13 +31,6 @@ export class RecipeViewModel {
         this.inMealsList = props.inMealsList;
     }
 
-    private with(partial: Partial<RecipeProps>): RecipeViewModel {
-        return new RecipeViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
     isNot(id: string): boolean {
         return this.id !== id;
     }
@@ -93,6 +86,13 @@ export class RecipeViewModel {
         if (this.isNot(id)) return this;
         return this.with({
             inMealsList,
+        });
+    }
+
+    private with(partial: Partial<RecipeProps>): RecipeViewModel {
+        return new RecipeViewModel({
+            ...this,
+            ...partial,
         });
     }
 }

@@ -38,9 +38,9 @@
         Réessayer
       </button>
     </div>
-  } @else if (vm.hasIngredients()) {
+  } @else if (vm.hasIngredients) {
     <div class="flex items-center justify-between gap-2">
-      <p class="text-charcoal/50 font-mono text-sm">{{ vm.ingredientsProgress() }}</p>
+      <p class="text-charcoal/50 font-mono text-sm">{{ vm.ingredientsProgress }}</p>
       <label class="flex cursor-pointer items-center gap-2">
         <span class="relative inline-flex h-6 w-11 shrink-0 items-center">
           <input
@@ -56,7 +56,7 @@
       </label>
     </div>
     <ul class="divide-charcoal/10 flex flex-col divide-y">
-      @for (ingredient of vm.visibleIngredients(); track ingredient.id) {
+      @for (ingredient of vm.visibleIngredients; track ingredient.id) {
         <li class="flex items-center gap-3 px-2 py-3">
           <app-toggle-shopping-ingredient-bought [ingredient]="ingredient" />
           <span class="min-w-0 flex-1">

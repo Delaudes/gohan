@@ -18,13 +18,6 @@ export class RecipeIngredientViewModel {
         this.isErrorRemoving = props.isErrorRemoving;
     }
 
-    private with(partial: Partial<RecipeIngredientProps>): RecipeIngredientViewModel {
-        return new RecipeIngredientViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
     isNot(id: string): boolean {
         return this.id !== id;
     }
@@ -47,6 +40,13 @@ export class RecipeIngredientViewModel {
         if (this.isNot(id)) return this;
         return this.with({
             isErrorRemoving: true,
+        });
+    }
+
+    private with(partial: Partial<RecipeIngredientProps>): RecipeIngredientViewModel {
+        return new RecipeIngredientViewModel({
+            ...this,
+            ...partial,
         });
     }
 }

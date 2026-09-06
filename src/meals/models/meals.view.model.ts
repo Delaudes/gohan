@@ -56,51 +56,34 @@ export class MealsViewModel {
         });
     }
 
-    hasMeals(): boolean {
+    get hasMeals(): boolean {
         return this.meals.length > 0;
     }
 
-    visibleMeals(): MealViewModel[] {
+    get visibleMeals(): MealViewModel[] {
         return this.hideDoneMeals
             ? this.meals.filter(meal => !meal.done)
             : this.meals;
     }
 
-    mealsProgress(): string {
+    get mealsProgress(): string {
         const doneCount = this.meals.filter(meal => meal.done).length;
         const count = this.meals.length;
         return `${doneCount}/${count} réalisé${count > 1 ? 's' : ''}`;
     }
 
-    availableMealsOptions(): MealOptionViewModel[] {
+    get availableMealsOptions(): MealOptionViewModel[] {
         return this.mealsOptions.filter(option => this.meals.every(meal => option.isNot(meal.id)));
     }
 
-    matchingMealOption(): MealOptionViewModel | undefined {
+    get matchingMealOption(): MealOptionViewModel | undefined {
         const normalizedQuery = normalizeSearchText(this.mealsSearchQuery);
         if (!normalizedQuery) return undefined;
-        return this.availableMealsOptions().find(option => option.matches(normalizedQuery));
+        return this.availableMealsOptions.find(option => option.matches(normalizedQuery));
     }
 
     isMealExpanded(id: string): boolean {
         return this.meals.find(meal => meal.is(id))?.isExpanded ?? false;
-    }
-
-    private with(partial: Partial<MealsProps>): MealsViewModel {
-        return new MealsViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
-    private mapMeal(fn: (meal: MealViewModel) => MealViewModel): MealsViewModel {
-        return this.with({
-            meals: this.meals.map(fn),
-        });
-    }
-
-    private sortMeals(meals: MealViewModel[]): MealViewModel[] {
-        return [...meals].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
     }
 
     startLoadingFetchingMeals(): MealsViewModel {
@@ -237,5 +220,22 @@ export class MealsViewModel {
 
     presentIngredientUpdated(mealId: string, ingredientId: string, bought: boolean): MealsViewModel {
         return this.mapMeal(meal => meal.presentIngredientUpdated(mealId, ingredientId, bought));
+    }
+
+    private with(partial: Partial<MealsProps>): MealsViewModel {
+        return new MealsViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private mapMeal(fn: (meal: MealViewModel) => MealViewModel): MealsViewModel {
+        return this.with({
+            meals: this.meals.map(fn),
+        });
+    }
+
+    private sortMeals(meals: MealViewModel[]): MealViewModel[] {
+        return [...meals].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
     }
 }

@@ -41,23 +41,6 @@ export class MealViewModel {
         this.ingredients = props.ingredients;
     }
 
-    private with(partial: Partial<MealProps>): MealViewModel {
-        return new MealViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
-    private mapIngredient(fn: (ingredient: MealIngredientViewModel) => MealIngredientViewModel): MealViewModel {
-        return this.with({
-            ingredients: this.ingredients.map(fn),
-        });
-    }
-
-    private sortIngredients(ingredients: MealIngredientViewModel[]): MealIngredientViewModel[] {
-        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-    }
-
     isNot(id: string): boolean {
         return this.id !== id;
     }
@@ -66,7 +49,7 @@ export class MealViewModel {
         return this.id === id;
     }
 
-    hasIngredients(): boolean {
+    get hasIngredients(): boolean {
         return this.ingredients.length > 0;
     }
 
@@ -172,5 +155,22 @@ export class MealViewModel {
     presentIngredientUpdated(mealId: string, ingredientId: string, bought: boolean): MealViewModel {
         if (this.isNot(mealId)) return this;
         return this.mapIngredient(ingredient => ingredient.presentIngredientUpdated(ingredientId, bought));
+    }
+
+    private with(partial: Partial<MealProps>): MealViewModel {
+        return new MealViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private mapIngredient(fn: (ingredient: MealIngredientViewModel) => MealIngredientViewModel): MealViewModel {
+        return this.with({
+            ingredients: this.ingredients.map(fn),
+        });
+    }
+
+    private sortIngredients(ingredients: MealIngredientViewModel[]): MealIngredientViewModel[] {
+        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
     }
 }

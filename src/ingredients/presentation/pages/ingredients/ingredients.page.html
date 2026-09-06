@@ -46,9 +46,9 @@
         Réessayer
       </button>
     </div>
-  } @else if (vm.hasIngredients()) {
+  } @else if (vm.hasIngredients) {
     <ul class="divide-charcoal/10 flex flex-col divide-y">
-      @for (ingredient of vm.filteredIngredients(); track ingredient.id) {
+      @for (ingredient of vm.filteredIngredients; track ingredient.id) {
         <li class="flex items-center gap-3 px-2 py-3">
           <app-toggle-ingredient-shopping-list [ingredient]="ingredient" />
           <span class="min-w-0 flex-1">

@@ -47,9 +47,9 @@
         Réessayer
       </button>
     </div>
-  } @else if (vm.hasRecipes()) {
+  } @else if (vm.hasRecipes) {
     <ul class="flex flex-col gap-3">
-      @for (recipe of vm.filteredRecipes(); track recipe.id) {
+      @for (recipe of vm.filteredRecipes; track recipe.id) {
         <li class="border-charcoal bg-cream shadow-[3px_3px_0_0_var(--color-charcoal)] flex items-center gap-3 rounded-2xl border-2 p-3">
           <app-toggle-recipe-meals-list [recipe]="recipe" />
           <app-recipe-link class="min-w-0 flex-1" [recipe]="recipe" />

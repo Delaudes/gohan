@@ -33,13 +33,6 @@ export class ShoppingIngredientViewModel {
         this.isErrorRemoving = props.isErrorRemoving;
     }
 
-    private with(partial: Partial<ShoppingIngredientProps>): ShoppingIngredientViewModel {
-        return new ShoppingIngredientViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
     isNot(id: string, mealId?: string): boolean {
         return this.id !== id || this.mealId !== mealId;
     }
@@ -90,6 +83,13 @@ export class ShoppingIngredientViewModel {
         if (this.isNot(id, mealId)) return this;
         return this.with({
             isErrorRemoving: true,
+        });
+    }
+
+    private with(partial: Partial<ShoppingIngredientProps>): ShoppingIngredientViewModel {
+        return new ShoppingIngredientViewModel({
+            ...this,
+            ...partial,
         });
     }
 }

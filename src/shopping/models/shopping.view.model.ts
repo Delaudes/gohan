@@ -55,47 +55,30 @@ export class ShoppingViewModel {
         });
     }
 
-    hasIngredients(): boolean {
+    get hasIngredients(): boolean {
         return this.ingredients.length > 0;
     }
 
-    visibleIngredients(): ShoppingIngredientViewModel[] {
+    get visibleIngredients(): ShoppingIngredientViewModel[] {
         return this.hideBoughtIngredients
             ? this.ingredients.filter(ingredient => !ingredient.bought)
             : this.ingredients;
     }
 
-    availableIngredientOptions(): IngredientOptionViewModel[] {
+    get availableIngredientOptions(): IngredientOptionViewModel[] {
         return this.ingredientOptions.filter(option => this.ingredients.every(ingredient => option.isNot(ingredient.id)));
     }
 
-    matchingIngredientOption(): IngredientOptionViewModel | undefined {
+    get matchingIngredientOption(): IngredientOptionViewModel | undefined {
         const normalizedQuery = normalizeSearchText(this.ingredientsSearchQuery);
         if (!normalizedQuery) return undefined;
-        return this.availableIngredientOptions().find(option => option.matches(normalizedQuery));
+        return this.availableIngredientOptions.find(option => option.matches(normalizedQuery));
     }
 
-    ingredientsProgress(): string {
+    get ingredientsProgress(): string {
         const boughtCount = this.ingredients.filter(ingredient => ingredient.bought).length;
         const count = this.ingredients.length;
         return `${boughtCount}/${count} acheté${count > 1 ? 's' : ''}`;
-    }
-
-    private with(partial: Partial<ShoppingProps>): ShoppingViewModel {
-        return new ShoppingViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
-    private sortIngredients(ingredients: ShoppingIngredientViewModel[]): ShoppingIngredientViewModel[] {
-        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-    }
-
-    private mapIngredient(fn: (ingredient: ShoppingIngredientViewModel) => ShoppingIngredientViewModel): ShoppingViewModel {
-        return this.with({
-            ingredients: this.ingredients.map(fn),
-        });
     }
 
     startLoadingFetchingIngredients(): ShoppingViewModel {
@@ -206,6 +189,23 @@ export class ShoppingViewModel {
         return this.with({
             ingredients: this.sortIngredients([...this.ingredients, ingredient]),
             isSuccessAddingIngredient: true,
+        });
+    }
+
+    private with(partial: Partial<ShoppingProps>): ShoppingViewModel {
+        return new ShoppingViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private sortIngredients(ingredients: ShoppingIngredientViewModel[]): ShoppingIngredientViewModel[] {
+        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    }
+
+    private mapIngredient(fn: (ingredient: ShoppingIngredientViewModel) => ShoppingIngredientViewModel): ShoppingViewModel {
+        return this.with({
+            ingredients: this.ingredients.map(fn),
         });
     }
 }

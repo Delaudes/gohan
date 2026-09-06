@@ -21,13 +21,6 @@ export class MealIngredientViewModel {
         this.isErrorUpdatingBought = props.isErrorUpdatingBought;
     }
 
-    private with(partial: Partial<MealIngredientProps>): MealIngredientViewModel {
-        return new MealIngredientViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
     isNot(id: string): boolean {
         return this.id !== id;
     }
@@ -57,6 +50,13 @@ export class MealIngredientViewModel {
         if (this.isNot(id)) return this;
         return this.with({
             bought,
+        });
+    }
+
+    private with(partial: Partial<MealIngredientProps>): MealIngredientViewModel {
+        return new MealIngredientViewModel({
+            ...this,
+            ...partial,
         });
     }
 }

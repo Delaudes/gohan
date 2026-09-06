@@ -31,13 +31,6 @@ export class IngredientViewModel {
         this.inShoppingList = props.inShoppingList;
     }
 
-    private with(partial: Partial<IngredientProps>): IngredientViewModel {
-        return new IngredientViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
     isNot(id: string): boolean {
         return this.id !== id;
     }
@@ -92,6 +85,13 @@ export class IngredientViewModel {
         if (this.isNot(id)) return this;
         return this.with({
             inShoppingList,
+        });
+    }
+
+    private with(partial: Partial<IngredientProps>): IngredientViewModel {
+        return new IngredientViewModel({
+            ...this,
+            ...partial,
         });
     }
 }

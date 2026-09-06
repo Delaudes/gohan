@@ -1,46 +1,33 @@
 import { HttpPort } from './http.port';
 
 export class FakeHttpAdapter implements HttpPort {
-  getResponse?: unknown;
-  postResponse?: unknown;
-  putResponse?: unknown;
-  patchResponse?: unknown;
-  deleteResponse?: unknown;
+  getResponseByUrl: Record<string, unknown> = {};
+  postResponseByUrlAndBody: Record<string, unknown> = {};
+  putResponseByUrlAndBody: Record<string, unknown> = {};
+  patchResponseByUrlAndBody: Record<string, unknown> = {};
+  deleteResponseByUrl: Record<string, unknown> = {};
 
-  lastGetUrl?: string;
-  lastPostUrl?: string;
-  lastPostBody?: unknown;
-  lastPutUrl?: string;
-  lastPutBody?: unknown;
-  lastPatchUrl?: string;
-  lastPatchBody?: unknown;
-  lastDeleteUrl?: string;
-
-  get<T>(url: string): Promise<T> {
-    this.lastGetUrl = url;
-    return Promise.resolve(this.getResponse as T);
+  async get<T>(url: string): Promise<T> {
+    return this.getResponseByUrl[url] as T;
   }
 
-  post<T>(url: string, body: unknown): Promise<T> {
-    this.lastPostUrl = url;
-    this.lastPostBody = body;
-    return Promise.resolve(this.postResponse as T);
+  async post<T>(url: string, body: unknown): Promise<T> {
+    return this.postResponseByUrlAndBody[this.key(url, body)] as T;
   }
 
-  put<T>(url: string, body: unknown): Promise<T> {
-    this.lastPutUrl = url;
-    this.lastPutBody = body;
-    return Promise.resolve(this.putResponse as T);
+  async put<T>(url: string, body: unknown): Promise<T> {
+    return this.putResponseByUrlAndBody[this.key(url, body)] as T;
   }
 
-  patch<T>(url: string, body: unknown): Promise<T> {
-    this.lastPatchUrl = url;
-    this.lastPatchBody = body;
-    return Promise.resolve(this.patchResponse as T);
+  async patch<T>(url: string, body: unknown): Promise<T> {
+    return this.patchResponseByUrlAndBody[this.key(url, body)] as T;
   }
 
-  delete<T>(url: string): Promise<T> {
-    this.lastDeleteUrl = url;
-    return Promise.resolve(this.deleteResponse as T);
+  async delete<T>(url: string): Promise<T> {
+    return this.deleteResponseByUrl[url] as T;
+  }
+
+  private key(url: string, body: unknown): string {
+    return `${url}:${JSON.stringify(body)}`;
   }
 }

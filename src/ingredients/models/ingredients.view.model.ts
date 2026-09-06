@@ -42,11 +42,11 @@ export class IngredientsViewModel {
         });
     }
 
-    hasIngredients(): boolean {
+    get hasIngredients(): boolean {
         return this.ingredients.length > 0;
     }
 
-    filteredIngredients(): IngredientViewModel[] {
+    get filteredIngredients(): IngredientViewModel[] {
         const normalizedQuery = normalizeSearchText(this.searchQuery);
         if (!normalizedQuery) return this.ingredients;
         return this.ingredients.filter(ingredient => ingredient.matches(normalizedQuery));
@@ -54,23 +54,6 @@ export class IngredientsViewModel {
 
     presentSearchQuery(searchQuery: string): IngredientsViewModel {
         return this.with({ searchQuery });
-    }
-
-    private with(partial: Partial<IngredientsProps>): IngredientsViewModel {
-        return new IngredientsViewModel({
-            ...this,
-            ...partial,
-        });
-    }
-
-    private sortIngredients(ingredients: IngredientViewModel[]): IngredientViewModel[] {
-        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-    }
-
-    private mapIngredient(fn: (ingredient: IngredientViewModel) => IngredientViewModel): IngredientsViewModel {
-        return this.with({
-            ingredients: this.ingredients.map(fn),
-        });
     }
 
     startLoadingFetchingIngredients(): IngredientsViewModel {
@@ -158,5 +141,22 @@ export class IngredientsViewModel {
 
     presentIngredientUpdated(id: string, inShoppingList: boolean): IngredientsViewModel {
         return this.mapIngredient(ingredient => ingredient.presentIngredientUpdated(id, inShoppingList));
+    }
+
+    private with(partial: Partial<IngredientsProps>): IngredientsViewModel {
+        return new IngredientsViewModel({
+            ...this,
+            ...partial,
+        });
+    }
+
+    private sortIngredients(ingredients: IngredientViewModel[]): IngredientViewModel[] {
+        return [...ingredients].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+    }
+
+    private mapIngredient(fn: (ingredient: IngredientViewModel) => IngredientViewModel): IngredientsViewModel {
+        return this.with({
+            ingredients: this.ingredients.map(fn),
+        });
     }
 }
