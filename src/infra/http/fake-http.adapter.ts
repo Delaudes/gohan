@@ -6,6 +6,7 @@ export class FakeHttpAdapter implements HttpPort {
   putResponseByUrlAndBody: Record<string, unknown> = {};
   patchResponseByUrlAndBody: Record<string, unknown> = {};
   deleteResponseByUrl: Record<string, unknown> = {};
+  deleteErrorByUrl: Record<string, unknown> = {};
 
   async get<T>(url: string): Promise<T> {
     return this.getResponseByUrl[url] as T;
@@ -24,6 +25,7 @@ export class FakeHttpAdapter implements HttpPort {
   }
 
   async delete<T>(url: string): Promise<T> {
+    if (url in this.deleteErrorByUrl) throw this.deleteErrorByUrl[url];
     return this.deleteResponseByUrl[url] as T;
   }
 
