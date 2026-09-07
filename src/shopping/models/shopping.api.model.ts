@@ -38,10 +38,6 @@ export type RecipeIngredientApiModel = {
 }
 
 export type RecipeDetailApiModel = {
-    id: string;
-    name: string;
-    inMealsList: boolean;
-    done: boolean;
     ingredients: RecipeIngredientApiModel[];
 }
 

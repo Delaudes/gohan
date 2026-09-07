@@ -49,7 +49,7 @@ export class HttpMealsAdapter implements MealsPort {
         const request: PatchRecipeIngredientApiRequest = { bought };
         const response = await this.httpPort.patch<MealDetailApiModel>(`${RECIPES_URL}/${mealId}/ingredients/${ingredientId}`, request);
         const ingredient = response.ingredients.find(ingredient => ingredient.id === ingredientId);
-        return { id: ingredientId, name: ingredient?.name ?? '', bought };
+        return { id: ingredientId, name: ingredient?.name ?? '', bought: ingredient?.bought ?? bought };
     }
 
     private toMealDetail(recipe: MealDetailApiModel): MealDetailDomainModel {

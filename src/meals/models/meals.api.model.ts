@@ -18,7 +18,6 @@ export type MealIngredientApiModel = {
 export type MealDetailApiModel = {
     id: string;
     name: string;
-    inMealsList: boolean;
     done: boolean;
     ingredients: MealIngredientApiModel[];
 }

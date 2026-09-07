@@ -51,7 +51,7 @@ export class HttpShoppingAdapter implements ShoppingPort {
         const request: PatchRecipeIngredientApiRequest = { bought };
         const response = await this.httpPort.patch<RecipeDetailApiModel>(`${RECIPES_URL}/${mealId}/ingredients/${id}`, request);
         const ingredient = response.ingredients.find(ingredient => ingredient.id === id);
-        return { id, name: ingredient?.name ?? '', bought, mealId };
+        return { id, name: ingredient?.name ?? '', bought: ingredient?.bought ?? bought, mealId };
     }
 
     async removeIngredient(id: string): Promise<void> {

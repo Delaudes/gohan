@@ -29,7 +29,7 @@ export class HttpRecipeAdapter implements RecipePort {
     }
 
     async addRecipeIngredient(recipeId: string, ingredientId: string): Promise<RecipeIngredientDomainModel> {
-        const response = await this.httpPort.post<RecipeDetailApiModel>(`${RECIPES_URL}/${recipeId}/ingredients/${ingredientId}`, null);
+        const response = await this.httpPort.post<RecipeDetailApiModel>(`${RECIPES_URL}/${recipeId}/ingredients/${ingredientId}`, {});
         return this.toRecipeIngredient(response, ingredientId);
     }
 

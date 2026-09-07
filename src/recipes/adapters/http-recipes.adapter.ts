@@ -2,7 +2,7 @@ import { API_BASE_URL } from "../../infra/http/api-url";
 import { HttpPort } from "../../infra/http/http.port";
 import { RecipesPort } from "../recipes.port";
 import { RecipeDeletionResult, RecipeDomainModel, RecipesListDomainModel } from "../models/recipes.domain.model";
-import { CreateRecipeApiRequest, PatchRecipeApiRequest, RecipeApiModel, RecipeDetailApiModel, RecipesListApiModel } from "../models/recipes.api.model";
+import { CreateRecipeApiRequest, PatchRecipeApiRequest, RecipeApiModel, RecipesListApiModel } from "../models/recipes.api.model";
 
 const RECIPES_URL = `${API_BASE_URL}/gohan/recipes`;
 
@@ -24,7 +24,7 @@ export class HttpRecipesAdapter implements RecipesPort {
 
     async updateRecipe(id: string, inMealsList: boolean): Promise<RecipeDomainModel> {
         const request: PatchRecipeApiRequest = { inMealsList };
-        const response = await this.httpPort.patch<RecipeDetailApiModel>(`${RECIPES_URL}/${id}`, request);
+        const response = await this.httpPort.patch<RecipeApiModel>(`${RECIPES_URL}/${id}`, request);
         return this.toRecipe(response);
     }
 

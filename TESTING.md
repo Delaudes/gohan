@@ -103,13 +103,14 @@ Usecase dont le port distingue un échec métier attendu d'un échec technique (
   - un simple flag booléen (`errorFetching<Entities>: boolean`) pour un usecase throw/catch classique ;
   - un `Record<string, T>` keyé (`<entities>By<Clé>`, ex. `<entities>ByName`, `<action>ResultById`) quand la réponse dépend de l'entité ciblée ou quand le port renvoie un `<Action>Result`.
 - Convention de nommage harmonisée `xxxBy<Clé>` pour tous les Records d'un même fake — ne pas mélanger `xxxRecord` et `xxxByClé` dans le même fichier.
-- La clé du Record sert elle-même de preuve implicite que le bon paramètre a été utilisé (id, nom...) : pas besoin d'un champ `lastXxx` séparé pour vérifier "a été appelé avec le bon argument" en plus de la réponse elle-même.
+- La clé du Record sert elle-même de preuve implicite que le bon paramètre a été utilisé (id, nom...) quand la réponse est effectivement consommée par l'appelant : pas besoin d'un champ `lastXxx` séparé pour vérifier "a été appelé avec le bon argument" en plus de la réponse elle-même.
 
 ## `FakeHttpAdapter` (`infra/http/fake-http.adapter.ts`)
 
 Fake partagé, un seul pour toute l'app, implémentant `HttpPort` :
 - `get`/`delete` (pas de body) : `Record<string, unknown>` keyé par url seule — `getResponseByUrl`, `deleteResponseByUrl`.
 - `post`/`put`/`patch` (url + body) : `Record<string, unknown>` keyé par une clé composite `` `${url}:${JSON.stringify(body)}` `` — `postResponseByUrlAndBody`, etc. — l'url seule ne suffit pas à distinguer deux appels vers le même endpoint avec des corps différents.
+- Méthode d'adapter qui renvoie `Promise<void>` (ex. un `remove<Entity>` qui ne consomme jamais la réponse) : la clé du Record ne prouve plus rien puisque rien n'en ressort côté appelant. Le Fake garde alors le dernier url/body vu **par verbe HTTP** (`lastPatchUrl`/`lastPatchBody`, `lastDeleteUrl`) — jamais nommé d'après la méthode métier (`lastRemoveMealUrl` par ex.), le Fake ne connaît que des verbes HTTP, pas le vocabulaire d'une feature. Le test suit la même convention avant/après que partout ailleurs : `expect(fakeHttpAdapter.lastPatchUrl).toBeUndefined()` avant l'appel, puis assert de l'url (et du body si pertinent) après.
 - Pour simuler un rejet (ex. un usecase qui catch une erreur HTTP pour distinguer un conflit d'une erreur technique) : un Record d'erreurs dédié keyé par url (`deleteErrorByUrl`), vérifié par présence de la clé (`url in this.deleteErrorByUrl`, pas par troncature de vérité) avant de retourner la réponse normale — extensible au besoin à `get`/`post`/`put`/`patch`.
 
 ## Specs d'adapter HTTP (`adapters/specs/http-<feature>.adapter.spec.ts`)
@@ -127,9 +128,13 @@ describe('Http <feature> adapter', () => {
 ```
 
 - Un test par méthode du port, vérifiant le mapping API model → domain model.
+- La fixture de réponse simulée ne doit contenir que les champs que CETTE méthode lit réellement (cf. `CLAUDE.md`, un `*ApiModel` ne déclare que ce qui est mappé) — pas la forme API complète recopiée par habitude d'un autre test du même fichier.
 - Ne couvrir que les branches d'erreur que l'adapter discrimine réellement dans son propre code (ex. 409 vs. autre) — ne pas fabriquer une forme d'erreur inatteignable en pratique. La forme réelle des erreurs vient de l'implémentation concrète de `HttpPort` utilisée en prod (`AngularHttpAdapter`, qui relaie les erreurs `HttpClient` d'Angular) : celles-ci ont toujours un `status` numérique (0 par défaut si aucune réponse reçue), donc un test qui balance une erreur sans `status` du tout ne teste rien de réellement producible — pas la peine de l'écrire.
 - Le garde-fou de type (`typeof error === 'object' && error !== null && 'status' in error`) qu'on trouve parfois dans ces adapters n'est pas une protection métier contre un cas réel : c'est du narrowing TypeScript obligatoire pour lire une propriété sur un `unknown` capturé par un `catch`. Ne pas chercher à le tester spécifiquement.
+- Même famille de piège avec un `array.find(...)?.champ ?? repli` sur la réponse d'une mutation ciblée (ex. chercher l'entité qu'on vient de modifier/ajouter dans la liste renvoyée) : le `?.`/`??` n'existe que parce que `.find()` type son retour `T | undefined`, pas parce que l'entité peut réellement manquer — si la mutation a réussi, l'API renvoie forcément l'entité concernée. Pas besoin d'un test dédié au cas "introuvable dans la réponse" pour ce genre de repli.
 
 ## Particularité outillage
 
 `npx ng test --no-watch` échoue de façon fiable au tout premier lancement juste après avoir vidé `.angular/cache` ("Vitest failed to find the runner") — relancer une fois suffit, c'est un problème d'outillage connu, pas un bug de code.
+
+Si cette même erreur persiste sur plusieurs relances d'affilée (au-delà du flake habituel), vérifier qu'un précédent `ng test`/`npm run test` n'est pas resté bloqué en arrière-plan (process node zombie qui tient le verrou/port dont Vitest a besoin) — lister les process `node.exe` et tuer spécifiquement ceux dont la ligne de commande contient `ng.js test` ou `npm-cli.js ... run test`, sans toucher aux `ng serve` en cours.

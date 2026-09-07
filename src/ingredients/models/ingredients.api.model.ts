@@ -2,7 +2,6 @@ export type IngredientApiModel = {
     id: string;
     name: string;
     inShoppingList: boolean;
-    bought: boolean;
 }
 
 export type IngredientsListApiModel = {
