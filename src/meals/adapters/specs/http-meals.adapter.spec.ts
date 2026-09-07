@@ -59,7 +59,7 @@ describe('Http meals adapter', () => {
     it('should update a meal done status', async () => {
         const mealId = '1';
         fakeHttpAdapter.patchResponseByUrlAndBody[`${RECIPES_URL}/${mealId}:${JSON.stringify({ done: true })}`] = {
-            id: mealId, name: 'Meal 1', inMealsList: true, done: true,
+            id: mealId, name: 'Meal 1', done: true,
         };
 
         const updatedMeal = await adapter.updateMeal(mealId, true);
@@ -70,7 +70,7 @@ describe('Http meals adapter', () => {
     it('should add a meal', async () => {
         const mealId = '1';
         fakeHttpAdapter.patchResponseByUrlAndBody[`${RECIPES_URL}/${mealId}:${JSON.stringify({ inMealsList: true })}`] = {
-            id: mealId, name: 'Meal 1', inMealsList: true, done: false,
+            id: mealId, name: 'Meal 1', done: false,
         };
 
         const addedMeal = await adapter.addMeal(mealId);

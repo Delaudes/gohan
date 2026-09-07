@@ -72,9 +72,6 @@ describe('Http recipe adapter', () => {
         const recipeId = '1';
         const ingredientId = '2';
         fakeHttpAdapter.postResponseByUrlAndBody[`${RECIPES_URL}/${recipeId}/ingredients/${ingredientId}:${JSON.stringify({})}`] = {
-            id: recipeId,
-            name: 'Recipe 1',
-            inMealsList: true,
             ingredients: [
                 { id: '1', name: 'Ingredient 1' },
                 { id: ingredientId, name: 'Ingredient 2' },

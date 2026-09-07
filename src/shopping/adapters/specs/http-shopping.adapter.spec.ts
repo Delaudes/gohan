@@ -36,8 +36,8 @@ describe('Http shopping adapter', () => {
     it('should fetch ingredient options', async () => {
         fakeHttpAdapter.getResponseByUrl[INGREDIENTS_URL] = {
             ingredients: [
-                { id: '1', name: 'Ingredient 1', inShoppingList: false, bought: false },
-                { id: '2', name: 'Ingredient 2', inShoppingList: true, bought: true },
+                { id: '1', name: 'Ingredient 1', inShoppingList: false },
+                { id: '2', name: 'Ingredient 2', inShoppingList: true },
             ],
         };
 
@@ -54,7 +54,7 @@ describe('Http shopping adapter', () => {
     it('should create an ingredient', async () => {
         const ingredientName = 'New Ingredient';
         fakeHttpAdapter.postResponseByUrlAndBody[`${INGREDIENTS_URL}:${JSON.stringify({ name: ingredientName, inShoppingList: true })}`] = {
-            id: '3', name: ingredientName, inShoppingList: true, bought: false,
+            id: '3', name: ingredientName, bought: false,
         };
 
         const createdIngredient = await adapter.createIngredient(ingredientName);
@@ -65,7 +65,7 @@ describe('Http shopping adapter', () => {
     it('should add an existing ingredient to the shopping list', async () => {
         const ingredientId = '1';
         fakeHttpAdapter.patchResponseByUrlAndBody[`${INGREDIENTS_URL}/${ingredientId}:${JSON.stringify({ inShoppingList: true })}`] = {
-            id: ingredientId, name: 'Ingredient 1', inShoppingList: true, bought: false,
+            id: ingredientId, name: 'Ingredient 1', bought: false,
         };
 
         const addedIngredient = await adapter.addIngredient(ingredientId);
@@ -76,7 +76,7 @@ describe('Http shopping adapter', () => {
     it('should update an ingredient bought status', async () => {
         const ingredientId = '1';
         fakeHttpAdapter.patchResponseByUrlAndBody[`${INGREDIENTS_URL}/${ingredientId}:${JSON.stringify({ bought: true })}`] = {
-            id: ingredientId, name: 'Ingredient 1', inShoppingList: true, bought: true,
+            id: ingredientId, name: 'Ingredient 1', bought: true,
         };
 
         const updatedIngredient = await adapter.updateIngredient(ingredientId, true);
