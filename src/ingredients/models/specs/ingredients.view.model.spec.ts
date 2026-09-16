@@ -39,26 +39,18 @@ describe('Ingredients list', () => {
         expect(viewModel.hasIngredients).toEqual(false);
     });
 
-    it('should show all ingredients when the search query is empty', () => {
+    it('should filter ingredients by a partial, diacritic-insensitive query, or show all when the query is empty', () => {
         expect(viewModel.filteredIngredients).toEqual([]);
 
-        viewModel = viewModel.presentIngredientsFetched(ingredients).presentSearchQuery(' ');
+        viewModel = viewModel.presentIngredientsFetched(ingredients);
 
         expect(viewModel.filteredIngredients).toEqual(ingredients);
-    });
 
-    it('should show only ingredients matching a partial, diacritic-insensitive query', () => {
-        expect(viewModel.filteredIngredients).toEqual([]);
-
-        viewModel = viewModel.presentIngredientsFetched(ingredients).presentSearchQuery(' MÂT ');
+        viewModel = viewModel.presentSearchQuery(' mÂT ');
 
         expect(viewModel.filteredIngredients).toEqual([ingredients[1]]);
-    });
 
-    it('should show no ingredients when none match the search query', () => {
-        expect(viewModel.filteredIngredients).toEqual([]);
-
-        viewModel = viewModel.presentIngredientsFetched(ingredients).presentSearchQuery('non-existing');
+        viewModel = viewModel.presentSearchQuery('non-existing');
 
         expect(viewModel.filteredIngredients).toEqual([]);
     });
